@@ -5,6 +5,11 @@ package com.pswidersk.gradle.python
 /**
  * Directory where gradle specific files are stored.
  */
+const val PYTHON_PLUGIN_EXTENSION_NAME = "pythonPlugin"
+
+/**
+ * Directory where gradle specific files are stored.
+ */
 const val GRADLE_FILES_DIR = ".gradle"
 
 /**

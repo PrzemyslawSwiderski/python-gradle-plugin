@@ -2,6 +2,10 @@ plugins {
     id("com.pswidersk.python-plugin") version "1.0.0"
 }
 
+pythonPlugin {
+    pythonVersion.set("3.7.0")
+}
+
 tasks {
     register<com.pswidersk.gradle.python.PythonTask>("runQuickSort") {
         script.set("quicksort.py")
