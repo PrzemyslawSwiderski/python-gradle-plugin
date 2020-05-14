@@ -4,13 +4,15 @@ import com.jetbrains.python.envs.PythonEnvsExtension
 import com.pswidersk.gradle.python.utils.property
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Project
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import javax.inject.Inject
 
 
-class PythonPluginExtension(private val project: Project) {
+open class PythonPluginExtension @Inject constructor(private val project: Project,
+                                                     objects: ObjectFactory) {
 
-
-    val pythonVersion: Property<String> = project.objects.property<String>().convention("3.8.2")
+    val pythonVersion: Property<String> = objects.property<String>().convention("3.8.2")
 
     private val pythonEnvsDir = project.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR)
 

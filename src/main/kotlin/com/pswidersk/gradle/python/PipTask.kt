@@ -7,7 +7,7 @@ import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 
-open class PythonTask : DefaultTask() {
+open class PipTask : DefaultTask() {
 
     init {
         group = PLUGIN_TASKS_GROUP_NAME
@@ -15,12 +15,12 @@ open class PythonTask : DefaultTask() {
     }
 
     /**
-     * Arguments string, for example script path, relative to project.
+     * Script path, relative to project.
      *
      * Default: main.py
      */
     @get:Input
-    val arguments: Property<String> = project.objects.property<String>().convention("main.py")
+    val script: Property<String> = project.objects.property<String>().convention("main.py")
 
     /**
      * Working dir, relative to project root dir.
@@ -38,7 +38,7 @@ open class PythonTask : DefaultTask() {
                 executable = project.pythonPlugin.pythonPath()
                 workingDir = workDir
                 environment("PYTHONPATH", workDir)
-                args(arguments.get())
+                args(script.get())
             }
         }
     }
