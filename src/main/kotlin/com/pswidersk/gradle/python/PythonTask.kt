@@ -16,11 +16,12 @@ open class PythonTask : DefaultTask() {
 
     /**
      * Arguments string, for example script path, relative to project.
+     * For example: main.py
+     * Must be present.
      *
-     * Default: main.py
      */
     @get:Input
-    val arguments: Property<String> = project.objects.property<String>().convention("main.py")
+    val execArgs: Property<String> = project.objects.property()
 
     /**
      * Working dir, relative to project root dir.
@@ -38,7 +39,7 @@ open class PythonTask : DefaultTask() {
                 executable = project.pythonPlugin.pythonPath()
                 workingDir = workDir
                 environment("PYTHONPATH", workDir)
-                args(arguments.get())
+                args(execArgs.get())
             }
         }
     }

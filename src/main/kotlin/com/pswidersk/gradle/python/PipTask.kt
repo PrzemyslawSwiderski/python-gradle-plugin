@@ -3,6 +3,7 @@ package com.pswidersk.gradle.python
 import com.pswidersk.gradle.python.utils.property
 import com.pswidersk.gradle.python.utils.pythonPlugin
 import org.gradle.api.DefaultTask
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
@@ -15,12 +16,12 @@ open class PipTask : DefaultTask() {
     }
 
     /**
-     * Script path, relative to project.
-     *
-     * Default: main.py
+     * Execution args.
+     * For example 'listOf("install", "-r", "requirements.txt")'
+     * Must be present.
      */
     @get:Input
-    val script: Property<String> = project.objects.property<String>().convention("main.py")
+    val execArgs: ListProperty<String> = project.objects.listProperty(String::class.java)
 
     /**
      * Working dir, relative to project root dir.
@@ -28,17 +29,17 @@ open class PipTask : DefaultTask() {
      * Default: main
      */
     @get:Input
-    val workDir: Property<String> = project.objects.property<String>().convention(PYTHON_SRC_DIR)
+    val workDir: Property<String> = project.objects.property<String>().convention(project.projectDir.absolutePath)
 
     @TaskAction
     fun exec() {
         project.exec {
             with(it) {
                 val workDir = project.projectDir.resolve(workDir.get())
-                executable = project.pythonPlugin.pythonPath()
+                executable = project.pythonPlugin.pipPath()
                 workingDir = workDir
                 environment("PYTHONPATH", workDir)
-                args(script.get())
+                args(execArgs.get())
             }
         }
     }

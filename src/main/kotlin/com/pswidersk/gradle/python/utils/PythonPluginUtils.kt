@@ -1,5 +1,6 @@
 package com.pswidersk.gradle.python.utils
 
+import com.jetbrains.python.envs.PythonEnvsExtension
 import com.pswidersk.gradle.python.PythonPluginExtension
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
@@ -20,3 +21,9 @@ internal inline fun <reified T : Any> ObjectFactory.property(): Property<T> =
  */
 internal val Project.pythonPlugin: PythonPluginExtension
     get() = extensions.getByType(PythonPluginExtension::class.java)
+
+/**
+ * Gets the [PythonEnvsExtension] that is applied to a project.
+ */
+internal val Project.pythonEnvs: PythonEnvsExtension
+    get() = extensions.getByType(PythonEnvsExtension::class.java)
