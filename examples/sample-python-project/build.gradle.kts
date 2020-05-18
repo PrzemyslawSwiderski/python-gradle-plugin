@@ -1,5 +1,5 @@
 plugins {
-    id("com.pswidersk.python-plugin") version "1.0.0"
+    id("com.pswidersk.python-plugin") version "1.1.0"
 }
 
 pythonPlugin {
