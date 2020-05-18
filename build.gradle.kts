@@ -3,6 +3,7 @@ plugins {
     `maven-publish`
     kotlin("jvm") version "1.3.72"
     id("com.gradle.plugin-publish") version "0.11.0"
+    id("net.researchgate.release") version "2.8.1"
 }
 
 repositories {
@@ -20,10 +21,14 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    test {
+        useJUnitPlatform()
+    }
+    "afterReleaseBuild"{
+        dependsOn("publish", "publishPlugins")
+    }
 }
-
 gradlePlugin {
     plugins {
         create("python-gradle-plugin") {

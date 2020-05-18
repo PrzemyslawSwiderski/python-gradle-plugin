@@ -4,12 +4,7 @@ with tasks to run `python` or `pip` executables in prepared virtual envs.
 
 ## Usage
 ### Steps to run python script from Gradle
-1. Add a plugin definition to project:
-    ```kotlin
-    plugins {
-        id("com.pswidersk.python-plugin") version "1.0.0"
-    }
-    ```
+1. Apply a plugin to a project as described on [gradle portal](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin).
 2. Configure a plugin by specifying desired python version in build script:
     ```kotlin
     pythonPlugin {
