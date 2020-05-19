@@ -22,7 +22,7 @@ with tasks to run `python` or `pip` executables in prepared virtual envs.
     ```kotlin
     tasks {
         register<com.pswidersk.gradle.python.PythonTask>("runQuickSort") {
-            execArgs.set("quicksort.py")
+            args.set(listOf("quicksort.py"))
         }
     }
     ```

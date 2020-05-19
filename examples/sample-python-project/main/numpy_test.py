@@ -1,6 +1,7 @@
+import os
+
 import numpy as np
 import pandas as pd
-
 from new.test import MyClass
 
 a = np.array([1, 2, 3])  # Create a rank 1 array
@@ -18,3 +19,5 @@ print(pd.__version__)
 
 my_obj = MyClass()
 print(my_obj.f())
+
+print(os.environ['ENV_VAR_TO_PRINT'])
