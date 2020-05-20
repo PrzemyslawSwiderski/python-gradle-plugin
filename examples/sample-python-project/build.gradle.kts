@@ -1,5 +1,7 @@
+import com.pswidersk.gradle.python.VenvTask
+
 plugins {
-    id("com.pswidersk.python-plugin") version "1.1.1"
+    id("com.pswidersk.python-plugin") version "1.1.2"
 }
 
 pythonPlugin {
@@ -8,22 +10,26 @@ pythonPlugin {
 
 tasks {
 
-    register<com.pswidersk.gradle.python.PipTask>("pip") {
-        // execArgs can be passed by commandline, for example
+    register<VenvTask>("pip") {
+        venvExec = "pip"
+        // exec args can be passed by commandline, for example
         // ./gradlew pip --args="install -r requirements.txt"
     }
 
-    register<com.pswidersk.gradle.python.PythonTask>("runQuickSort") {
-        args.set(listOf("quicksort.py"))
+    register<VenvTask>("runQuickSort") {
+        workingDir(projectDir.resolve("main"))
+        args(listOf("quicksort.py"))
     }
 
-    val pipInstall by registering(com.pswidersk.gradle.python.PipTask::class) {
-        args.set(listOf("install", "-r", "requirements.txt"))
+    val pipInstall by registering(VenvTask::class) {
+        venvExec = "pip"
+        args(listOf("install", "-r", "requirements.txt"))
     }
 
-    register<com.pswidersk.gradle.python.PythonTask>("runNumpy") {
-        args.set(listOf("numpy_test.py"))
-        environment.set(mapOf("ENV_VAR_TO_PRINT" to "sampleEnvVar"))
+    register<VenvTask>("runNumpy") {
+        workingDir(projectDir.resolve("main"))
+        args(listOf("numpy_test.py"))
+        environment["ENV_VAR_TO_PRINT"] = "sampleEnvVar"
         dependsOn(pipInstall)
     }
 

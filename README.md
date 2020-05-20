@@ -1,6 +1,6 @@
 # Python Gradle Plugin
 This Gradle Plugin wraps JetBrains [gradle-python-envs-plugin](https://github.com/JetBrains/gradle-python-env)
-with tasks to run `python` or `pip` executables in prepared virtual envs.
+with wrapping task to run executables (`python`, `pip` etc.) from virtual env.  
 
 ## Usage
 ### Steps to run python script from Gradle
@@ -18,11 +18,12 @@ with tasks to run `python` or `pip` executables in prepared virtual envs.
     # Windows
     gradlew.bat build_envs
     ```
-4. Define a task to run desired python script, for example to run `quicksort.py` script add the following task configuration in build script:
+4. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following task configuration to build script:
     ```kotlin
     tasks {
-        register<com.pswidersk.gradle.python.PythonTask>("runQuickSort") {
-            args.set(listOf("quicksort.py"))
+        register<VenvTask>("runQuickSort") {
+                workingDir(projectDir.resolve("main"))
+                args(listOf("quicksort.py"))
         }
     }
     ```

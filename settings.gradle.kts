@@ -1,6 +1,6 @@
 rootProject.name = "python-gradle-plugin"
 
-include("examples:sample-python-project")
+include("examples:sample-python-project", "examples:geobuf-python-project")
 
 pluginManagement {
     repositories {
