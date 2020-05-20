@@ -3,6 +3,7 @@ package com.pswidersk.gradle.python
 import com.pswidersk.gradle.python.utils.getExecInVenvPath
 import org.apache.tools.ant.types.Commandline
 import org.gradle.api.tasks.AbstractExecTask
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.options.Option
 
 open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
@@ -39,6 +40,7 @@ open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
      *
      * Default: "python"
      */
+    @Input
     var venvExec: String = "python"
         set(value) {
             this.executable = project.getExecInVenvPath(value)
