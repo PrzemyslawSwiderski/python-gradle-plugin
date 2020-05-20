@@ -21,12 +21,12 @@ with wrapping task to run executables (`python`, `pip` etc.) from virtual env.
     }
     ```
 4. Run python script from gradle:
-```shell script
-# Linux
-./gradlew runQuickSort
-# Windows
-gradlew.bat runQuickSort
-```
+    ```shell script
+    # Linux
+    ./gradlew runQuickSort
+    # Windows
+    gradlew.bat runQuickSort
+    ```
 
 ### Additional examples alongside with sample PipTasks configurations can be found in `examples` module in this project. 
 
