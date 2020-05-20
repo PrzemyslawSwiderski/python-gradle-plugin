@@ -11,14 +11,7 @@ with wrapping task to run executables (`python`, `pip` etc.) from virtual env.
         pythonVersion.set("3.8.2")
     }
     ```
-3. Run `build_envs` task to download and install a python virtual environment:
-    ```shell script
-    # Linux
-    ./gradlew build_envs
-    # Windows
-    gradlew.bat build_envs
-    ```
-4. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following task configuration to build script:
+3. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following task configuration to build script:
     ```kotlin
     tasks {
         register<VenvTask>("runQuickSort") {
@@ -27,7 +20,7 @@ with wrapping task to run executables (`python`, `pip` etc.) from virtual env.
         }
     }
     ```
-5. Run python script from gradle:
+4. Run python script from gradle:
 ```shell script
 # Linux
 ./gradlew runQuickSort
