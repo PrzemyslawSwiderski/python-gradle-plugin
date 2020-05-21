@@ -17,16 +17,20 @@ tasks {
 
     register<VenvTask>("runGeobufEncode") {
         venvExec = "geobuf"
-        standardInput = file("sample.geojson").inputStream()
-        standardOutput = file("sample.pbf").outputStream()
+        doFirst {
+            standardInput = file("sample.geojson").inputStream()
+            standardOutput = file("sample.pbf").outputStream()
+        }
         args(listOf("encode"))
         dependsOn(pipInstall)
     }
 
     register<VenvTask>("runGeobufDecode") {
         venvExec = "geobuf"
-        standardInput = file("sample.pbf").inputStream()
-        standardOutput = file("sample.geojson").outputStream()
+        doFirst {
+            standardInput = file("sample.pbf").inputStream()
+            standardOutput = file("sample.geojson").outputStream()
+        }
         args(listOf("decode"))
         dependsOn(pipInstall)
     }
