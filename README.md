@@ -2,6 +2,12 @@
 This Gradle Plugin wraps JetBrains [gradle-python-envs-plugin](https://github.com/JetBrains/gradle-python-env)
 with wrapping task to run executables (`python`, `pip` etc.) from virtual env.  
 
+## Requirements
+* JRE supported by gradle 6.4 version (JRE 8 or higher)
+
+## Purpose
+Running python scripts or projects by executing single tasks which will download and install Python virtual environment.
+
 ## Usage
 ### Steps to run python script from Gradle
 1. Apply a plugin to a project as described on [gradle portal](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin).
