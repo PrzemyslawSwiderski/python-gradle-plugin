@@ -3,7 +3,7 @@
 package com.pswidersk.gradle.python
 
 /**
- * Directory where gradle specific files are stored.
+ * Name of python plugin extension in projects.
  */
 const val PYTHON_PLUGIN_EXTENSION_NAME = "pythonPlugin"
 
@@ -26,11 +26,6 @@ const val PYTHON_VENVS_DIR = "pythonVenvs"
  * Name of python envs bootstrap directory.
  */
 const val PYTHON_BOOTSTRAP_DIR = "bootstrap"
-
-/**
- * Name of directory where python sources should be stored.
- */
-const val PYTHON_SRC_DIR = "main"
 
 /**
  * Name of task to build envs from Jetbrains plugin.
