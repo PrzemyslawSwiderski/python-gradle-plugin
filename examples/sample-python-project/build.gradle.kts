@@ -23,7 +23,7 @@ tasks {
 
     val pipInstall by registering(VenvTask::class) {
         venvExec = "pip"
-        args(listOf("install", "-r", "requirements.txt"))
+        args(listOf("install", "--isolated", "-r", "requirements.txt"))
     }
 
     register<VenvTask>("runNumpy") {
