@@ -43,7 +43,7 @@ pluginBundle {
     website = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     vcsUrl = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     description = "Gradle plugin to run Python projects."
-    tags = listOf("python")
+    tags = listOf("python", "venv", "numpy")
 }
 
 publishing {
