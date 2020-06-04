@@ -32,5 +32,12 @@ tasks {
         environment["ENV_VAR_TO_PRINT"] = "sampleEnvVar"
         dependsOn(pipInstall)
     }
+    register<VenvTask>("runPyTests") {
+        venvExec = "pytest"
+        workingDir(projectDir.resolve("test"))
+        environment["PYTHONPATH"] = projectDir.resolve("main").absolutePath
+        args(listOf("test_quicksort.py"))
+        dependsOn(pipInstall)
+    }
 
 }

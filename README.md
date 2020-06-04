@@ -37,8 +37,9 @@ Running python scripts or projects by executing single tasks which will download
 ### Additional examples alongside with sample PipTasks configurations can be found in `examples` module in this project. 
 
 ## Intellij setup
-To have autocomplete feature in Intellij Idea simply point python executable as described in: 
+* To have autocomplete and modules properly recognized in Intellij Idea simply point python executable as described in: 
 https://www.jetbrains.com/help/idea/configuring-python-sdk.html
+* To have properly recognized imported source modules in tests, right click on sources directory (for example `main`) -> `Mark Direcotry as` -> `as Sources root`.
 
 ### Python exec locations (`*` is a configured python version)
 
