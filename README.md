@@ -1,9 +1,9 @@
 # Python Gradle Plugin
 This Gradle Plugin wraps JetBrains [gradle-python-envs-plugin](https://github.com/JetBrains/gradle-python-env)
-with wrapping task to run executables (`python`, `pip` etc.) from virtual env.  
+to run executables (`python`, `pip` etc.) from virtual env.  
 
 ## Requirements
-* JRE supported by gradle 6.4 version (JRE 8 or higher)
+* JRE 8 or higher to run gradle wrapper
 
 ## Purpose
 Running python scripts or projects by executing single tasks which will download and install Python virtual environment.
@@ -36,7 +36,18 @@ Running python scripts or projects by executing single tasks which will download
 
 ### Additional examples alongside with sample PipTasks configurations can be found in `examples` module in this project. 
 
+## Intellij setup
+To have autocomplete feature in Intellij Idea simply point python executable as described in: 
+https://www.jetbrains.com/help/idea/configuring-python-sdk.html
+
+### Python exec locations (`*` is a configured python version)
+
+#### Linux - `.gradle/python/pythonVenvs/virtualenv-*/bin/python`
+
+#### Windows - `.gradle/python/pythonVenvs/virtualenv-*/Scripts/python.exe`
+
 ## Common issues
+* Python common build problems: https://github.com/pyenv/pyenv/wiki/Common-build-problems
 * in case of uninstalling venv from Windows, it can be necessary to run uninstall exec (downloaded in `build` directory) to fully uninstall python, 
 deleting python venv dir could not be sufficient
 * installing python on Linux can require installation of additional packages, 
