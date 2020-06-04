@@ -1,0 +1,25 @@
+import com.pswidersk.gradle.python.VenvTask
+
+plugins {
+    id "com.pswidersk.python-plugin" version "1.1.2"
+}
+
+pythonPlugin {
+    pythonVersion = "3.8.3"
+}
+
+afterEvaluate {
+
+    task(pipInstall, type: VenvTask) {
+        venvExec = "pip"
+        args = ["install", "--isolated", "-r", "requirements.txt"]
+    }
+
+    task(runNumpy, type: VenvTask) {
+        workingDir("main")
+        args = ["sample_script.py"]
+        environment["ENV_VAR_TO_PRINT"] = "sampleEnvVar"
+        dependsOn(pipInstall)
+    }
+}
+
