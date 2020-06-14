@@ -12,7 +12,7 @@ internal class PythonPluginTest {
         val project: Project = ProjectBuilder.builder().build()
         project.pluginManager.apply(PythonPlugin::class.java)
 
-        assertEquals(1, project.plugins.size)
+        assertEquals(2, project.plugins.size)
     }
 
 }
