@@ -36,8 +36,3 @@ const val BUILD_ENVS_TASK_NAME = "build_envs"
  * Plugin tasks group name.
  */
 const val PLUGIN_TASKS_GROUP_NAME = "python"
-
-/**
- * Python setup task name
- */
-const val PYTHON_SETUP_TASK_NAME = "pythonSetup"

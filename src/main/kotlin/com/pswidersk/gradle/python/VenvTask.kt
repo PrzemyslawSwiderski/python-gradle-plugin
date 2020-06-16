@@ -4,18 +4,14 @@ import com.pswidersk.gradle.python.utils.getExecInVenvPath
 import org.apache.tools.ant.types.Commandline
 import org.gradle.api.tasks.AbstractExecTask
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 
-/**
- * This task should be registered to run any executable program
- * located in a virtual environment.
- */
 open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
 
     init {
         group = PLUGIN_TASKS_GROUP_NAME
-        dependsOn(PYTHON_SETUP_TASK_NAME)
+        dependsOn(BUILD_ENVS_TASK_NAME)
+        executable = project.getExecInVenvPath("python")
     }
 
     /**
@@ -46,11 +42,8 @@ open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
      */
     @Input
     var venvExec: String = "python"
-
-    @TaskAction
-    override fun exec() {
-        this.executable = project.getExecInVenvPath(venvExec)
-        return super.exec()
-    }
-
+        set(value) {
+            this.executable = project.getExecInVenvPath(value)
+            field = value
+        }
 }
