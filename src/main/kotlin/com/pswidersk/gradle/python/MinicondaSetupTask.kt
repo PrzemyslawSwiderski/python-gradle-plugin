@@ -25,14 +25,14 @@ open class MinicondaSetupTask : DefaultTask() {
         if (!Os.isFamily(Os.FAMILY_WINDOWS))
             exec {
                 it.executable = "chmod"
-                it.args("u+x", minicondaInstaller)
+                it.args("u+x", minicondaInstaller.absolutePath)
             }
         exec {
-            it.executable = minicondaInstaller.path
+            it.executable = minicondaInstaller.absolutePath
             val execArgs = if (Os.isFamily(Os.FAMILY_WINDOWS))
-                listOf("/InstallationType=JustMe", "/RegisterPython=0", "/S", "/D=${minicondaDir.path}")
+                listOf("/InstallationType=JustMe", "/RegisterPython=0", "/S", "/D=${minicondaDir.absolutePath}")
             else
-                listOf("-b", "-u", "-p", minicondaDir.path)
+                listOf("-b", "-u", "-p", minicondaDir.absolutePath)
             it.args(execArgs)
         }
     }

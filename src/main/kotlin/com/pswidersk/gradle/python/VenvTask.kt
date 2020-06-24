@@ -85,9 +85,9 @@ open class VenvTask : DefaultTask() {
     fun execute(): ExecResult = with(project) {
         return exec {
             val args = if (Os.isFamily(Os.FAMILY_WINDOWS))
-                listOf("cmd", "/c", condaBinDir.resolve("activate.bat").path, pythonEnvName, ">nul", "&&", venvExec) + args
+                listOf("cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "&&", venvExec) + args
             else
-                listOf(minicondaDir.resolve("activate.sh").absolutePath, pythonEnvName, ">nul", "&&", venvExec) + args
+                listOf(minicondaDir.resolve("bin").resolve("activate").absolutePath, pythonEnvName, ">nul", "&&", venvExec) + args
             it.commandLine(args)
             it.workingDir(workingDir)
             it.environment(environment)
