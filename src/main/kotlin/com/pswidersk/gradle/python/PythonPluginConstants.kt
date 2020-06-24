@@ -20,17 +20,7 @@ const val PYTHON_ENVS_DIR = "python"
 /**
  * Name of directory where virtual environments will be stored.
  */
-const val PYTHON_VENVS_DIR = "pythonVenvs"
-
-/**
- * Name of python envs bootstrap directory.
- */
-const val PYTHON_BOOTSTRAP_DIR = "bootstrap"
-
-/**
- * Name of task to build envs from Jetbrains plugin.
- */
-const val BUILD_ENVS_TASK_NAME = "build_envs"
+const val PYTHON_MINICONDA_DIR = "miniconda"
 
 /**
  * Plugin tasks group name.

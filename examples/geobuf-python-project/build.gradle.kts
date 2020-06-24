@@ -1,18 +1,18 @@
 import com.pswidersk.gradle.python.VenvTask
 
 plugins {
-    id("com.pswidersk.python-plugin") version "1.1.4"
+    id("com.pswidersk.python-plugin") version "1.1.5"
 }
 
 pythonPlugin {
-    pythonVersion.set("3.8.2")
+    pythonVersion.set("3.8.3")
 }
 
 tasks {
 
     val pipInstall by registering(VenvTask::class) {
         venvExec = "pip"
-        args(listOf("install", "geobuf==1.1.1"))
+        args = listOf("install", "geobuf==1.1.1")
     }
 
     register<VenvTask>("runGeobufEncode") {
@@ -21,7 +21,7 @@ tasks {
             standardInput = file("sample.geojson").inputStream()
             standardOutput = file("sample.pbf").outputStream()
         }
-        args(listOf("encode"))
+        args = listOf("encode")
         dependsOn(pipInstall)
     }
 
@@ -31,7 +31,7 @@ tasks {
             standardInput = file("sample.pbf").inputStream()
             standardOutput = file("sample.geojson").outputStream()
         }
-        args(listOf("decode"))
+        args = listOf("decode")
         dependsOn(pipInstall)
     }
 

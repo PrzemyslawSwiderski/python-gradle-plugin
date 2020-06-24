@@ -1,6 +1,6 @@
 # Python Gradle Plugin
-This Gradle Plugin wraps JetBrains [gradle-python-envs-plugin](https://github.com/JetBrains/gradle-python-env)
-to run executables (`python`, `pip` etc.) from virtual env.  
+This Gradle Plugin uses [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
+to run executables (`python`, `pip`, `conda` etc.) from virtual env.  
 
 ## Requirements
 * JRE 8 or higher to run gradle wrapper
@@ -21,8 +21,8 @@ Running python scripts or projects by executing single tasks which will download
     ```kotlin
     tasks {
         register<VenvTask>("runQuickSort") {
-                workingDir(projectDir.resolve("main"))
-                args(listOf("quicksort.py"))
+                workingDir = projectDir.resolve("main")
+                args = listOf("quicksort.py")
         }
     }
     ```
