@@ -1,18 +1,53 @@
 package com.pswidersk.gradle.python
 
-import com.pswidersk.gradle.python.utils.getExecInVenvPath
+import org.apache.tools.ant.taskdefs.condition.Os
 import org.apache.tools.ant.types.Commandline
-import org.gradle.api.tasks.AbstractExecTask
+import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import org.gradle.process.ExecResult
+import org.gradle.process.internal.streams.SafeStreams
+import java.io.File
+import java.io.InputStream
+import java.io.OutputStream
 
-open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
+open class VenvTask : DefaultTask() {
 
     init {
         group = PLUGIN_TASKS_GROUP_NAME
-        dependsOn(BUILD_ENVS_TASK_NAME)
-        executable = project.getExecInVenvPath("python")
+        dependsOn("envSetup")
     }
+
+    /**
+     * Args to pass
+     * For example: "install", "./main.py"
+     *
+     */
+    @Input
+    var args: List<String> = emptyList()
+
+
+    /**
+     * Working directory
+     *
+     */
+    @Input
+    var workingDir: File = project.projectDir
+
+    /**
+     * Args to pass
+     * For example: "install", "./main.py"
+     *
+     */
+    @Input
+    var environment: Map<String, Any> = mapOf()
+
+    @Input
+    var standardInput: InputStream = SafeStreams.emptyInput()
+
+    @Input
+    var standardOutput: OutputStream = SafeStreams.systemOut()
 
     /**
      * Parses an argument list from {@code args} and passes it to args.
@@ -32,7 +67,9 @@ open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
      * @return this
      */
     @Option(option = "args", description = "Command line arguments overriding execArgs.")
-    fun setArgsByCmd(args: String) = this.setArgs(Commandline.translateCommandline(args).toList())
+    fun setArgsByCmd(args: String) {
+        this.args = Commandline.translateCommandline(args).toList()
+    }
 
     /**
      * Executable which have to exist in virtual env.
@@ -42,8 +79,20 @@ open class VenvTask : AbstractExecTask<VenvTask>(VenvTask::class.java) {
      */
     @Input
     var venvExec: String = "python"
-        set(value) {
-            this.executable = project.getExecInVenvPath(value)
-            field = value
+
+    @TaskAction
+    fun execute(): ExecResult = with(project) {
+        return exec {
+            val args = if (Os.isFamily(Os.FAMILY_WINDOWS))
+                listOf("cmd", "/c", condaDir.resolve("activate.bat").path, pythonEnvName, ">nul", "&&", venvExec) + args
+            else
+                listOf(condaExec, "activate", pythonEnvName, "&&", venvExec) + args
+            it.commandLine(args)
+            it.workingDir(workingDir)
+            it.environment(environment)
+            it.standardInput = standardInput
+            it.standardOutput = standardOutput
         }
+    }
 }
+

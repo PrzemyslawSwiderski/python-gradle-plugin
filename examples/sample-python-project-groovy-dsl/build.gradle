@@ -1,7 +1,7 @@
 import com.pswidersk.gradle.python.VenvTask
 
 plugins {
-    id "com.pswidersk.python-plugin" version "1.1.4"
+    id "com.pswidersk.python-plugin" version "1.1.5"
 }
 
 pythonPlugin {
@@ -10,16 +10,16 @@ pythonPlugin {
 
 afterEvaluate {
 
-    task(pipInstall, type: VenvTask) {
+    task(pipInstallGroovy, type: VenvTask) {
         venvExec = "pip"
         args = ["install", "--isolated", "-r", "requirements.txt"]
     }
 
-    task(runNumpy, type: VenvTask) {
-        workingDir("main")
+    task(runNumpyGroovy, type: VenvTask) {
+        workingDir = file("main")
         args = ["sample_script.py"]
-        environment["ENV_VAR_TO_PRINT"] = "sampleEnvVar"
-        dependsOn(pipInstall)
+        environment = ["ENV_VAR_TO_PRINT": "sampleEnvVar"]
+        dependsOn(pipInstallGroovy)
     }
 }
 
