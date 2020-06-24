@@ -4,6 +4,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.apache.tools.ant.types.Commandline
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecResult
@@ -32,7 +33,7 @@ open class VenvTask : DefaultTask() {
      * Working directory
      *
      */
-    @Input
+    @InputFile
     var workingDir: File = project.projectDir
 
     /**
