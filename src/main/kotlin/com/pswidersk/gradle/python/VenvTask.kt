@@ -3,13 +3,13 @@ package com.pswidersk.gradle.python
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.apache.tools.ant.types.Commandline
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.streams.SafeStreams
-import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -33,8 +33,8 @@ open class VenvTask : DefaultTask() {
      * Working directory
      *
      */
-    @InputFile
-    var workingDir: File = project.projectDir
+    @InputDirectory
+    val workingDir: DirectoryProperty = project.objects.directoryProperty().convention(project.layout.projectDirectory)
 
     /**
      * Args to pass
@@ -87,7 +87,7 @@ open class VenvTask : DefaultTask() {
             val args = if (Os.isFamily(Os.FAMILY_WINDOWS))
                 listOf("cmd", "/c", condaDir.resolve("activate.bat").path, pythonEnvName, ">nul", "&&", venvExec) + args
             else
-                listOf(condaExec, "activate", pythonEnvName, "&&", venvExec) + args
+                listOf(condaExec, "activate", pythonEnvName, ">nul", "&&", venvExec) + args
             it.commandLine(args)
             it.workingDir(workingDir)
             it.environment(environment)

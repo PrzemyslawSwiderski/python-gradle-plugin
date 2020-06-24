@@ -24,12 +24,17 @@ open class MinicondaSetupTask : DefaultTask() {
         miniCondaDir.mkdirs()
         val minicondaInstaller = miniCondaDir.resolve("Miniconda3-latest-$os-$arch.$exec")
         downloadMiniconda(minicondaInstaller)
+        if (!Os.isFamily(Os.FAMILY_WINDOWS))
+            exec {
+                it.executable = "chmod"
+                it.args("u+x", minicondaInstaller)
+            }
         exec {
             it.executable = minicondaInstaller.path
             val execArgs = if (Os.isFamily(Os.FAMILY_WINDOWS))
                 listOf("/InstallationType=JustMe", "/RegisterPython=0", "/S", "/D=${miniCondaDir.path}")
             else
-                listOf("-b", "-p", miniCondaDir.path)
+                listOf("-b", "-u", "-p", miniCondaDir.path)
             it.args(execArgs)
         }
     }

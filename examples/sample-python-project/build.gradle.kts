@@ -1,7 +1,7 @@
 import com.pswidersk.gradle.python.VenvTask
 
 plugins {
-    id("com.pswidersk.python-plugin") version "1.1.5"
+    id("com.pswidersk.python-plugin") version "1.1.6"
 }
 
 pythonPlugin {
@@ -22,7 +22,7 @@ tasks {
     }
 
     register<VenvTask>("runQuickSort") {
-        workingDir = projectDir.resolve("main")
+        workingDir.set(projectDir.resolve("main"))
         args = listOf("quicksort.py")
     }
 
@@ -32,14 +32,14 @@ tasks {
     }
 
     register<VenvTask>("runNumpy") {
-        workingDir = projectDir.resolve("main")
+        workingDir.set(projectDir.resolve("main"))
         args = listOf("numpy_test.py")
         environment = mapOf("ENV_VAR_TO_PRINT" to "sampleEnvVar")
         dependsOn(pipInstall)
     }
     register<VenvTask>("runPyTests") {
         venvExec = "pytest"
-        workingDir = projectDir.resolve("test")
+        workingDir.set(projectDir.resolve("test"))
         environment = mapOf("PYTHONPATH" to projectDir.resolve("main").absolutePath)
         args = listOf("test_quicksort.py")
         dependsOn(pipInstall)
