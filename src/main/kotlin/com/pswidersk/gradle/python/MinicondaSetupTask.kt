@@ -9,20 +9,18 @@ import java.net.URL
 
 open class MinicondaSetupTask : DefaultTask() {
 
-    private val miniCondaDir = project.pythonPlugin.minicondaDir
-
     init {
         group = "python"
         description = "Setup Miniconda"
         onlyIf {
-            !miniCondaDir.exists()
+            !project.minicondaDir.exists()
         }
     }
 
     @TaskAction
     fun setup(): ExecResult = with(project) {
-        miniCondaDir.mkdirs()
-        val minicondaInstaller = miniCondaDir.resolve("Miniconda3-latest-$os-$arch.$exec")
+        minicondaDir.mkdirs()
+        val minicondaInstaller = minicondaDir.resolve("Miniconda3-latest-$os-$arch.$exec")
         downloadMiniconda(minicondaInstaller)
         if (!Os.isFamily(Os.FAMILY_WINDOWS))
             exec {
@@ -32,9 +30,9 @@ open class MinicondaSetupTask : DefaultTask() {
         exec {
             it.executable = minicondaInstaller.path
             val execArgs = if (Os.isFamily(Os.FAMILY_WINDOWS))
-                listOf("/InstallationType=JustMe", "/RegisterPython=0", "/S", "/D=${miniCondaDir.path}")
+                listOf("/InstallationType=JustMe", "/RegisterPython=0", "/S", "/D=${minicondaDir.path}")
             else
-                listOf("-b", "-u", "-p", miniCondaDir.path)
+                listOf("-b", "-u", "-p", minicondaDir.path)
             it.args(execArgs)
         }
     }

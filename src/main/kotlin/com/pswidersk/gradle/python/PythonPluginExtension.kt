@@ -11,8 +11,4 @@ open class PythonPluginExtension @Inject constructor(project: Project,
 
     val pythonVersion: Property<String> = objects.property<String>().convention("3.8.2")
 
-    private val pythonBaseDir = project.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR)
-
-    internal val minicondaDir = pythonBaseDir.resolve(PYTHON_MINICONDA_DIR)
-
 }

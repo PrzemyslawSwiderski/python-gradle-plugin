@@ -22,23 +22,26 @@ internal inline fun <reified T : Any> ObjectFactory.property(): Property<T> =
 internal val Project.pythonPlugin: PythonPluginExtension
     get() = extensions.getByType(PythonPluginExtension::class.java)
 
+internal val Project.minicondaDir: File
+    get() = this.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR).resolve(PYTHON_MINICONDA_DIR)
+
 internal val Project.pythonEnvName: String
     get() = "python-${project.pythonPlugin.pythonVersion.get()}"
 
 internal val Project.pythonEnvDir: File
-    get() = pythonPlugin.minicondaDir.resolve("envs").resolve(pythonEnvName)
+    get() = this.minicondaDir.resolve("envs").resolve(pythonEnvName)
 
-internal val Project.condaDir: File
+internal val Project.condaBinDir: File
     get() {
-        return this.pythonPlugin.minicondaDir.resolve("condabin")
+        return this.minicondaDir.resolve("condabin")
     }
 
 internal val Project.condaExec: String
     get() {
         return if (Os.isFamily(Os.FAMILY_WINDOWS))
-            this.condaDir.resolve("conda.bat").path
+            this.condaBinDir.resolve("conda.bat").path
         else
-            this.condaDir.resolve("conda").path
+            this.condaBinDir.resolve("conda").path
     }
 
 /**
