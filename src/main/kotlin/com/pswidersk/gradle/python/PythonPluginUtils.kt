@@ -44,6 +44,14 @@ internal val Project.condaExec: String
             this.condaBinDir.resolve("conda").path
     }
 
+internal val Project.condaActivatePath: String
+    get() {
+        return if (Os.isFamily(Os.FAMILY_WINDOWS))
+            this.condaBinDir.resolve("activate.bat").absolutePath
+        else
+            this.minicondaDir.resolve("bin").resolve("activate").absolutePath
+    }
+
 /**
  * Returns simplified operating system name
  */

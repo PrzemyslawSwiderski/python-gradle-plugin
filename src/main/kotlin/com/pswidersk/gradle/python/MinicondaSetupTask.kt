@@ -13,7 +13,7 @@ open class MinicondaSetupTask : DefaultTask() {
         group = "python"
         description = "Setup Miniconda"
         onlyIf {
-            !project.minicondaDir.exists()
+            !project.condaBinDir.exists()
         }
     }
 
