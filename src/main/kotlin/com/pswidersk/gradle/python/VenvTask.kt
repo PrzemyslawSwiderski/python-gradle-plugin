@@ -28,6 +28,9 @@ open class VenvTask : DefaultTask() {
     @Input
     var args: List<String> = emptyList()
 
+    @Input
+    var main: String = "."
+
 
     /**
      * Working directory
@@ -72,6 +75,11 @@ open class VenvTask : DefaultTask() {
         this.args = Commandline.translateCommandline(args).toList()
     }
 
+    @Option(option = "main", description = "Command line arguments overriding execArgs.")
+    fun setArgsByCmd2(args: String) {
+        this.main = args
+    }
+
     /**
      * Executable which have to exist in virtual env.
      * For example: "python", "pip", "wheel"
@@ -85,10 +93,11 @@ open class VenvTask : DefaultTask() {
     fun execute(): ExecResult = with(project) {
         return exec {
             logger.quiet("args: $args")
+            logger.quiet("main: $main")
             val args = if (Os.isFamily(Os.FAMILY_WINDOWS))
                 listOf("cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "&&", venvExec) + args
             else
-                listOf(args.joinToString(" "))
+                listOf(main, args.joinToString(" "))
 //                listOf("sh", "-c", "'. $condaActivatePath $pythonEnvName >null && $venvExec ${args.joinToString(" ")}'")
 //                listOf("sh", "-c", "'. $condaActivatePath $pythonEnvName >null && $venvExec ${args.joinToString(" ")}'")
             it.commandLine(args)
