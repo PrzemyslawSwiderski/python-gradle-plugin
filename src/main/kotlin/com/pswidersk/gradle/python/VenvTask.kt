@@ -28,22 +28,6 @@ open class VenvTask : DefaultTask() {
     @Input
     var args: List<String> = emptyList()
 
-    @Input
-    var main: String = "sh"
-
-    @Input
-    var arg1: String = "-c"
-
-    @Input
-    var arg2: String = "source"
-
-    @Input
-    var arg3: String = "."
-
-    @Input
-    var arg4: String = "."
-
-
     /**
      * Working directory
      *
@@ -51,11 +35,6 @@ open class VenvTask : DefaultTask() {
     @InputDirectory
     val workingDir: DirectoryProperty = project.objects.directoryProperty().convention(project.layout.projectDirectory)
 
-    /**
-     * Args to pass
-     * For example: "install", "./main.py"
-     *
-     */
     @Input
     var environment: Map<String, Any> = mapOf()
 
@@ -87,31 +66,6 @@ open class VenvTask : DefaultTask() {
         this.args = Commandline.translateCommandline(args).toList()
     }
 
-    @Option(option = "main", description = "Command line arguments overriding execArgs.")
-    fun setArgsByCmd2(args: String) {
-        this.main = args
-    }
-
-    @Option(option = "arg1", description = "Command line arguments overriding execArgs.")
-    fun setArgsByCmd3(args: String) {
-        this.arg1 = args
-    }
-
-    @Option(option = "arg2", description = "Command line arguments overriding execArgs.")
-    fun setArgsByCmd5(args: String) {
-        this.arg2 = args
-    }
-
-    @Option(option = "arg3", description = "Command line arguments overriding execArgs.")
-    fun setArgsByCmd6(args: String) {
-        this.arg3 = args
-    }
-
-    @Option(option = "arg4", description = "Command line arguments overriding execArgs.")
-    fun setArgsByCmd7(args: String) {
-        this.arg4 = args
-    }
-
     /**
      * Executable which have to exist in virtual env.
      * For example: "python", "pip", "wheel"
@@ -124,14 +78,10 @@ open class VenvTask : DefaultTask() {
     @TaskAction
     fun execute(): ExecResult = with(project) {
         return exec {
-            logger.quiet("args: $args")
-            logger.quiet("main: $main")
             val args = if (Os.isFamily(Os.FAMILY_WINDOWS))
                 listOf("cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "&&", venvExec) + args
             else
-                listOf(main, arg1, arg2, arg3, arg4)
-//                listOf("sh", "-c", "'. $condaActivatePath $pythonEnvName >null && $venvExec ${args.joinToString(" ")}'")
-//                listOf("sh", "-c", "'. $condaActivatePath $pythonEnvName >null && $venvExec ${args.joinToString(" ")}'")
+                listOf("sh", "-c", ". $condaActivatePath $pythonEnvName >null && $venvExec ${args.joinToString(" ")}")
             it.commandLine(args)
             it.workingDir(workingDir)
             it.environment(environment)
