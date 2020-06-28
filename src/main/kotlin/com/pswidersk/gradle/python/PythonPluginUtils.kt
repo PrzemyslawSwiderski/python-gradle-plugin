@@ -1,9 +1,9 @@
 package com.pswidersk.gradle.python
 
-import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
+import org.gradle.internal.os.OperatingSystem
 import java.io.File
 
 
@@ -38,7 +38,7 @@ internal val Project.condaBinDir: File
 
 internal val Project.condaExec: String
     get() {
-        return if (Os.isFamily(Os.FAMILY_WINDOWS))
+        return if (OperatingSystem.current().isWindows)
             this.condaBinDir.resolve("conda.bat").path
         else
             this.condaBinDir.resolve("conda").path
@@ -46,7 +46,7 @@ internal val Project.condaExec: String
 
 internal val Project.condaActivatePath: String
     get() {
-        return if (Os.isFamily(Os.FAMILY_WINDOWS))
+        return if (OperatingSystem.current().isWindows)
             this.condaBinDir.resolve("activate.bat").absolutePath
         else
             this.minicondaDir.resolve("bin").resolve("activate").absolutePath
@@ -58,8 +58,8 @@ internal val Project.condaActivatePath: String
 internal val Project.os: String
     get() {
         return when {
-            Os.isFamily(Os.FAMILY_MAC) -> "MacOSX"
-            Os.isFamily(Os.FAMILY_WINDOWS) -> "Windows"
+            OperatingSystem.current().isMacOsX -> "MacOSX"
+            OperatingSystem.current().isWindows -> "Windows"
             else -> "Linux"
         }
     }
@@ -71,8 +71,8 @@ internal val Project.arch: String
     get() {
         val arch = System.getProperty("os.arch")
         return when {
-            Os.isFamily(Os.FAMILY_MAC) -> "x86_64"
-            Os.isFamily(Os.FAMILY_WINDOWS) -> when (arch) {
+            OperatingSystem.current().isMacOsX -> "x86_64"
+            OperatingSystem.current().isWindows -> when (arch) {
                 "x86_64", "amd64" -> "x86_64"
                 else -> "x86"
             }
@@ -86,8 +86,8 @@ internal val Project.arch: String
 internal val Project.exec: String
     get() {
         return when {
-            Os.isFamily(Os.FAMILY_MAC) -> "sh"
-            Os.isFamily(Os.FAMILY_WINDOWS) -> "exe"
+            OperatingSystem.current().isLinux -> "sh"
+            OperatingSystem.current().isWindows -> "exe"
             else -> "sh"
         }
     }

@@ -3,7 +3,7 @@ This Gradle Plugin uses [Miniconda](https://docs.conda.io/en/latest/miniconda.ht
 to run executables (`python`, `pip`, `conda` etc.) from virtual env.  
 
 ## Requirements
-* JRE 8 or higher to run gradle wrapper
+* Java JDK or JRE version 8 or higher
 
 ## Purpose
 Running python scripts or projects by executing single tasks which will download and install Python virtual environment.
