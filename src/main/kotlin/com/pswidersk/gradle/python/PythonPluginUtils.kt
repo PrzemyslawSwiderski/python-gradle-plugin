@@ -53,26 +53,35 @@ internal val Project.condaActivatePath: String
     }
 
 /**
+ * Returns if operating system is Windows
+ */
+internal val isWindows: Boolean
+    get() {
+        return OperatingSystem.current().isWindows
+    }
+
+/**
  * Returns simplified operating system name
  */
-internal val Project.os: String
+internal val os: String
     get() {
         return when {
             OperatingSystem.current().isMacOsX -> "MacOSX"
-            OperatingSystem.current().isWindows -> "Windows"
+            isWindows -> "Windows"
             else -> "Linux"
         }
     }
 
+
 /**
  * Returns system architecture name
  */
-internal val Project.arch: String
+internal val arch: String
     get() {
         val arch = System.getProperty("os.arch")
         return when {
             OperatingSystem.current().isMacOsX -> "x86_64"
-            OperatingSystem.current().isWindows -> when (arch) {
+            isWindows -> when (arch) {
                 "x86_64", "amd64" -> "x86_64"
                 else -> "x86"
             }
@@ -83,11 +92,11 @@ internal val Project.arch: String
 /**
  * Returns exec extensions
  */
-internal val Project.exec: String
+internal val exec: String
     get() {
         return when {
             OperatingSystem.current().isLinux -> "sh"
-            OperatingSystem.current().isWindows -> "exe"
+            isWindows -> "exe"
             else -> "sh"
         }
     }

@@ -7,7 +7,6 @@ import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
-import org.gradle.internal.os.OperatingSystem
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.streams.SafeStreams
 import java.io.InputStream
@@ -78,7 +77,7 @@ open class VenvTask : DefaultTask() {
     @TaskAction
     fun execute(): ExecResult = with(project) {
         return exec {
-            val args = if (OperatingSystem.current().isWindows)
+            val args = if (isWindows)
                 listOf("cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "2>&1", "&&", venvExec) + args
             else
                 listOf("sh", "-c", ". $condaActivatePath $pythonEnvName >/dev/null 2>&1 && $venvExec ${args.joinToString(" ")}")

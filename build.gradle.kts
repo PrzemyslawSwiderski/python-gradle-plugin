@@ -22,6 +22,7 @@ dependencies {
 tasks {
     test {
         useJUnitPlatform()
+        testLogging.showStandardStreams = true
     }
     "afterReleaseBuild"{
         dependsOn("publish", "publishPlugins")
@@ -32,7 +33,7 @@ gradlePlugin {
         create("python-gradle-plugin") {
             id = "com.pswidersk.python-plugin"
             implementationClass = "com.pswidersk.gradle.python.PythonPlugin"
-            displayName = "Gradle plugin to run Python projects. https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
+            displayName = "Gradle plugin to run Python projects in Miniconda virtual env. https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
         }
     }
 }
@@ -41,7 +42,7 @@ pluginBundle {
     website = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     vcsUrl = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     description = "Gradle plugin to run Python projects."
-    tags = listOf("python", "venv", "numpy")
+    tags = listOf("python", "venv", "numpy", "miniconda", "conda")
 }
 
 publishing {

@@ -26,6 +26,7 @@ internal class PythonPluginTest {
     @Test
     fun `test if test python script was run successfully`() {
         // given
+        val pythonMessage = "Hello world from Gradle Python Plugin :)"
         val buildFile = File(tempDir, "build.gradle.kts")
         val testScriptFile = File(tempDir, "testScript.py")
         buildFile.writeText("""
@@ -42,7 +43,7 @@ internal class PythonPluginTest {
             }
         """.trimIndent())
         testScriptFile.writeText("""
-            print("Hello world from Gradle Python Plugin :)")
+            print("$pythonMessage")
         """.trimIndent())
         val runner = GradleRunner.create()
                 .withPluginClasspath()
@@ -59,12 +60,13 @@ internal class PythonPluginTest {
             assertEquals(TaskOutcome.SUCCESS, task(":minicondaSetup")!!.outcome)
             assertEquals(TaskOutcome.SUCCESS, task(":envSetup")!!.outcome)
             assertEquals(TaskOutcome.SUCCESS, task(":runTestScript")!!.outcome)
-            assertTrue { output.contains("Hello world from Gradle Python Plugin :)") }
+            assertTrue { output.contains(pythonMessage) }
         }
         with(secondRunResult) {
             assertEquals(TaskOutcome.SKIPPED, task(":minicondaSetup")!!.outcome)
             assertEquals(TaskOutcome.SKIPPED, task(":envSetup")!!.outcome)
             assertEquals(TaskOutcome.SUCCESS, task(":runTestScript")!!.outcome)
+            assertTrue { output.contains(pythonMessage) }
         }
     }
 }
