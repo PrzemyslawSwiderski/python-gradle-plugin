@@ -1,9 +1,13 @@
+import org.jetbrains.changelog.closure
+import org.jetbrains.changelog.date
+
 plugins {
     `java-gradle-plugin`
     `maven-publish`
     kotlin("jvm") version "1.3.72"
     id("com.gradle.plugin-publish") version "0.11.0"
     id("net.researchgate.release") version "2.8.1"
+    id("org.jetbrains.changelog") version "0.5.0"
 }
 
 repositories {
@@ -25,7 +29,7 @@ tasks {
         testLogging.showStandardStreams = true
     }
     "afterReleaseBuild"{
-        dependsOn("publish", "publishPlugins")
+        dependsOn("publish", "publishPlugins", "patchChangelog")
     }
 }
 gradlePlugin {
@@ -49,4 +53,8 @@ publishing {
     repositories {
         mavenLocal()
     }
+}
+
+changelog {
+    header = closure { "[${project.version}] - ${date()}" }
 }
