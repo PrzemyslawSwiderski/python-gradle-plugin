@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Conda env fix. 
 
-## [1.2] - 2020-06-28
+## [1.2.0] - 2020-06-28
 
 ### Fixed
 - Stdinput/output fix.  
