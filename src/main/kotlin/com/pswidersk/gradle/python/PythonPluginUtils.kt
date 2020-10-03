@@ -22,8 +22,11 @@ internal inline fun <reified T : Any> ObjectFactory.property(): Property<T> =
 internal val Project.pythonPlugin: PythonPluginExtension
     get() = extensions.getByType(PythonPluginExtension::class.java)
 
+internal val Project.minicondaVersion: String
+    get() = pythonPlugin.minicondaVersion.get()
+
 internal val Project.minicondaDir: File
-    get() = this.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR).resolve(PYTHON_MINICONDA_DIR)
+    get() = this.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR).resolve("$PYTHON_MINICONDA_DIR-$minicondaVersion")
 
 internal val Project.pythonEnvName: String
     get() = "python-${project.pythonPlugin.pythonVersion.get()}"

@@ -3,16 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- Possibility to specify miniconda3 version by `minicondaVersion` property.
 
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Default Python version updated to a `3.8.5`.
 
 ## [1.2.1] - 2020-06-29
 

@@ -19,7 +19,7 @@ open class MinicondaSetupTask : DefaultTask() {
     @TaskAction
     fun setup(): ExecResult = with(project) {
         minicondaDir.mkdirs()
-        val minicondaInstaller = minicondaDir.resolve("Miniconda3-latest-$os-$arch.$exec")
+        val minicondaInstaller = minicondaDir.resolve("Miniconda3-$minicondaVersion-$os-$arch.$exec")
         downloadMiniconda(minicondaInstaller)
         if (!isWindows)
             exec {

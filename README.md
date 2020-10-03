@@ -9,6 +9,7 @@ to run executables (`python`, `pip`, `conda` etc.) from virtual env.
 Running python scripts or projects by executing single tasks which will download and install Python virtual environment.
 
 ## Usage
+
 ### Steps to run python script from Gradle
 1. Apply a plugin to a project as described on [gradle portal](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin).
 2. Configure a plugin by specifying desired python version in build script:
@@ -17,6 +18,9 @@ Running python scripts or projects by executing single tasks which will download
         pythonVersion.set("3.8.2")
     }
     ```
+    Possible properties in plugin extension are:
+    - `pythonVersion` -> Python environment version, default `3.8.5`
+    - `minicondaVersion` -> Miniconda3 version, default `latest`
 3. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following task configuration to build script:
     ```kotlin
     tasks {
