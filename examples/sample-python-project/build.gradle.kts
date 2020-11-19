@@ -5,7 +5,7 @@ plugins {
 }
 
 pythonPlugin {
-    pythonVersion.set("3.8.1")
+    pythonVersion.set("3.9.0")
     minicondaVersion.set("py38_4.8.3")
 }
 

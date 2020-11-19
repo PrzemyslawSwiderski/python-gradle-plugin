@@ -1,12 +1,19 @@
 # Python Gradle Plugin
+**Now, all what is required to run python scripts is Java.** 
+
 This Gradle Plugin uses [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
-to run executables (`python`, `pip`, `conda` etc.) from virtual env.  
+to run executables (`python`, `pip`, `conda` etc.) from virtual env. 
+
+Python project configuration can be fully automated by Gradle tasks.   
 
 ## Requirements
 * Java JDK or JRE version 8 or higher
 
 ## Purpose
+
 Running python scripts or projects by executing single tasks which will download and install Python virtual environment.
+
+Additional Python configuration (pip/conda packages installation etc.) can be done by defining Gradle tasks in `build.gradle.kts` file. 
 
 ## Usage
 
@@ -51,10 +58,5 @@ https://www.jetbrains.com/help/idea/configuring-python-sdk.html
 
 #### Windows - `.gradle/python/pythonVenvs/virtualenv-*/Scripts/python.exe`
 
-## Common issues
-* Python common build problems: https://github.com/pyenv/pyenv/wiki/Common-build-problems
-* in case of uninstalling venv from Windows, it can be necessary to run uninstall exec (downloaded in `build` directory) to fully uninstall python, 
-deleting python venv dir could not be sufficient
-* in case of any problems with installation on Windows try reinstalling (uninstall by msi installer in `build` dir and then execute once again `build_envs` task)
-* installing python on Linux can require installation of additional packages, 
-for example openssl, so before virtual envs installation run: `sudo apt-get install openssl` 
+## Notes
+* It may be required to unset `PYTHONPATH` in system before running any tasks (https://stackoverflow.com/a/31841132)  
