@@ -2,17 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-### Added
 
 ### Changed
+- Updated default Python version to a `3.9.2`.
 
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
 ## [1.2.2] - 2020-10-04
 ### Added
 - Possibility to specify miniconda3 version by `minicondaVersion` property.

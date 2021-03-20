@@ -1,11 +1,11 @@
 import com.pswidersk.gradle.python.VenvTask
 
 plugins {
-    id("com.pswidersk.python-plugin") version "1.2.2"
+    id("com.pswidersk.python-plugin") version "1.2.3"
 }
 
 pythonPlugin {
-    pythonVersion.set("3.9.0")
+    pythonVersion.set("3.9.2")
     minicondaVersion.set("py38_4.8.3")
 }
 
