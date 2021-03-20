@@ -2,6 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+## [1.2.3] - 2021-03-20
 
 ### Changed
 - Updated default Python version to a `3.9.2`.
