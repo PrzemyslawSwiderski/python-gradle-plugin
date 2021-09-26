@@ -29,7 +29,8 @@ internal class PythonPluginTest {
         val pythonMessage = "Hello world from Gradle Python Plugin :)"
         val buildFile = File(tempDir, "build.gradle.kts")
         val testScriptFile = File(tempDir, "testScript.py")
-        buildFile.writeText("""
+        buildFile.writeText(
+            """
             import com.pswidersk.gradle.python.VenvTask
             
             plugins {
@@ -41,15 +42,18 @@ internal class PythonPluginTest {
                     args = listOf("testScript.py")
                 }
             }
-        """.trimIndent())
-        testScriptFile.writeText("""
+        """.trimIndent()
+        )
+        testScriptFile.writeText(
+            """
             print("$pythonMessage")
-        """.trimIndent())
+        """.trimIndent()
+        )
         val runner = GradleRunner.create()
-                .withPluginClasspath()
-                .withProjectDir(tempDir)
-                .forwardOutput()
-                .withArguments(":runTestScript")
+            .withPluginClasspath()
+            .withProjectDir(tempDir)
+            .forwardOutput()
+            .withArguments(":runTestScript")
 
         // when
         val firstRunResult = runner.build()

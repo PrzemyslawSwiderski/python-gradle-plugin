@@ -5,11 +5,14 @@ include("examples:sample-python-project",
         "examples:sample-python-project-groovy-dsl")
 
 pluginManagement {
+    val pythonPluginVersionForExamples: String by settings
+
+    plugins {
+        id("com.pswidersk.python-plugin") version pythonPluginVersionForExamples
+    }
+
     repositories {
         mavenLocal()
-        jcenter()
-        maven {
-            setUrl("https://plugins.gradle.org/m2/")
-        }
+        gradlePluginPortal()
     }
 }

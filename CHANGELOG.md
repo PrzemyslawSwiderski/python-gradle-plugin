@@ -2,15 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-### Added
 
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
+- Updated Kotlin to `1.5.21` version.
+- Updated Gradle to `7.2` version.
 
 ### Security
 ## [1.2.3] - 2021-03-20

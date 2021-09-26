@@ -1,26 +1,22 @@
-import org.jetbrains.changelog.closure
 import org.jetbrains.changelog.date
 
 plugins {
     `java-gradle-plugin`
     `maven-publish`
-    kotlin("jvm") version "1.4.31"
+    kotlin("jvm") version "1.5.21"
     id("com.gradle.plugin-publish") version "0.11.0"
     id("net.researchgate.release") version "2.8.1"
-    id("org.jetbrains.changelog") version "0.5.0"
+    id("org.jetbrains.changelog") version "1.3.0"
 }
 
 repositories {
     mavenLocal()
-    jcenter()
-    maven {
-        setUrl("https://plugins.gradle.org/m2/")
-    }
+    gradlePluginPortal()
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.0")
 }
 
 tasks {
@@ -31,13 +27,19 @@ tasks {
     "afterReleaseBuild"{
         dependsOn("publish", "publishPlugins", "patchChangelog")
     }
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }
 gradlePlugin {
     plugins {
         create("python-gradle-plugin") {
             id = "com.pswidersk.python-plugin"
             implementationClass = "com.pswidersk.gradle.python.PythonPlugin"
-            displayName = "Gradle plugin to run Python projects in Miniconda virtual env. https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
+            displayName =
+                "Gradle plugin to run Python projects in Miniconda virtual env. https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
         }
     }
 }
@@ -46,7 +48,7 @@ pluginBundle {
     website = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     vcsUrl = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     description = "Gradle plugin to run Python projects."
-    tags = listOf("python", "venv", "numpy", "miniconda", "conda")
+    tags = listOf("python", "venv", "numpy", "miniconda", "conda", "scipy", "pandas")
 }
 
 publishing {
@@ -55,6 +57,7 @@ publishing {
     }
 }
 
+// Configuring changelog Gradle plugin https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
-    header = closure { "[${project.version}] - ${date()}" }
+    header.set(provider { "[${version.get()}] - ${date()}" })
 }

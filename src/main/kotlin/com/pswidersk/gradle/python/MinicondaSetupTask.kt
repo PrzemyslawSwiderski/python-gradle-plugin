@@ -29,7 +29,13 @@ open class MinicondaSetupTask : DefaultTask() {
         exec {
             it.executable = minicondaInstaller.absolutePath
             val execArgs = if (isWindows)
-                listOf("/InstallationType=JustMe", "/RegisterPython=0", "/AddToPath=0", "/S", "/D=${minicondaDir.absolutePath}")
+                listOf(
+                    "/InstallationType=JustMe",
+                    "/RegisterPython=0",
+                    "/AddToPath=0",
+                    "/S",
+                    "/D=${minicondaDir.absolutePath}"
+                )
             else
                 listOf("-b", "-u", "-p", minicondaDir.absolutePath)
             it.args(execArgs)

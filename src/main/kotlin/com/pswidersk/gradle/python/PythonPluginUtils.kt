@@ -14,7 +14,7 @@ import java.io.File
  * @return the property
  */
 internal inline fun <reified T : Any> ObjectFactory.property(): Property<T> =
-        property(T::class.javaObjectType)
+    property(T::class.javaObjectType)
 
 /**
  * Gets the [PythonPluginExtension] that is installed on the project.
@@ -26,7 +26,8 @@ internal val Project.minicondaVersion: String
     get() = pythonPlugin.minicondaVersion.get()
 
 internal val Project.minicondaDir: File
-    get() = this.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR).resolve("$PYTHON_MINICONDA_DIR-$minicondaVersion")
+    get() = this.rootDir.resolve(GRADLE_FILES_DIR).resolve(PYTHON_ENVS_DIR)
+        .resolve("$PYTHON_MINICONDA_DIR-$minicondaVersion")
 
 internal val Project.pythonEnvName: String
     get() = "python-${project.pythonPlugin.pythonVersion.get()}"
