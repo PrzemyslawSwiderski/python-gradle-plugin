@@ -1,3 +1,5 @@
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=flat)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
+
 # Python Gradle Plugin
 **Now, all what is required to run python scripts is Java.** 
 
