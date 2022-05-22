@@ -46,8 +46,6 @@ open class MinicondaSetupTask : DefaultTask() {
             exec {
                 it.executable = "chmod"
                 it.args("u+x", minicondaInstaller.absolutePath)
-                doFirst {
-                }
             }
         }
     }
