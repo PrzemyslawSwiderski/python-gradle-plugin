@@ -9,7 +9,7 @@ open class EnvSetupTask : DefaultTask() {
     init {
         group = "python"
         description = "Setup python env"
-        onlyIf { !project.pythonEnvDir.exists() }
+        this.onlyIf { !project.pythonEnvDir.exists() }
     }
 
     @TaskAction

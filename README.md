@@ -26,7 +26,7 @@ Additional Python configuration (pip/conda packages installation etc.) can be do
     }
     ```
     Possible properties in plugin extension are:
-   - `pythonVersion` -> Python environment version, default `3.9.2`
+   - `pythonVersion` -> Python environment version, default `3.10.4`
    - `minicondaVersion` -> Miniconda3 version, default `latest`
 3. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following task configuration to build script:
     ```kotlin

@@ -1,6 +1,7 @@
 package com.pswidersk.gradle.python
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecResult
 import java.io.File
@@ -11,7 +12,7 @@ open class MinicondaSetupTask : DefaultTask() {
     init {
         group = "python"
         description = "Setup Miniconda"
-        onlyIf {
+        this.onlyIf {
             !project.condaBinDir.exists()
         }
     }
@@ -21,11 +22,8 @@ open class MinicondaSetupTask : DefaultTask() {
         minicondaDir.mkdirs()
         val minicondaInstaller = minicondaDir.resolve("Miniconda3-$minicondaVersion-$os-$arch.$exec")
         downloadMiniconda(minicondaInstaller)
-        if (!isWindows)
-            exec {
-                it.executable = "chmod"
-                it.args("u+x", minicondaInstaller.absolutePath)
-            }
+        allowInstallerExecution(minicondaInstaller)
+        logger.lifecycle("Installing Miniconda...")
         exec {
             it.executable = minicondaInstaller.absolutePath
             val execArgs = if (isWindows)
@@ -42,7 +40,20 @@ open class MinicondaSetupTask : DefaultTask() {
         }
     }
 
+    private fun Project.allowInstallerExecution(minicondaInstaller: File) {
+        if (!isWindows) {
+            logger.lifecycle("Allowing user to run installer...")
+            exec {
+                it.executable = "chmod"
+                it.args("u+x", minicondaInstaller.absolutePath)
+                doFirst {
+                }
+            }
+        }
+    }
+
     private fun downloadMiniconda(minicondaFile: File) {
+        logger.lifecycle("Downloading Miniconda to: ${minicondaFile.absolutePath}")
         val minicondaInputStream = URL("https://repo.anaconda.com/miniconda/${minicondaFile.name}").openStream()
         minicondaInputStream.use { inputStream ->
             minicondaFile.outputStream().use { outputStream ->

@@ -3,10 +3,10 @@ import org.jetbrains.changelog.date
 plugins {
     `java-gradle-plugin`
     `maven-publish`
-    kotlin("jvm") version "1.5.21"
-    id("com.gradle.plugin-publish") version "0.11.0"
+    kotlin("jvm") version "1.6.21"
+    id("com.gradle.plugin-publish") version "0.21.0"
     id("net.researchgate.release") version "2.8.1"
-    id("org.jetbrains.changelog") version "1.3.0"
+    id("org.jetbrains.changelog") version "1.3.1"
 }
 
 repositories {
@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
 tasks {

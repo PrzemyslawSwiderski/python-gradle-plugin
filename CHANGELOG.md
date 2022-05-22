@@ -2,17 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-### Added
-
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Updated Kotlin to `1.6.21` version.
+- Updated Gradle to `7.4.2` version.
+- Updated default Python version to a `3.10.4`.
 
 ## [1.3.0] - 2021-09-27
 ### Changed
