@@ -1,4 +1,7 @@
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=flat)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)
+![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.4.1-yellowgreen?style=plastic)
+![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.6.21-darkviolet?style=plastic)
 
 # Python Gradle Plugin
 **Now, all what is required to run python scripts is Java.** 
