@@ -2,6 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [1.4.0] - 2022-05-24
 ### Changed
 - Updated Kotlin to `1.6.21` version.
 - Updated Gradle to `7.4.2` version.
@@ -12,9 +25,6 @@ All notable changes to this project will be documented in this file.
 - Updated Kotlin to `1.5.21` version.
 - Updated Gradle to `7.2` version.
 
-
-### Security
-
 ## [1.2.3] - 2021-03-20
 ### Changed
 - Updated default Python version to a `3.9.2`.
@@ -23,14 +33,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Possibility to specify miniconda3 version by `minicondaVersion` property.
 
-
 ### Changed
 - Default Python version updated to a `3.8.5`.
 
 ## [1.2.1] - 2020-06-29
 ### Changed
 - Refactored and simplified plugin. 
-
 
 ### Fixed
 - Conda env fix.
@@ -52,10 +60,8 @@ All notable changes to this project will be documented in this file.
 - Added Miniconda backend.
 - Added test in linux docker.
 
-
 ### Removed
 - Removed Jet brains envs plugin. 
-
 
 ### Changed
 - Plugin structure simplified.
