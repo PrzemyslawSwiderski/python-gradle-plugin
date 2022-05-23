@@ -11,7 +11,7 @@ open class MinicondaSetupTask : DefaultTask() {
 
     init {
         group = "python"
-        description = "Setup Miniconda"
+        description = "Setup $DEFAULT_MINICONDA_RELEASE"
         this.onlyIf {
             !project.condaBinDir.exists()
         }
@@ -20,10 +20,10 @@ open class MinicondaSetupTask : DefaultTask() {
     @TaskAction
     fun setup(): ExecResult = with(project) {
         minicondaDir.mkdirs()
-        val minicondaInstaller = minicondaDir.resolve("Miniconda3-$minicondaVersion-$os-$arch.$exec")
+        val minicondaInstaller = minicondaDir.resolve("$DEFAULT_MINICONDA_RELEASE-$minicondaVersion-$os-$arch.$exec")
         downloadMiniconda(minicondaInstaller)
         allowInstallerExecution(minicondaInstaller)
-        logger.lifecycle("Installing Miniconda...")
+        logger.lifecycle("Installing $DEFAULT_MINICONDA_RELEASE...")
         exec {
             it.executable = minicondaInstaller.absolutePath
             val execArgs = if (isWindows)
@@ -51,7 +51,7 @@ open class MinicondaSetupTask : DefaultTask() {
     }
 
     private fun downloadMiniconda(minicondaFile: File) {
-        logger.lifecycle("Downloading Miniconda to: ${minicondaFile.absolutePath}")
+        logger.lifecycle("Downloading $DEFAULT_MINICONDA_RELEASE to: ${minicondaFile.absolutePath}")
         val minicondaInputStream = URL("https://repo.anaconda.com/miniconda/${minicondaFile.name}").openStream()
         minicondaInputStream.use { inputStream ->
             minicondaFile.outputStream().use { outputStream ->

@@ -1,8 +1,11 @@
 rootProject.name = "python-gradle-plugin"
 
-include("examples:sample-python-project",
-        "examples:geobuf-python-project",
-        "examples:sample-python-project-groovy-dsl")
+include(
+    "examples:sample-python-project",
+    "examples:sample-tts-project",
+    "examples:geobuf-python-project",
+    "examples:sample-python-project-groovy-dsl"
+)
 
 pluginManagement {
     val pythonPluginVersionForExamples: String by settings

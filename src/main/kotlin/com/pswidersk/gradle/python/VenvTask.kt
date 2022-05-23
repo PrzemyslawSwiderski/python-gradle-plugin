@@ -16,7 +16,7 @@ open class VenvTask : DefaultTask() {
 
     init {
         group = PLUGIN_TASKS_GROUP_NAME
-        dependsOn("envSetup")
+        this.dependsOn("envSetup")
     }
 
     /**
@@ -76,19 +76,20 @@ open class VenvTask : DefaultTask() {
 
     @TaskAction
     fun execute(): ExecResult = with(project) {
+        val allArgs = if (isWindows)
+            listOf(
+                "cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "2>&1",
+                "&&", venvExec
+            ) + args
+        else
+            listOf(
+                "sh", "-c", ". $condaActivatePath >/dev/null 2>&1 && " +
+                        "conda activate $pythonEnvName >/dev/null 2>&1 && " +
+                        "$venvExec ${args.joinToString(" ")}"
+            )
+        logger.lifecycle("Executing command: '${allArgs.joinToString(" ")}'")
         return exec {
-            val args = if (isWindows)
-                listOf(
-                    "cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "2>&1",
-                    "&&", venvExec
-                ) + args
-            else
-                listOf(
-                    "sh", "-c", ". $condaActivatePath >/dev/null 2>&1 && " +
-                            "conda activate $pythonEnvName >/dev/null 2>&1 && " +
-                            "$venvExec ${args.joinToString(" ")}"
-                )
-            it.commandLine(args)
+            it.commandLine(allArgs)
             it.workingDir(workingDir)
             it.environment(environment)
             it.standardInput = standardInput

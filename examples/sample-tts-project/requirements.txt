@@ -1,0 +1,2 @@
+# Text to speak lib: https://pypi.org/project/pyttsx3/
+pyttsx3==2.90

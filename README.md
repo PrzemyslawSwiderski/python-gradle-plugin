@@ -50,6 +50,9 @@ Additional Python configuration (pip/conda packages installation etc.) can be do
     gradlew.bat runQuickSort
     ```
 
+5. Enjoy :)
+   ![Quick Sort Python Script run](./quickSortPy.gif)
+
 ### Additional examples alongside with sample PipTasks configurations can be found in `examples` module in this project. 
 
 ## Intellij setup

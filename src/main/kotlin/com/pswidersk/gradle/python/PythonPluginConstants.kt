@@ -18,11 +18,21 @@ const val GRADLE_FILES_DIR = ".gradle"
 const val PYTHON_ENVS_DIR = "python"
 
 /**
- * Name of directory where virtual environments will be stored.
- */
-const val PYTHON_MINICONDA_DIR = "miniconda"
-
-/**
  * Plugin tasks group name.
  */
 const val PLUGIN_TASKS_GROUP_NAME = "python"
+
+/**
+ * Default Python version.
+ */
+const val DEFAULT_PYTHON_VERSION = "3.10.4"
+
+/**
+ * Default Miniconda release.
+ */
+const val DEFAULT_MINICONDA_RELEASE = "Miniconda3"
+
+/**
+ * Default Miniconda version.
+ */
+const val DEFAULT_MINICONDA_VERSION = "latest"

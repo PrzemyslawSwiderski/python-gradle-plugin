@@ -1,11 +1,10 @@
 package com.pswidersk.gradle.python
 
+import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.Project
 import org.gradle.testfixtures.ProjectBuilder
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
@@ -20,7 +19,36 @@ internal class PythonPluginTest {
         val project: Project = ProjectBuilder.builder().build()
         project.pluginManager.apply(PythonPlugin::class.java)
 
-        assertEquals(1, project.plugins.size)
+        assertThat(project.plugins.size).isEqualTo(1)
+    }
+
+    @Test
+    fun `test if properties were correctly set`() {
+        // given
+        val buildFile = File(tempDir, "build.gradle.kts")
+        buildFile.writeText(
+            """
+            import com.pswidersk.gradle.python.VenvTask
+            
+            plugins {
+                id("com.pswidersk.python-plugin")
+            }
+        """.trimIndent()
+        )
+        val runner = GradleRunner.create()
+            .withPluginClasspath()
+            .withProjectDir(tempDir)
+            .forwardOutput()
+            .withArguments(":listPluginProperties")
+
+        // when
+        val runResult = runner.build()
+
+        // then
+        with(runResult) {
+            assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.UP_TO_DATE)
+            assertThat(output).contains("Miniconda3 version: latest")
+        }
     }
 
     @Test
@@ -61,16 +89,16 @@ internal class PythonPluginTest {
 
         // then
         with(firstRunResult) {
-            assertEquals(TaskOutcome.SUCCESS, task(":minicondaSetup")!!.outcome)
-            assertEquals(TaskOutcome.SUCCESS, task(":envSetup")!!.outcome)
-            assertEquals(TaskOutcome.SUCCESS, task(":runTestScript")!!.outcome)
-            assertTrue { output.contains(pythonMessage) }
+            assertThat(task(":minicondaSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(output).contains(pythonMessage)
         }
         with(secondRunResult) {
-            assertEquals(TaskOutcome.SKIPPED, task(":minicondaSetup")!!.outcome)
-            assertEquals(TaskOutcome.SKIPPED, task(":envSetup")!!.outcome)
-            assertEquals(TaskOutcome.SUCCESS, task(":runTestScript")!!.outcome)
-            assertTrue { output.contains(pythonMessage) }
+            assertThat(task(":minicondaSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
+            assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
+            assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(output).contains(pythonMessage)
         }
     }
 }
