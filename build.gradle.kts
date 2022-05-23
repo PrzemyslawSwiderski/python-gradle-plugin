@@ -3,7 +3,7 @@ import org.jetbrains.changelog.date
 plugins {
     `java-gradle-plugin`
     `maven-publish`
-    `jacoco`
+    jacoco
     kotlin("jvm") version "1.6.21"
     id("com.gradle.plugin-publish") version "0.21.0"
     id("net.researchgate.release") version "2.8.1"
@@ -29,6 +29,9 @@ tasks {
 
     }
     jacocoTestReport {
+        reports {
+            xml.required.set(true)
+        }
         dependsOn(test) // tests are required to run before generating the report
     }
     "afterReleaseBuild" {
