@@ -3,14 +3,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI
+name: Build
 
-on: [ push ]
+on: [ push, pull_request ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Setup Java JDK
@@ -18,12 +17,15 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+          cache: 'gradle'
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.4
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build and Test with Gradle
+        run: ./gradlew --no-daemon --continue build
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.36
         if: always()
         with:
           files: build/test-results/**/*.xml
+      - name: Codecov
+        uses: codecov/codecov-action@v3.1.0

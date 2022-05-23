@@ -3,6 +3,7 @@ import org.jetbrains.changelog.date
 plugins {
     `java-gradle-plugin`
     `maven-publish`
+    `jacoco`
     kotlin("jvm") version "1.6.21"
     id("com.gradle.plugin-publish") version "0.21.0"
     id("net.researchgate.release") version "2.8.1"
@@ -24,8 +25,13 @@ tasks {
     test {
         useJUnitPlatform()
         testLogging.showStandardStreams = true
+        finalizedBy(jacocoTestReport) // report is always generated after tests run
+
     }
-    "afterReleaseBuild"{
+    jacocoTestReport {
+        dependsOn(test) // tests are required to run before generating the report
+    }
+    "afterReleaseBuild" {
         dependsOn("publish", "publishPlugins", "patchChangelog")
     }
     compileKotlin {
