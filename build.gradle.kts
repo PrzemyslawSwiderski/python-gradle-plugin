@@ -27,7 +27,11 @@ tasks {
         testLogging.showStandardStreams = true
     }
     "afterReleaseBuild" {
-        dependsOn("publish", "publishPlugins", "patchChangelog")
+        dependsOn(
+            "publish",
+//            "publishPlugins",
+            "patchChangelog"
+        )
     }
     compileKotlin {
         kotlinOptions {
