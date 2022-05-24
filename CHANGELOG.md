@@ -2,17 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-### Added
-
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Fixed `listPluginProperties` task.
 
 ## [1.4.0] - 2022-05-24
 ### Changed

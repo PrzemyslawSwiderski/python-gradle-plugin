@@ -21,6 +21,12 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
 tasks {
     test {
         useJUnitPlatform()
@@ -29,7 +35,7 @@ tasks {
     "afterReleaseBuild" {
         dependsOn(
             "publish",
-//            "publishPlugins",
+            "publishPlugins",
             "patchChangelog"
         )
     }
