@@ -14,6 +14,19 @@ All notable changes to this project will be documented in this file.
 
 ### Security
 
+## [1.5.0] - 2022-05-24
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 ## [1.4.1] - 2022-05-24
 ### Changed
 - Fixed `listPluginProperties` task.
