@@ -15,21 +15,10 @@ All notable changes to this project will be documented in this file.
 ### Security
 
 ## [1.5.0] - 2022-05-24
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
-
-## [1.4.1] - 2022-05-24
 ### Changed
 - Fixed `listPluginProperties` task.
+- Plugin is compatible with JDK 1.8 by using a toolchain.
+- Updated Project Workflow and Gradle build.
 
 ## [1.4.0] - 2022-05-24
 ### Changed
