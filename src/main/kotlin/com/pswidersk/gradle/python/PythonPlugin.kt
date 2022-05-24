@@ -10,8 +10,9 @@ class PythonPlugin : Plugin<Project> {
         tasks.register("listPluginProperties") {
             group = "python"
             description = "List basic plugin properties."
-            logger.lifecycle(
-                """
+            it.doFirst {
+                logger.lifecycle(
+                    """
                 Operating system: $os
                 Arch: $arch
                 Python: $pythonEnvName
@@ -21,7 +22,8 @@ class PythonPlugin : Plugin<Project> {
                 Conda activate path: $condaActivatePath
                 Conda exec location: $condaExec
             """.trimIndent()
-            )
+                )
+            }
         }
         val minicondaSetupTask = tasks.register("minicondaSetup", MinicondaSetupTask::class.java)
         tasks.register("envSetup", EnvSetupTask::class.java) {

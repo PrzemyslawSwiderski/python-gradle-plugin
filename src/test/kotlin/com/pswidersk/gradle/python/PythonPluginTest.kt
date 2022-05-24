@@ -46,7 +46,7 @@ internal class PythonPluginTest {
 
         // then
         with(runResult) {
-            assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.UP_TO_DATE)
+            assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains("Miniconda3 version: latest")
         }
     }

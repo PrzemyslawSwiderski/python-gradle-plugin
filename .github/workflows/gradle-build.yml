@@ -29,3 +29,5 @@ jobs:
           files: build/test-results/**/*.xml
       - name: Codecov
         uses: codecov/codecov-action@v3.1.0
+        with:
+          files: build/reports/kover/report.xml
