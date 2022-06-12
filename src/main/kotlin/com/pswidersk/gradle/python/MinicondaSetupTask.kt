@@ -1,30 +1,39 @@
 package com.pswidersk.gradle.python
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.Project
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
+import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
 import java.io.File
 import java.net.URL
+import javax.inject.Inject
 
-open class MinicondaSetupTask : DefaultTask() {
+abstract class MinicondaSetupTask @Inject constructor(
+    private val execOperations: ExecOperations,
+) : DefaultTask() {
+
+    @Internal
+    val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
 
     init {
         group = "python"
         description = "Setup $DEFAULT_MINICONDA_RELEASE"
         this.onlyIf {
-            !project.condaBinDir.exists()
+            !pythonPluginExtension.condaBinDir.get().asFile.exists()
         }
     }
 
     @TaskAction
-    fun setup(): ExecResult = with(project) {
-        minicondaDir.mkdirs()
-        val minicondaInstaller = minicondaDir.resolve("$DEFAULT_MINICONDA_RELEASE-$minicondaVersion-$os-$arch.$exec")
+    fun setup(): ExecResult = with(pythonPluginExtension) {
+        val minicondaDirFile = minicondaDir.get().asFile
+        minicondaDirFile.mkdirs()
+        val minicondaInstaller =
+            minicondaDirFile.resolve("$DEFAULT_MINICONDA_RELEASE-${minicondaVersion.get()}-$os-$arch.$exec")
         downloadMiniconda(minicondaInstaller)
         allowInstallerExecution(minicondaInstaller)
         logger.lifecycle("Installing $DEFAULT_MINICONDA_RELEASE...")
-        exec {
+        execOperations.exec {
             it.executable = minicondaInstaller.absolutePath
             val execArgs = if (isWindows)
                 listOf(
@@ -32,18 +41,18 @@ open class MinicondaSetupTask : DefaultTask() {
                     "/RegisterPython=0",
                     "/AddToPath=0",
                     "/S",
-                    "/D=${minicondaDir.absolutePath}"
+                    "/D=${minicondaDirFile.absolutePath}"
                 )
             else
-                listOf("-b", "-u", "-p", minicondaDir.absolutePath)
+                listOf("-b", "-u", "-p", minicondaDirFile.absolutePath)
             it.args(execArgs)
         }
     }
 
-    private fun Project.allowInstallerExecution(minicondaInstaller: File) {
+    private fun allowInstallerExecution(minicondaInstaller: File) {
         if (!isWindows) {
             logger.lifecycle("Allowing user to run installer...")
-            exec {
+            execOperations.exec {
                 it.executable = "chmod"
                 it.args("u+x", minicondaInstaller.absolutePath)
             }
