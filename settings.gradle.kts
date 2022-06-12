@@ -1,10 +1,11 @@
 rootProject.name = "python-gradle-plugin"
 
 include(
-    "examples:sample-python-project",
-    "examples:sample-tts-project",
     "examples:geobuf-python-project",
-    "examples:sample-python-project-groovy-dsl"
+    "examples:sample-flask-project",
+    "examples:sample-python-project",
+    "examples:sample-python-project-groovy-dsl",
+    "examples:sample-tts-project"
 )
 
 pluginManagement {
