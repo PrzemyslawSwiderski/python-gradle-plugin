@@ -1,30 +1,45 @@
 package com.pswidersk.gradle.python
 
+import javax.inject.Inject
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Internal
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
+import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
-import javax.inject.Inject
 
 abstract class EnvSetupTask @Inject constructor(
     private val execOperations: ExecOperations,
 ) : DefaultTask() {
 
-    @Internal
-    val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
+    @get:InputFile
+    abstract val condaExec: RegularFileProperty
+    @get:Input
+    abstract val pythonEnvName: Property<String>
+    @get:Input
+    abstract val pythonVersion: Property<String>
+
+    @get:OutputDirectory
+    abstract val pythonEnvDir: DirectoryProperty
 
     init {
         group = "python"
         description = "Setup python env"
-        this.onlyIf { !pythonPluginExtension.pythonEnvDir.get().asFile.exists() }
     }
 
     @TaskAction
-    fun setup(): ExecResult = with(pythonPluginExtension) {
-        execOperations.exec {
-            it.executable = condaExec.get().asFile.absolutePath
-            it.args(listOf("create", "--name", pythonEnvName.get(), "python=${pythonVersion.get()}"))
+    fun setup(): ExecResult {
+        val condaExec = condaExec.get().asFile.canonicalPath
+        val pythonVersion = pythonVersion.get()
+        val pythonEnvName = pythonEnvName.get()
+
+        return execOperations.exec {
+            executable = condaExec
+            args(listOf("create", "--name", pythonEnvName, "python=${pythonVersion}"))
         }
     }
 }

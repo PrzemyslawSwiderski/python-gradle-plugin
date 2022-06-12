@@ -1,12 +1,12 @@
 package com.pswidersk.gradle.python
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.TaskAction
 
 abstract class ListPropertiesTask : DefaultTask() {
 
-    @Internal
+    @get:Nested
     val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
 
     init {

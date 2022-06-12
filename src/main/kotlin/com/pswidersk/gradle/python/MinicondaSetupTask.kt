@@ -1,19 +1,19 @@
 package com.pswidersk.gradle.python
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
 import java.io.File
 import java.net.URL
 import javax.inject.Inject
+import org.gradle.api.tasks.Nested
 
 abstract class MinicondaSetupTask @Inject constructor(
     private val execOperations: ExecOperations,
 ) : DefaultTask() {
 
-    @Internal
+    @get:Nested
     val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
 
     init {
@@ -34,7 +34,7 @@ abstract class MinicondaSetupTask @Inject constructor(
         allowInstallerExecution(minicondaInstaller)
         logger.lifecycle("Installing $DEFAULT_MINICONDA_RELEASE...")
         execOperations.exec {
-            it.executable = minicondaInstaller.absolutePath
+            executable = minicondaInstaller.absolutePath
             val execArgs = if (isWindows)
                 listOf(
                     "/InstallationType=JustMe",
@@ -45,7 +45,7 @@ abstract class MinicondaSetupTask @Inject constructor(
                 )
             else
                 listOf("-b", "-u", "-p", minicondaDirFile.absolutePath)
-            it.args(execArgs)
+            args(execArgs)
         }
     }
 
@@ -53,8 +53,8 @@ abstract class MinicondaSetupTask @Inject constructor(
         if (!isWindows) {
             logger.lifecycle("Allowing user to run installer...")
             execOperations.exec {
-                it.executable = "chmod"
-                it.args("u+x", minicondaInstaller.absolutePath)
+                executable = "chmod"
+                args("u+x", minicondaInstaller.absolutePath)
             }
         }
     }

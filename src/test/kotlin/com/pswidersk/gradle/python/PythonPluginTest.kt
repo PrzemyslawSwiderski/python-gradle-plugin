@@ -156,7 +156,7 @@ internal class PythonPluginTest {
         }
         with(secondRunResult) {
             assertThat(task(":minicondaSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
-            assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
+            assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.UP_TO_DATE)
             assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(pythonMessage)
         }

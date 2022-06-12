@@ -1,7 +1,7 @@
 import org.jetbrains.changelog.date
 
 plugins {
-    `java-gradle-plugin`
+    `kotlin-dsl`
     `maven-publish`
     kotlin("jvm") version "1.6.21"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"

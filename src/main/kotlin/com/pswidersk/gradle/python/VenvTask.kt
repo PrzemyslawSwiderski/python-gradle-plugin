@@ -1,20 +1,22 @@
 package com.pswidersk.gradle.python
 
+import java.io.InputStream
+import java.io.OutputStream
+import javax.inject.Inject
 import org.apache.tools.ant.types.Commandline
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.streams.SafeStreams
-import java.io.InputStream
-import java.io.OutputStream
-import javax.inject.Inject
 
 abstract class VenvTask @Inject constructor(
     private val execOperations: ExecOperations,
@@ -22,13 +24,12 @@ abstract class VenvTask @Inject constructor(
     projectLayout: ProjectLayout
 ) : DefaultTask() {
 
-    @Internal
+    @get:Nested
     val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
 
     init {
         group = PLUGIN_TASKS_GROUP_NAME
         this.dependsOn("envSetup")
-        notCompatibleWithConfigurationCache("Input and Output streams are disallowed fields for config cache.")
     }
 
     /**
@@ -44,16 +45,19 @@ abstract class VenvTask @Inject constructor(
      *
      */
     @Input
-    val workingDir: DirectoryProperty = objects.directoryProperty().convention(projectLayout.projectDirectory)
+    val workingDir: DirectoryProperty =
+        objects.directoryProperty().convention(projectLayout.projectDirectory)
 
-    @Input
-    var environment: Map<String, Any> = mapOf()
+    @get:Input
+    abstract val environment: MapProperty<String, String>
 
-    @Input
-    var standardInput: InputStream = SafeStreams.emptyInput()
+    @get:Internal
+    var standardInput: String? = null
+        private set
 
-    @Input
-    var standardOutput: OutputStream = SafeStreams.systemOut()
+    @get:Internal
+    var standardOutput: String? = null
+        private set
 
     /**
      * Parses an argument list from {@code args} and passes it to args.
@@ -88,6 +92,9 @@ abstract class VenvTask @Inject constructor(
 
     @TaskAction
     fun execute(): ExecResult = with(pythonPluginExtension) {
+        val capturedInput: InputStream = SafeStreams.emptyInput()
+        val capturedOutput: OutputStream = SafeStreams.systemOut()
+
         val allArgs = if (isWindows)
             listOf(
                 "cmd",
@@ -102,17 +109,21 @@ abstract class VenvTask @Inject constructor(
         else
             listOf(
                 "sh", "-c", ". ${condaActivatePath.get()} >/dev/null 2>&1 && " +
-                        "conda activate ${pythonEnvName.get()} >/dev/null 2>&1 && " +
-                        "$venvExec ${args.joinToString(" ")}"
+                    "conda activate ${pythonEnvName.get()} >/dev/null 2>&1 && " +
+                    "$venvExec ${args.joinToString(" ")}"
             )
         logger.lifecycle("Executing command: '${allArgs.joinToString(" ")}'")
-        execOperations.exec {
-            it.commandLine(allArgs)
-            it.workingDir(workingDir)
-            it.environment(environment)
-            it.standardInput = standardInput
-            it.standardOutput = standardOutput
+        val result = execOperations.exec {
+            commandLine(allArgs)
+            workingDir(workingDir)
+            environment(environment)
+            standardInput = capturedInput
+            standardOutput = capturedOutput
         }
+
+        standardInput = capturedInput.toString()
+        standardOutput = capturedOutput.toString()
+
+        result
     }
 }
-
