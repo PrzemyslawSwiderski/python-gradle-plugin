@@ -1,7 +1,6 @@
 package com.pswidersk.gradle.python
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
@@ -13,8 +12,7 @@ abstract class MinicondaSetupTask @Inject constructor(
     private val execOperations: ExecOperations,
 ) : DefaultTask() {
 
-    @Internal
-    val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
+    private val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
 
     init {
         group = "python"
@@ -34,17 +32,17 @@ abstract class MinicondaSetupTask @Inject constructor(
         allowInstallerExecution(minicondaInstaller)
         logger.lifecycle("Installing $DEFAULT_MINICONDA_RELEASE...")
         execOperations.exec {
-            it.executable = minicondaInstaller.absolutePath
+            it.executable = minicondaInstaller.canonicalPath
             val execArgs = if (isWindows)
                 listOf(
                     "/InstallationType=JustMe",
                     "/RegisterPython=0",
                     "/AddToPath=0",
                     "/S",
-                    "/D=${minicondaDirFile.absolutePath}"
+                    "/D=${minicondaDirFile.canonicalPath}"
                 )
             else
-                listOf("-b", "-u", "-p", minicondaDirFile.absolutePath)
+                listOf("-b", "-u", "-p", minicondaDirFile.canonicalPath)
             it.args(execArgs)
         }
     }
@@ -54,13 +52,13 @@ abstract class MinicondaSetupTask @Inject constructor(
             logger.lifecycle("Allowing user to run installer...")
             execOperations.exec {
                 it.executable = "chmod"
-                it.args("u+x", minicondaInstaller.absolutePath)
+                it.args("u+x", minicondaInstaller.canonicalPath)
             }
         }
     }
 
     private fun downloadMiniconda(minicondaFile: File) {
-        logger.lifecycle("Downloading $DEFAULT_MINICONDA_RELEASE to: ${minicondaFile.absolutePath}")
+        logger.lifecycle("Downloading $DEFAULT_MINICONDA_RELEASE to: ${minicondaFile.canonicalPath}")
         val minicondaInputStream = URL("https://repo.anaconda.com/miniconda/${minicondaFile.name}").openStream()
         minicondaInputStream.use { inputStream ->
             minicondaFile.outputStream().use { outputStream ->

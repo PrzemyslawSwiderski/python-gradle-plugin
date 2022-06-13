@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 - Gradle [configuration cache](https://docs.gradle.org/current/userguide/configuration_cache.html) support.
 - Added new `installDir` property support to customize installation directory.
+- Replaced `standardInput` and `standardOutput` `VenvTask` fields with optional `inputFile` and `outputFile` so that it
+  is supported by configuration cache and is Gradle recommended approach.
 
 ## [1.5.0] - 2022-05-24
 
