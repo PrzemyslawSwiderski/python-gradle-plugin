@@ -24,7 +24,13 @@ open class MinicondaSetupTask : DefaultTask() {
     fun setup(): ExecResult = with(project) {
         minicondaDir.mkdirs()
         val minicondaInstaller = minicondaDir.resolve("$DEFAULT_MINICONDA_RELEASE-$minicondaVersion-$os-$arch.$exec")
-        downloadMiniconda(minicondaRepoUrl, minicondaRepoUsername, minicondaRepoPassword, minicondaInstaller)
+        downloadMiniconda(
+            minicondaRepoUrl,
+            minicondaRepoUsername,
+            minicondaRepoPassword,
+            minicondaRepoHeaders,
+            minicondaInstaller
+        )
         allowInstallerExecution(minicondaInstaller)
         logger.lifecycle("Installing $DEFAULT_MINICONDA_RELEASE...")
         exec {
@@ -57,6 +63,7 @@ open class MinicondaSetupTask : DefaultTask() {
         minicondaRepoUrl: String,
         minicondaRepoUsername: String,
         minicondaRepoPassword: String,
+        minicondaRepoHeaders: Map<String, String>,
         minicondaFile: File
     ) {
         logger.lifecycle("Downloading $DEFAULT_MINICONDA_RELEASE to: ${minicondaFile.absolutePath} from: $minicondaRepoUrl")
@@ -64,6 +71,7 @@ open class MinicondaSetupTask : DefaultTask() {
         if (minicondaRepoUsername.isNotBlank()) {
             addBasicAuth(minicondaRepoUsername, minicondaRepoPassword, connection)
         }
+        minicondaRepoHeaders.forEach { connection.addRequestProperty(it.key, it.value) }
         val minicondaInputStream = connection.getInputStream()
         minicondaInputStream.use { inputStream ->
             minicondaFile.outputStream().use { outputStream ->
@@ -77,8 +85,9 @@ open class MinicondaSetupTask : DefaultTask() {
         minicondaRepoPassword: String,
         connection: URLConnection
     ) {
-        val userpass = "$minicondaRepoUsername:$minicondaRepoPassword"
-        val basicAuth = "Basic " + String(Base64.getEncoder().encode(userpass.toByteArray()))
+        logger.lifecycle("Adding basic authorization headers for '$minicondaRepoUsername' user.")
+        val userAndPass = "$minicondaRepoUsername:$minicondaRepoPassword"
+        val basicAuth = "Basic ${String(Base64.getEncoder().encode(userAndPass.toByteArray()))}"
         connection.setRequestProperty("Authorization", basicAuth)
     }
 }

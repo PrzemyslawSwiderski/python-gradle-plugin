@@ -2,6 +2,7 @@ package com.pswidersk.gradle.python
 
 import org.gradle.api.Project
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import javax.inject.Inject
 
@@ -21,4 +22,6 @@ open class PythonPluginExtension @Inject constructor(
 
     val minicondaRepoPassword: Property<String> = objects.property<String>().convention("")
 
+    val minicondaRepoHeaders: MapProperty<String, String> =
+        objects.mapProperty(String::class.java, String::class.java)
 }

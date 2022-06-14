@@ -34,6 +34,9 @@ internal val Project.minicondaRepoUsername: String
 internal val Project.minicondaRepoPassword: String
     get() = pythonPlugin.minicondaRepoPassword.get()
 
+internal val Project.minicondaRepoHeaders: Map<String, String>
+    get() = pythonPlugin.minicondaRepoHeaders.get()
+
 internal val Project.minicondaDir: File
     get() = this.rootDir.resolve(GRADLE_FILES_DIR)
         .resolve(PYTHON_ENVS_DIR)

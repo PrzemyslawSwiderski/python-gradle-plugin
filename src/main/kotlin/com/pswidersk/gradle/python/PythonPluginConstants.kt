@@ -38,6 +38,6 @@ const val DEFAULT_MINICONDA_RELEASE = "Miniconda3"
 const val DEFAULT_MINICONDA_VERSION = "latest"
 
 /**
- * Default Miniconda version.
+ * Default Miniconda repository URL.
  */
 const val DEFAULT_MINICONDA_REPO_URL = "https://repo.anaconda.com/miniconda"
