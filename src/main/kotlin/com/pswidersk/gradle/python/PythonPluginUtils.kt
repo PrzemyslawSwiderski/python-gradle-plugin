@@ -25,6 +25,15 @@ internal val Project.pythonPlugin: PythonPluginExtension
 internal val Project.minicondaVersion: String
     get() = pythonPlugin.minicondaVersion.get()
 
+internal val Project.minicondaRepoUrl: String
+    get() = pythonPlugin.minicondaRepoUrl.get()
+
+internal val Project.minicondaRepoUsername: String
+    get() = pythonPlugin.minicondaRepoUsername.get()
+
+internal val Project.minicondaRepoPassword: String
+    get() = pythonPlugin.minicondaRepoPassword.get()
+
 internal val Project.minicondaDir: File
     get() = this.rootDir.resolve(GRADLE_FILES_DIR)
         .resolve(PYTHON_ENVS_DIR)

@@ -15,4 +15,10 @@ open class PythonPluginExtension @Inject constructor(
 
     val minicondaVersion: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_VERSION)
 
+    val minicondaRepoUrl: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_REPO_URL)
+
+    val minicondaRepoUsername: Property<String> = objects.property<String>().convention("")
+
+    val minicondaRepoPassword: Property<String> = objects.property<String>().convention("")
+
 }
