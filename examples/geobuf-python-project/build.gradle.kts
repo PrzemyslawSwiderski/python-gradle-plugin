@@ -12,7 +12,7 @@ tasks {
 
     val pipInstall by registering(VenvTask::class) {
         venvExec = "pip"
-        args = listOf("install", "geobuf==1.1.1")
+        args = listOf("install", "geobuf==1.1.1", "protobuf==3.20.1")
     }
 
     register<VenvTask>("runGeobufEncode") {

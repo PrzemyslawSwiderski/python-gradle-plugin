@@ -65,7 +65,10 @@ Plugin default behavior can be adjusted by specifying the following properties:
 - `minicondaRepoUrl` -> repository URL which should be used to download binaries,
   default `https://repo.anaconda.com/miniconda`
 - `minicondaRepoUsername` -> username for the basic auth if needed, empty by default
-- `minicondaRepoPassword` -> password for the basic auth, used if `minicondaRepoUsername` is specified, empty by default
+- `minicondaRepoPassword` -> password for the basic auth, used if `minicondaRepoUsername` is specified, should not be
+  passed directly in script file, can be supplied
+  by [gradle properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
+  , empty by default
 - `minicondaRepoHeaders` -> additional optional headers used for connection, empty map by default
 
 - Sample extension config in `build.gradle.kts` file:
@@ -76,7 +79,7 @@ pythonPlugin {
     minicondaVersion.set("py38_4.8.3")
     minicondaRepoUrl.set("https://nexus.com/repositories/miniconda")
     minicondaRepoUsername.set("user")
-    minicondaRepoPassword.set("pass")
+    minicondaRepoPassword.set(extra["miniconda.repo.pass"].toString())
     minicondaRepoHeaders.set(
         mapOf(
             "CUSTOM_HEADER_1" to "headerValue1",
