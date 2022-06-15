@@ -11,6 +11,11 @@ tasks {
         args = listOf("install", "--isolated", "-r", "requirements.txt")
     }
 
+    register<VenvTask>("condaListEnv") {
+        venvExec = "conda"
+        args = listOf("env", "list")
+    }
+
     register<VenvTask>("runFlaskApp") {
         venvExec = "flask"
         args = listOf("run")

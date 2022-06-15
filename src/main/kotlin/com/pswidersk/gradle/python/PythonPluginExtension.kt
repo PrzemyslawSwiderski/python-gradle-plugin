@@ -5,6 +5,7 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.internal.file.FileFactory
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.internal.os.OperatingSystem
@@ -21,6 +22,15 @@ abstract class PythonPluginExtension @Inject constructor(
     val pythonVersion: Property<String> = objects.property<String>().convention(DEFAULT_PYTHON_VERSION)
 
     val minicondaVersion: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_VERSION)
+
+    val minicondaRepoUrl: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_REPO_URL)
+
+    val minicondaRepoUsername: Property<String> = objects.property<String>().convention("")
+
+    val minicondaRepoPassword: Property<String> = objects.property<String>().convention("")
+
+    val minicondaRepoHeaders: MapProperty<String, String> =
+        objects.mapProperty(String::class.java, String::class.java)
 
     val installDir: DirectoryProperty = objects.directoryProperty().convention(
         providerFactory.provider {

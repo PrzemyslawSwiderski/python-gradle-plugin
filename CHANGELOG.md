@@ -11,6 +11,12 @@ All notable changes to this project will be documented in this file.
 - Replaced `standardInput` and `standardOutput` `VenvTask` fields with optional `inputFile` and `outputFile` so that it
   is supported by configuration cache and is Gradle recommended approach.
 
+## [1.6.0] - 2022-06-14
+
+### Added
+- Added new `minicondaRepoUrl`, `minicondaRepoUsername`, `minicondaRepoPassword` and `minicondaRepoHeaders` parameters
+  in the `pythonPlugin` extension.
+
 ## [1.5.0] - 2022-05-24
 
 ### Changed

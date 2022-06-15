@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)
-![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.4.1-yellowgreen?style=plastic)
-![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.6.21-darkviolet?style=plastic)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
+[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.4.1-yellowgreen?style=plastic)](https://gradle.org/releases/)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.6.21-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
 
@@ -35,11 +35,6 @@ in `build.gradle.kts` file.
         pythonVersion.set("3.8.2")
     }
     ```
-   Possible properties in plugin extension are:
-   - `pythonVersion` -> Python environment version, default `3.10.4`
-   - `minicondaVersion` -> Miniconda3 version, default `latest`
-   - `installDir` -> Working directory of plugin where Miniconda and Python virtual environment will be
-     installed, default `<rootProjectDirectory>/.gradle/python`
 3. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following
    task configuration to build script:
     ```kotlin
@@ -61,6 +56,39 @@ in `build.gradle.kts` file.
 5. Enjoy :)
    ![Quick Sort Python Script run](./quickSortPy.gif)
 
+### Python Plugin properties
+
+Plugin default behavior can be adjusted by specifying the following properties:
+
+- `pythonVersion` -> Python environment version, default `3.10.4`
+- `minicondaVersion` -> Miniconda3 version, default `latest`
+- `minicondaRepoUrl` -> repository URL which should be used to download binaries,
+  default `https://repo.anaconda.com/miniconda`
+- `minicondaRepoUsername` -> username for the basic auth if needed, empty by default
+- `minicondaRepoPassword` -> password for the basic auth, used if `minicondaRepoUsername` is specified, should not be
+  passed directly in script file, can be supplied
+  by [gradle properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
+  , empty by default
+- `minicondaRepoHeaders` -> additional optional headers used for connection, empty map by default
+
+- Sample extension config in `build.gradle.kts` file:
+
+```kotlin
+pythonPlugin {
+    pythonVersion.set("3.8.2")
+    minicondaVersion.set("py38_4.8.3")
+    minicondaRepoUrl.set("https://nexus.com/repositories/miniconda")
+    minicondaRepoUsername.set("user")
+    minicondaRepoPassword.set(extra["miniconda.repo.pass"].toString())
+    minicondaRepoHeaders.set(
+        mapOf(
+            "CUSTOM_HEADER_1" to "headerValue1",
+            "CUSTOM_HEADER_2" to "headerValue2"
+        )
+    )
+}
+```
+
 ### Additional examples alongside with sample PipTasks configurations can be found in `examples` module in this project.
 
 ## Intellij setup
@@ -68,13 +96,18 @@ in `build.gradle.kts` file.
 * To have autocomplete and modules properly recognized in Intellij Idea simply point python executable as described in:
   https://www.jetbrains.com/help/idea/configuring-python-sdk.html
 * To have properly recognized imported source modules in tests, right click on sources directory (for example `main`)
-  -> `Mark Direcotry as` -> `as Sources root`.
+  -> `Mark Directory as` -> `as Sources root`.
 
-### Python exec locations (`*` is a configured python version)
+### Conda install directories (`$` is a configured miniconda version)
 
-#### Linux - `.gradle/python/pythonVenvs/virtualenv-*/bin/python`
+#### Linux - `<root-project-dir>/.gradle/python/Linux/Miniconda3-$`
 
-#### Windows - `.gradle/python/pythonVenvs/virtualenv-*/Scripts/python.exe`
+#### Windows - `<root-project-dir>/.gradle/python/Windows/Miniconda3-$`
+
+#### MacOSX - `<root-project-dir>/.gradle/python/MacOSX/Miniconda3-$`
+
+If you are familiar with [conda](https://conda.io/projects/conda/en/latest/user-guide/index.html) you can also execute
+conda commands like `conda activate` or `conda install` directly with the binaries from the catalogs above.
 
 ## Notes
 
