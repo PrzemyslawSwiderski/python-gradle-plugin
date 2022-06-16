@@ -64,14 +64,16 @@ Plugin default behavior can be adjusted by specifying the following properties:
 - `minicondaVersion` -> Miniconda3 version, default `latest`
 - `minicondaRepoUrl` -> repository URL which should be used to download binaries,
   default `https://repo.anaconda.com/miniconda`
-- `minicondaRepoUsername` -> username for the basic auth if needed, empty by default
+- `minicondaRepoUsername` -> username for the basic auth if needed, absent by default
 - `minicondaRepoPassword` -> password for the basic auth, used if `minicondaRepoUsername` is specified, should not be
   passed directly in script file, can be supplied
   by [gradle properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
-  , empty by default
+  , absent by default
 - `minicondaRepoHeaders` -> additional optional headers used for connection, empty map by default
+- `installDir` -> property to customize conda installation directory, equals to `<root-project-dir>/.gradle/python` by
+  default
 
-- Sample extension config in `build.gradle.kts` file:
+Sample extension configuration inside of `build.gradle.kts` file:
 
 ```kotlin
 pythonPlugin {
@@ -86,6 +88,31 @@ pythonPlugin {
             "CUSTOM_HEADER_2" to "headerValue2"
         )
     )
+    installDir.set(file(buildDir.resolve("python")))
+}
+```
+
+### `VenvTask` task properties
+
+All tasks which should be executed in virtual env can be customized as well by the following fields:
+
+- `venvExec` -> name of executable from virtual env which will be executed, `python` by default
+- `inputFile` -> optional input file, none by default
+- `outputFile` -> optional output file, none by default
+- `args` -> list of arguments for a `venvExec` executable, empty by default
+- `workingDir` -> working directory, project directory by default
+- `environment` -> map with environment variables to apply during the execution, empty by default
+
+Sample `VenvTask` configuration inside of `build.gradle.kts` file:
+
+```kotlin
+register<VenvTask>("runPythonScript") {
+    venvExec = "python"
+    inputFile.set(file("inputFile.txt"))
+    outputFile.set(file("outputFile.txt"))
+    args = listOf("--some-flag", "arg1")
+    workingDir.set(projectDir.resolve("main"))
+    environment = mapOf("ENV_VAR_TO_PRINT" to "sampleEnvVar")
 }
 ```
 

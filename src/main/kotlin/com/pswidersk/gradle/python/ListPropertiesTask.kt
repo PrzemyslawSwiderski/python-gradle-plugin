@@ -21,6 +21,7 @@ abstract class ListPropertiesTask : DefaultTask() {
                 Install directory: ${installDir.get()}
                 Python: ${pythonEnvName.get()}
                 Python environment: ${pythonEnvDir.get()}
+                Conda repo URL: ${minicondaRepoUrl.get()}
                 $DEFAULT_MINICONDA_RELEASE version: ${minicondaVersion.get()}
                 $DEFAULT_MINICONDA_RELEASE directory: ${minicondaDir.get()}
                 Conda activate path: ${condaActivatePath.get()}

@@ -9,6 +9,7 @@ import org.gradle.api.provider.MapProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.internal.os.OperatingSystem
+import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
 import javax.inject.Inject
 
@@ -25,12 +26,11 @@ abstract class PythonPluginExtension @Inject constructor(
 
     val minicondaRepoUrl: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_REPO_URL)
 
-    val minicondaRepoUsername: Property<String> = objects.property<String>().convention("")
+    val minicondaRepoUsername: Property<String> = objects.property()
 
-    val minicondaRepoPassword: Property<String> = objects.property<String>().convention("")
+    val minicondaRepoPassword: Property<String> = objects.property()
 
-    val minicondaRepoHeaders: MapProperty<String, String> =
-        objects.mapProperty(String::class.java, String::class.java)
+    val minicondaRepoHeaders: MapProperty<String, String> = objects.mapProperty()
 
     val installDir: DirectoryProperty = objects.directoryProperty().convention(
         providerFactory.provider {
