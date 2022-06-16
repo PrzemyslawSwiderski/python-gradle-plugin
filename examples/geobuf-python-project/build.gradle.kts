@@ -6,6 +6,8 @@ plugins {
 
 pythonPlugin {
     pythonVersion.set("3.8.3")
+// TODO: Uncomment below after upgrading pythonPluginVersionForExamples to 1.5.1
+//    installDir.set(file(buildDir.resolve("python"))) // setting different install directory this time
 }
 
 tasks {
@@ -17,6 +19,9 @@ tasks {
 
     register<VenvTask>("runGeobufEncode") {
         venvExec = "geobuf"
+// TODO: Uncomment below after upgrading pythonPluginVersionForExamples to 1.5.1
+//        inputFile.set(file("sample.geojson"))
+//        outputFile.set(file("sample.pbf"))
         doFirst {
             standardInput = file("sample.geojson").inputStream()
             standardOutput = file("sample.pbf").outputStream()
@@ -27,6 +32,9 @@ tasks {
 
     register<VenvTask>("runGeobufDecode") {
         venvExec = "geobuf"
+// TODO: Uncomment below after upgrading pythonPluginVersionForExamples to 1.5.1
+//        inputFile.set(file("sample.pbf"))
+//        outputFile.set(file("sample.geojson"))
         doFirst {
             standardInput = file("sample.pbf").inputStream()
             standardOutput = file("sample.geojson").outputStream()

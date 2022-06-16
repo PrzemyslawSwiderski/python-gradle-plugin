@@ -41,7 +41,7 @@ tasks {
     register<VenvTask>("runPyTests") {
         venvExec = "pytest"
         workingDir.set(projectDir.resolve("test"))
-        environment = mapOf("PYTHONPATH" to projectDir.resolve("main").absolutePath)
+        environment = mapOf("PYTHONPATH" to projectDir.resolve("main").canonicalPath)
         args = listOf("test_quicksort.py")
         dependsOn(pipInstall)
     }

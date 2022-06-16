@@ -3,16 +3,24 @@ package com.pswidersk.gradle.python
 import org.apache.tools.ant.types.Commandline
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.file.ProjectLayout
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.model.ObjectFactory
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
+import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
 import org.gradle.process.internal.streams.SafeStreams
-import java.io.InputStream
-import java.io.OutputStream
+import javax.inject.Inject
 
-open class VenvTask : DefaultTask() {
+abstract class VenvTask @Inject constructor(
+    private val execOperations: ExecOperations,
+    objects: ObjectFactory,
+    projectLayout: ProjectLayout
+) : DefaultTask() {
+
+    private val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
 
     init {
         group = PLUGIN_TASKS_GROUP_NAME
@@ -24,24 +32,42 @@ open class VenvTask : DefaultTask() {
      * For example: "install", "./main.py"
      *
      */
-    @Input
+    @Internal
     var args: List<String> = emptyList()
 
     /**
      * Working directory
      *
      */
-    @InputDirectory
-    val workingDir: DirectoryProperty = project.objects.directoryProperty().convention(project.layout.projectDirectory)
+    @Internal
+    val workingDir: DirectoryProperty = objects.directoryProperty().convention(projectLayout.projectDirectory)
 
-    @Input
+    /**
+     * Environment variables map
+     */
+    @Internal
     var environment: Map<String, Any> = mapOf()
 
-    @Input
-    var standardInput: InputStream = SafeStreams.emptyInput()
+    /**
+     * Input file to be passed into standard input.
+     */
+    @Internal
+    val inputFile: RegularFileProperty = objects.fileProperty()
 
-    @Input
-    var standardOutput: OutputStream = SafeStreams.systemOut()
+    /**
+     * Output file to be passed into standard output.
+     */
+    @Internal
+    val outputFile: RegularFileProperty = objects.fileProperty()
+
+    /**
+     * Executable which have to exist in virtual env.
+     * For example: "python", "pip", "wheel"
+     *
+     * Default: "python"
+     */
+    @Internal
+    var venvExec: String = "python"
 
     /**
      * Parses an argument list from {@code args} and passes it to args.
@@ -65,35 +91,34 @@ open class VenvTask : DefaultTask() {
         this.args = Commandline.translateCommandline(args).toList()
     }
 
-    /**
-     * Executable which have to exist in virtual env.
-     * For example: "python", "pip", "wheel"
-     *
-     * Default: "python"
-     */
-    @Input
-    var venvExec: String = "python"
-
     @TaskAction
-    fun execute(): ExecResult = with(project) {
+    fun execute(): ExecResult = with(pythonPluginExtension) {
         val allArgs = if (isWindows)
             listOf(
-                "cmd", "/c", condaBinDir.resolve("activate.bat").absolutePath, pythonEnvName, ">nul", "2>&1",
-                "&&", venvExec
+                "cmd",
+                "/c",
+                condaBinDir.get().asFile.resolve("activate.bat").absolutePath,
+                pythonEnvName.get(),
+                ">nul",
+                "2>&1",
+                "&&",
+                venvExec
             ) + args
         else
             listOf(
-                "sh", "-c", ". $condaActivatePath >/dev/null 2>&1 && " +
-                        "conda activate $pythonEnvName >/dev/null 2>&1 && " +
+                "sh", "-c", ". ${condaActivatePath.get()} >/dev/null 2>&1 && " +
+                        "conda activate ${pythonEnvName.get()} >/dev/null 2>&1 && " +
                         "$venvExec ${args.joinToString(" ")}"
             )
         logger.lifecycle("Executing command: '${allArgs.joinToString(" ")}'")
-        return exec {
+        execOperations.exec {
             it.commandLine(allArgs)
             it.workingDir(workingDir)
             it.environment(environment)
-            it.standardInput = standardInput
-            it.standardOutput = standardOutput
+            it.standardInput =
+                if (inputFile.isPresent) inputFile.get().asFile.inputStream() else SafeStreams.emptyInput()
+            it.standardOutput =
+                if (outputFile.isPresent) outputFile.get().asFile.outputStream() else SafeStreams.systemOut()
         }
     }
 }

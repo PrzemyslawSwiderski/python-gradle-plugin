@@ -17,8 +17,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation(gradleKotlinDsl())
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("org.assertj:assertj-core:3.22.0")
+    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
 }
 
 kotlin {
