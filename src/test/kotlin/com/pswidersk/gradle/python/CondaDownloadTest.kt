@@ -27,8 +27,6 @@ class CondaDownloadTest {
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
-            import com.pswidersk.gradle.python.VenvTask
-            
             plugins {
                 id("com.pswidersk.python-plugin")
             }
