@@ -1,8 +1,8 @@
 package com.pswidersk.gradle.python
 
+import org.apache.commons.io.FileUtils.copyInputStreamToFile
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import org.gradle.internal.impldep.org.apache.commons.io.FileUtils.copyInputStreamToFile
 import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
 import java.io.File
