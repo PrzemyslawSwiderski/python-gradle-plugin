@@ -9,9 +9,9 @@ class PythonPlugin : Plugin<Project> {
     override fun apply(project: Project): Unit = with(project) {
         extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java)
         tasks.register<ListPropertiesTask>("listPluginProperties")
-        val minicondaSetupTask = tasks.register<MinicondaSetupTask>("minicondaSetup")
+        val condaSetupTask = tasks.register<CondaSetupTask>("condaSetup")
         tasks.register<EnvSetupTask>("envSetup") {
-            dependsOn(minicondaSetupTask)
+            dependsOn(condaSetupTask)
         }
     }
 

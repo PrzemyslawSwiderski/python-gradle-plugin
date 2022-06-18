@@ -32,11 +32,11 @@ class CondaDownloadTest {
             }
             
             pythonPlugin {
-                minicondaVersion.set("py38_4.8.3")
-                minicondaRepoUrl.set("${wmRuntimeInfo.httpBaseUrl}/conda")
-                minicondaRepoUsername.set("user")
-                minicondaRepoPassword.set("pass")
-                minicondaRepoHeaders.set(mapOf(
+                condaVersion.set("py38_4.8.3")
+                condaRepoUrl.set("${wmRuntimeInfo.httpBaseUrl}/conda")
+                condaRepoUsername.set("user")
+                condaRepoPassword.set("pass")
+                condaRepoHeaders.set(mapOf(
                     "SOME_HEADER_1" to "testValue1",
                     "SOME_HEADER_2" to "testValue2"
                 ))
@@ -47,7 +47,7 @@ class CondaDownloadTest {
             .withPluginClasspath()
             .withProjectDir(tempDir)
             .forwardOutput()
-            .withArguments("--stacktrace", ":minicondaSetup")
+            .withArguments("--stacktrace", ":condaSetup")
 
         // when
         runner.buildAndFail()

@@ -28,16 +28,16 @@ const val PLUGIN_TASKS_GROUP_NAME = "python"
 const val DEFAULT_PYTHON_VERSION = "3.10.4"
 
 /**
- * Default Miniconda release.
+ * Default Conda installer.
  */
-const val DEFAULT_MINICONDA_RELEASE = "Miniconda3"
+const val DEFAULT_CONDA_INSTALLER = "Miniconda3"
 
 /**
- * Default Miniconda version.
+ * Default Conda version.
  */
-const val DEFAULT_MINICONDA_VERSION = "latest"
+const val DEFAULT_CONDA_VERSION = "latest"
 
 /**
- * Default Miniconda repository URL.
+ * Default Conda repository URL.
  */
-const val DEFAULT_MINICONDA_REPO_URL = "https://repo.anaconda.com/miniconda"
+const val DEFAULT_CONDA_REPO_URL = "https://repo.anaconda.com/miniconda"

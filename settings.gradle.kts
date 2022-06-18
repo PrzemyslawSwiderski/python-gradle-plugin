@@ -2,6 +2,7 @@ rootProject.name = "python-gradle-plugin"
 
 include(
     "examples:geobuf-python-project",
+    "examples:sample-anaconda-project",
     "examples:sample-flask-project",
     "examples:sample-python-project",
     "examples:sample-python-project-groovy-dsl",

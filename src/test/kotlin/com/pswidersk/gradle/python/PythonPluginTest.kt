@@ -62,13 +62,13 @@ internal class PythonPluginTest {
 
         // then
         with(firstRunResult) {
-            assertThat(task(":minicondaSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":condaSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(pythonMessage)
         }
         with(secondRunResult) {
-            assertThat(task(":minicondaSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
+            assertThat(task(":condaSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
             assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
             assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(pythonMessage)

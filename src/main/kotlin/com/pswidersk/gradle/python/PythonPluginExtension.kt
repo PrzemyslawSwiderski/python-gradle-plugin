@@ -22,15 +22,17 @@ abstract class PythonPluginExtension @Inject constructor(
 
     val pythonVersion: Property<String> = objects.property<String>().convention(DEFAULT_PYTHON_VERSION)
 
-    val minicondaVersion: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_VERSION)
+    val condaVersion: Property<String> = objects.property<String>().convention(DEFAULT_CONDA_VERSION)
 
-    val minicondaRepoUrl: Property<String> = objects.property<String>().convention(DEFAULT_MINICONDA_REPO_URL)
+    val condaInstaller: Property<String> = objects.property<String>().convention(DEFAULT_CONDA_INSTALLER)
 
-    val minicondaRepoUsername: Property<String> = objects.property()
+    val condaRepoUrl: Property<String> = objects.property<String>().convention(DEFAULT_CONDA_REPO_URL)
 
-    val minicondaRepoPassword: Property<String> = objects.property()
+    val condaRepoUsername: Property<String> = objects.property()
 
-    val minicondaRepoHeaders: MapProperty<String, String> = objects.mapProperty()
+    val condaRepoPassword: Property<String> = objects.property()
+
+    val condaRepoHeaders: MapProperty<String, String> = objects.mapProperty()
 
     val installDir: DirectoryProperty = objects.directoryProperty().convention(
         providerFactory.provider {
@@ -38,11 +40,13 @@ abstract class PythonPluginExtension @Inject constructor(
         }
     )
 
-    internal val minicondaDir: DirectoryProperty = objects.directoryProperty().convention(
+    val systemArch: Property<String> = objects.property<String>().convention(arch)
+
+    internal val condaDir: DirectoryProperty = objects.directoryProperty().convention(
         providerFactory.provider {
             installDir.get()
                 .dir(os)
-                .dir("$DEFAULT_MINICONDA_RELEASE-${minicondaVersion.get()}")
+                .dir("${condaInstaller.get()}-${condaVersion.get()}")
         }
     )
 
@@ -51,11 +55,11 @@ abstract class PythonPluginExtension @Inject constructor(
     )
 
     internal val pythonEnvDir: DirectoryProperty = objects.directoryProperty().convention(
-        providerFactory.provider { minicondaDir.get().dir("envs").dir(pythonEnvName.get()) }
+        providerFactory.provider { condaDir.get().dir("envs").dir(pythonEnvName.get()) }
     )
 
     internal val condaBinDir: DirectoryProperty = objects.directoryProperty().convention(
-        providerFactory.provider { minicondaDir.get().dir("condabin") }
+        providerFactory.provider { condaDir.get().dir("condabin") }
     )
 
     internal val condaActivatePath: RegularFileProperty = objects.fileProperty().convention(
@@ -63,7 +67,7 @@ abstract class PythonPluginExtension @Inject constructor(
             if (OperatingSystem.current().isWindows)
                 condaBinDir.get().file("activate.bat")
             else
-                minicondaDir.get().dir("bin").file("activate")
+                condaDir.get().dir("bin").file("activate")
         }
     )
 
