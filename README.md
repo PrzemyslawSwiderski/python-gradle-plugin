@@ -5,7 +5,8 @@
 
 # Python Gradle Plugin
 
-**Now, all what is required to run python scripts is Java.**
+**Now, you can run Python scripts only with Java and Gradle builds without worrying about installing Python
+environment.**
 
 This Gradle Plugin uses specific [Conda](https://repo.anaconda.com/) installers
 to run python scripts or other executables (`pip`, `conda` etc.) from virtual env.

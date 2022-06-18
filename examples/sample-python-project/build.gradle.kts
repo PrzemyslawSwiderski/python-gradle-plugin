@@ -6,7 +6,7 @@ plugins {
 
 pythonPlugin {
     pythonVersion.set("3.9.2")
-    minicondaVersion.set("py38_4.8.3")
+    condaVersion.set("py38_4.8.3")
 }
 
 tasks {
