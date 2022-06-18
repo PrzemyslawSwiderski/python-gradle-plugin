@@ -53,7 +53,7 @@ class ListPropertiesTest {
             }
             pythonPlugin {
                 pythonVersion.set("3.9.1")
-                minicondaVersion.set("py38_4.8.0")
+                condaVersion.set("py38_4.8.0")
                 installDir.set(file("${customWorkingDir.invariantSeparatorsPath}"))
             }
         """.trimIndent()

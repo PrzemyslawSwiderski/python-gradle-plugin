@@ -7,8 +7,8 @@
 
 **Now, all what is required to run python scripts is Java.**
 
-This Gradle Plugin uses [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
-to run executables (`python`, `pip`, `conda` etc.) from virtual env.
+This Gradle Plugin uses specific [Conda](https://repo.anaconda.com/) installers
+to run python scripts or other executables (`pip`, `conda` etc.) from virtual env.
 
 Python project configuration can be fully automated by Gradle tasks now.
 
@@ -61,34 +61,38 @@ in `build.gradle.kts` file.
 Plugin default behavior can be adjusted by specifying the following properties:
 
 - `pythonVersion` -> Python environment version, default `3.10.4`
-- `minicondaVersion` -> Miniconda3 version, default `latest`
-- `minicondaRepoUrl` -> repository URL which should be used to download binaries,
+- `condaVersion` -> Miniconda3 version, default `latest`
+- `condaInstaller` -> Conda environment installer name, default is `Miniconda3`
+- `condaRepoUrl` -> repository URL which should be used to download binaries,
   default `https://repo.anaconda.com/miniconda`
-- `minicondaRepoUsername` -> username for the basic auth if needed, absent by default
-- `minicondaRepoPassword` -> password for the basic auth, used if `minicondaRepoUsername` is specified, should not be
+- `condaRepoUsername` -> username for the basic auth if needed, absent by default
+- `condaRepoPassword` -> password for the basic auth, used if `condaRepoUsername` is specified, should not be
   passed directly in script file, can be supplied
   by [gradle properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
   , absent by default
-- `minicondaRepoHeaders` -> additional optional headers used for connection, empty map by default
-- `installDir` -> property to customize conda installation directory, equals to `<root-project-dir>/.gradle/python` by
+- `condaRepoHeaders` -> additional optional headers used for connection, empty map by default
+- `installDir` -> property to customize conda installation directory, equals to `<rootProjectDir>/.gradle/python` by
   default
+- `systemArch` -> operating system architecture, default is got from `os.arch` system property
 
 Sample extension configuration inside of `build.gradle.kts` file:
 
 ```kotlin
 pythonPlugin {
-    pythonVersion.set("3.8.2")
-    minicondaVersion.set("py38_4.8.3")
-    minicondaRepoUrl.set("https://nexus.com/repositories/miniconda")
-    minicondaRepoUsername.set("user")
-    minicondaRepoPassword.set(extra["miniconda.repo.pass"].toString())
-    minicondaRepoHeaders.set(
+    pythonVersion.set("3.7.0")
+    condaVersion.set("2022.05")
+    condaInstaller.set("Anaconda3")
+    condaRepoUrl.set("https://nexus.com/repositories/conda")
+    condaRepoUsername.set("user")
+    condaRepoPassword.set(extra["conda.repo.pass"].toString())
+    condaRepoHeaders.set(
         mapOf(
             "CUSTOM_HEADER_1" to "headerValue1",
             "CUSTOM_HEADER_2" to "headerValue2"
         )
     )
     installDir.set(file(buildDir.resolve("python")))
+    systemArch.set("arm64")
 }
 ```
 
@@ -120,18 +124,21 @@ register<VenvTask>("runPythonScript") {
 
 ## Intellij setup
 
-* To have autocomplete and modules properly recognized in Intellij Idea simply point python executable as described in:
+* To have autocomplete and modules properly recognized in Intellij Idea point to Conda environment as described in:
   https://www.jetbrains.com/help/idea/configuring-python-sdk.html
 * To have properly recognized imported source modules in tests, right click on sources directory (for example `main`)
   -> `Mark Directory as` -> `as Sources root`.
 
-### Conda install directories (`$` is a configured miniconda version)
+### Conda install directories
 
-#### Linux - `<root-project-dir>/.gradle/python/Linux/Miniconda3-$`
+* Linux - `<rootProjectDir>/.gradle/python/Linux/<condaInstaller>-<condaVersion>`
 
-#### Windows - `<root-project-dir>/.gradle/python/Windows/Miniconda3-$`
+* Windows - `<rootProjectDir>/.gradle/python/Windows/<condaInstaller>-<condaVersion>`
 
-#### MacOSX - `<root-project-dir>/.gradle/python/MacOSX/Miniconda3-$`
+* MacOSX - `<rootProjectDir>/.gradle/python/MacOSX/<condaInstaller>-<condaVersion>`
+
+Where `<rootProjectDir>` is the root catalog where the project exists, `<condaInstaller>` is Conda installer
+e.g. `Miniconda3` and `<condaVersion>` is Conda installer version e.g. `py38_4.8.3`
 
 If you are familiar with [conda](https://conda.io/projects/conda/en/latest/user-guide/index.html) you can also execute
 conda commands like `conda activate` or `conda install` directly with the binaries from the catalogs above.

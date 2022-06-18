@@ -17,13 +17,13 @@ abstract class ListPropertiesTask : DefaultTask() {
         logger.lifecycle(
             """
                 Operating system: $os
-                Arch: $arch
+                Arch: ${systemArch.get()}
                 Install directory: ${installDir.get()}
                 Python: ${pythonEnvName.get()}
                 Python environment: ${pythonEnvDir.get()}
-                Conda repo URL: ${minicondaRepoUrl.get()}
-                $DEFAULT_MINICONDA_RELEASE version: ${minicondaVersion.get()}
-                $DEFAULT_MINICONDA_RELEASE directory: ${minicondaDir.get()}
+                Conda repo URL: ${condaRepoUrl.get()}
+                ${condaInstaller.get()} version: ${condaVersion.get()}
+                ${condaInstaller.get()} directory: ${condaDir.get()}
                 Conda activate path: ${condaActivatePath.get()}
                 Conda exec location: ${condaExec.get()}
             """.trimIndent()
