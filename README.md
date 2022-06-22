@@ -8,14 +8,14 @@
 **Now, you can run Python scripts only with Java and Gradle builds without worrying about installing Python
 environment.**
 
-This Gradle Plugin uses specific [Conda](https://repo.anaconda.com/) installers
+This Gradle Plugin uses [Conda](https://repo.anaconda.com/) installers
 to run python scripts or other executables (`pip`, `conda` etc.) from virtual env.
 
 Python project configuration can be fully automated by Gradle tasks now.
 
 ## Requirements
 
-* Java JDK or JRE version 8 or higher
+* Java 8 or higher
 
 ## Purpose
 
@@ -53,8 +53,9 @@ in `build.gradle.kts` file.
     # Windows
     gradlew.bat runQuickSort
     ```
+5. Wait until Conda environment is installed and environment set up.
 
-5. Enjoy :)
+6. Enjoy :)
    ![Quick Sort Python Script run](./quickSortPy.gif)
 
 ### Python Plugin properties
