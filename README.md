@@ -53,7 +53,7 @@ in `build.gradle.kts` file.
     # Windows
     gradlew.bat runQuickSort
     ```
-5. Wait until Conda environment is installed and environment set up.
+5. Wait until Conda is installed and environment set up.
 
 6. Enjoy :)
    ![Quick Sort Python Script run](./quickSortPy.gif)
