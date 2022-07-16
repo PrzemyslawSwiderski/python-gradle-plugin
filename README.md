@@ -1,14 +1,13 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
-[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.4.1-yellowgreen?style=plastic)](https://gradle.org/releases/)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.6.21-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
+[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.5-yellowgreen?style=plastic)](https://gradle.org/releases/)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.7.10-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
 
-**Now, you can run Python scripts only with Java and Gradle builds without worrying about installing Python
-environment.**
+**Now, you can run Python scripts with Java and Gradle builds only.**
 
-This Gradle Plugin uses [Conda](https://repo.anaconda.com/) installers
+This Gradle Plugin **automatically downloads and installs** specific [Conda](https://repo.anaconda.com/) tool
 to run python scripts or other executables (`pip`, `conda` etc.) from virtual env.
 
 Python project configuration can be fully automated by Gradle tasks now.

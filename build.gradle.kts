@@ -1,11 +1,9 @@
 import org.jetbrains.changelog.date
 
 plugins {
-    `java-gradle-plugin`
-    `maven-publish`
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.7.10"
     id("org.jetbrains.kotlinx.kover") version "0.5.1"
-    id("com.gradle.plugin-publish") version "0.21.0"
+    id("com.gradle.plugin-publish") version "1.0.0"
     id("net.researchgate.release") version "2.8.1"
     id("org.jetbrains.changelog") version "1.3.1"
 }
@@ -25,7 +23,7 @@ dependencies {
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(8))
     }
 }
 
