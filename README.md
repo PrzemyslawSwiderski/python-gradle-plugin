@@ -55,7 +55,7 @@ in `build.gradle.kts` file.
 5. Wait until Conda is installed and environment set up.
 
 6. Enjoy :)
-   ![Quick Sort Python Script run](./quickSortPy.gif)
+   ![Quick Sort Python Script run](./images/quickSortPy.gif)
 
 ### Python Plugin properties
 
@@ -146,4 +146,7 @@ conda commands like `conda activate` or `conda install` directly with the binari
 
 ## Notes
 
-* It may be required to unset `PYTHONPATH` in system before running any tasks (https://stackoverflow.com/a/31841132)  
+* It may be required to unset `PYTHONPATH` in system before running any tasks (https://stackoverflow.com/a/31841132)
+* You can also run some simple inline Python scripts inside build files like this:
+  ![Quick Sort Python Script run](./images/inlineScriptTask.JPG)
+  Intellij 'inject language' feature can be useful in such scenario :)

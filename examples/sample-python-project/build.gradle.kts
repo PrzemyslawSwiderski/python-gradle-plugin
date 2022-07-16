@@ -22,6 +22,25 @@ tasks {
         args = listOf("info")
     }
 
+    register<VenvTask>("runInlineScript") {
+        doFirst {
+            val scriptFile = temporaryDir.resolve("inlineScript.py")
+            scriptFile.writeText(
+                """
+import random
+
+lucky_numbers = []
+print('Welcome To Lucky Lottery Numbers')
+for num in range(0,5):
+    random_num = random.randint(1, 100)
+    lucky_numbers.append(random_num)
+print(f'Lucky numbers are: {lucky_numbers}')
+            """.trimIndent()
+            )
+            inputFile.set(scriptFile)
+        }
+    }
+
     register<VenvTask>("runQuickSort") {
         workingDir.set(projectDir.resolve("main"))
         args = listOf("quicksort.py")
