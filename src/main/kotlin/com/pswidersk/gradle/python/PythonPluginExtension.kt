@@ -14,8 +14,8 @@ import org.gradle.kotlin.dsl.property
 import javax.inject.Inject
 
 abstract class PythonPluginExtension @Inject constructor(
-    providerFactory: ProviderFactory,
     project: Project,
+    providerFactory: ProviderFactory,
     objects: ObjectFactory,
     fileFactory: FileFactory
 ) {
@@ -50,6 +50,14 @@ abstract class PythonPluginExtension @Inject constructor(
         }
     )
 
+    internal val condaInstallerFile: RegularFileProperty = objects.fileProperty().convention(
+        providerFactory.provider {
+            val condaDirFile = condaDir.get().asFile
+            condaDirFile.mkdirs()
+            condaDir.get().file("${condaInstaller.get()}-${condaVersion.get()}-$os-${systemArch.get()}.$exec")
+        }
+    )
+
     internal val pythonEnvName: Property<String> = objects.property<String>().convention(
         providerFactory.provider { "python-${pythonVersion.get()}" }
     )
@@ -59,6 +67,7 @@ abstract class PythonPluginExtension @Inject constructor(
     )
 
     internal val condaBinDir: DirectoryProperty = objects.directoryProperty().convention(
+        // TODO make configurable for Anaconda3-2021.11 compatibility
         providerFactory.provider { condaDir.get().dir("condabin") }
     )
 
