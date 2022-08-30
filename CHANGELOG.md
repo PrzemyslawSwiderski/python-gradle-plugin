@@ -4,16 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Logging `Miniconda`/`Anaconda` installer download progress.
+- Support for at least Gradle `6.2`.
 
 ## [2.1.0] - 2022-07-16
 ### Changed

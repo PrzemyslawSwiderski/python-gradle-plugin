@@ -7,9 +7,12 @@ import org.gradle.kotlin.dsl.register
 class PythonPlugin : Plugin<Project> {
 
     override fun apply(project: Project): Unit = with(project) {
-        extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java)
+        extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java, this)
         tasks.register<ListPropertiesTask>("listPluginProperties")
-        val condaSetupTask = tasks.register<CondaSetupTask>("condaSetup")
+        val condaDownloadTask = tasks.register<CondaDownloadTask>("condaDownload")
+        val condaSetupTask = tasks.register<CondaSetupTask>("condaSetup") {
+            dependsOn(condaDownloadTask)
+        }
         tasks.register<EnvSetupTask>("envSetup") {
             dependsOn(condaSetupTask)
         }

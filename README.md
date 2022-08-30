@@ -14,7 +14,8 @@ Python project configuration can be fully automated by Gradle tasks now.
 
 ## Requirements
 
-* Java 8 or higher
+* Java `8` or higher
+* Gradle `6.2` or higher project
 
 ## Purpose
 
