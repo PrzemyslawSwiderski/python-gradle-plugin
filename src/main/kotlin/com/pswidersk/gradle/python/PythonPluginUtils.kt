@@ -36,10 +36,13 @@ internal val arch: String
     get() {
         val arch = System.getProperty("os.arch")
         return when {
-            OperatingSystem.current().isMacOsX -> "x86_64"
+            OperatingSystem.current().isMacOsX -> when (arch) {
+                "aarch64" -> "arm64"
+                else -> arch
+            }
             isWindows -> when (arch) {
-                "x86_64", "amd64" -> "x86_64"
-                else -> "x86"
+                "amd64" -> "x86_64"
+                else -> arch
             }
             else -> "x86_64"
         }

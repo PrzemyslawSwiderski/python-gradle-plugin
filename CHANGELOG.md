@@ -3,25 +3,22 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
 ### Added
 
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Support for M1/M2 on MacOS.
 
 ## [2.2.0] - 2022-08-30
+
 ### Added
+
 - Logging `Miniconda`/`Anaconda` installer download progress.
 - Support for at least Gradle `6.2`.
 
 ## [2.1.0] - 2022-07-16
+
 ### Changed
+
 - Updated Gradle to `7.5` and Kotlin to `1.7.10` versions.
 - Bumped `plugin-publish` to `1.0.0`. Now it includes `java-gradle-plugin` and `maven-publish` out of the box.
 - Cleaned up `build.gradle.kts` a little.
