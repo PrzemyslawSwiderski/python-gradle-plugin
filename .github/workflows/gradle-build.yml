@@ -23,7 +23,7 @@ jobs:
       - name: Build and Test with Gradle
         run: ./gradlew --no-daemon --continue build
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.8
+        uses: EnricoMi/publish-unit-test-result-action@v2.7
         if: always()
         with:
           files: build/test-results/**/*.xml
