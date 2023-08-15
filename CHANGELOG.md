@@ -4,16 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- Support for the latest Miniconda versions.
 
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- `latest` default Miniconda version to `py311_23.5.2-0` in order to avoid future incompatibility issues.
+- Updated default Python version to `3.10.12`.
+- Installers will be stored in the parent `python` directory.
 
 ## [2.3.0] - 2022-11-19
 ### Added

@@ -62,8 +62,8 @@ in `build.gradle.kts` file.
 
 Plugin default behavior can be adjusted by specifying the following properties:
 
-- `pythonVersion` -> Python environment version, default `3.10.4`
-- `condaVersion` -> Miniconda3 version, default `latest`
+- `pythonVersion` -> Python environment version, default `3.10.12`
+- `condaVersion` -> Miniconda3 version, default `py311_23.5.2-0`
 - `condaInstaller` -> Conda environment installer name, default is `Miniconda3`
 - `condaRepoUrl` -> repository URL which should be used to download binaries,
   default `https://repo.anaconda.com/miniconda`

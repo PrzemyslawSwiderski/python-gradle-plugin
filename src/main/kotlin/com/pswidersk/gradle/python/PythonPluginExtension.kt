@@ -52,9 +52,9 @@ abstract class PythonPluginExtension @Inject constructor(
 
     internal val condaInstallerFile: RegularFileProperty = objects.fileProperty().convention(
         providerFactory.provider {
-            val condaDirFile = condaDir.get().asFile
-            condaDirFile.mkdirs()
-            condaDir.get().file("${condaInstaller.get()}-${condaVersion.get()}-$os-${systemArch.get()}.$exec")
+            val installerDirFile = installDir.get().asFile
+            installerDirFile.mkdirs()
+            installDir.get().file("${condaInstaller.get()}-${condaVersion.get()}-$os-${systemArch.get()}.$exec")
         }
     )
 
@@ -67,7 +67,6 @@ abstract class PythonPluginExtension @Inject constructor(
     )
 
     internal val condaBinDir: DirectoryProperty = objects.directoryProperty().convention(
-        // TODO make configurable for Anaconda3-2021.11 compatibility
         providerFactory.provider { condaDir.get().dir("condabin") }
     )
 
