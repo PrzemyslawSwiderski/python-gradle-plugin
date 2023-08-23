@@ -46,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - `systemArch` property so that target operating system architecture can be overridden.
 - `sample-anaconda-project` sample project [here](./examples/sample-anaconda-project)
 
+
 ### Changed
 - Renamed `minicondaVersion`, `minicondaRepoUrl`, `minicondaRepoUsername`, `minicondaRepoPassword`
   and `minicondaRepoHeaders` parameters
@@ -89,12 +90,14 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Possibility to specify miniconda3 version by `minicondaVersion` property.
 
+
 ### Changed
 - Default Python version updated to a `3.8.5`.
 
 ## [1.2.1] - 2020-06-29
 ### Changed
 - Refactored and simplified plugin.
+
 
 ### Fixed
 - Conda env fix.
@@ -116,8 +119,10 @@ All notable changes to this project will be documented in this file.
 - Added Miniconda backend.
 - Added test in linux docker.
 
+
 ### Removed
 - Removed Jet brains envs plugin.
+
 
 ### Changed
 - Plugin structure simplified.
