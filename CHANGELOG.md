@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [2.4.0] - 2023-08-23
+### Added
 - Support for the latest Miniconda versions.
 
 ### Changed
