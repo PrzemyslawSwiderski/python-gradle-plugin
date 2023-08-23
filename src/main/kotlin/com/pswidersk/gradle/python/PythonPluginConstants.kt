@@ -25,7 +25,7 @@ const val PLUGIN_TASKS_GROUP_NAME = "python"
 /**
  * Default Python version.
  */
-const val DEFAULT_PYTHON_VERSION = "3.10.4"
+const val DEFAULT_PYTHON_VERSION = "3.10.12"
 
 /**
  * Default Conda installer.
@@ -35,7 +35,7 @@ const val DEFAULT_CONDA_INSTALLER = "Miniconda3"
 /**
  * Default Conda version.
  */
-const val DEFAULT_CONDA_VERSION = "latest"
+const val DEFAULT_CONDA_VERSION = "py311_23.5.2-0"
 
 /**
  * Default Conda repository URL.

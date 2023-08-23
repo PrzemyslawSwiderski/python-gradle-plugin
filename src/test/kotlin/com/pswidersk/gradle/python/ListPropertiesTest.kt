@@ -35,9 +35,11 @@ class ListPropertiesTest {
         // then
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
-            assertThat(output).contains("Install directory: $defaultWorkingDir")
-            assertThat(output).contains("Miniconda3 version: latest")
-            assertThat(output).contains("Conda repo URL: https://repo.anaconda.com/miniconda")
+            assertThat(output).contains(
+                "Install directory: $defaultWorkingDir",
+                "Miniconda3 version: py311_23.5.2-0",
+                "Conda repo URL: https://repo.anaconda.com/miniconda"
+            )
         }
     }
 
@@ -70,9 +72,11 @@ class ListPropertiesTest {
         // then
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
-            assertThat(output).contains("Install directory: $customWorkingDir")
-            assertThat(output).contains("Python: python-3.9.1")
-            assertThat(output).contains("Miniconda3 version: py38_4.8.0")
+            assertThat(output).contains(
+                "Install directory: $customWorkingDir",
+                "Python: python-3.9.1",
+                "Miniconda3 version: py38_4.8.0"
+            )
         }
     }
 

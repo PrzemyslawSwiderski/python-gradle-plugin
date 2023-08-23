@@ -21,8 +21,16 @@ abstract class EnvSetupTask @Inject constructor(
     @TaskAction
     fun setup(): ExecResult = with(pythonPluginExtension) {
         execOperations.exec {
-            it.executable = condaExec.get().asFile.canonicalPath
-            it.args(listOf("create", "--name", pythonEnvName.get(), "python=${pythonVersion.get()}"))
+            it.executable = condaExec.get().asFile.absolutePath
+            it.args(
+                listOf(
+                    "create",
+                    "--name",
+                    pythonEnvName.get(),
+                    "python=${pythonVersion.get()}",
+                    "--yes"
+                )
+            )
         }
     }
 }
