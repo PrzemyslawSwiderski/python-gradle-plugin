@@ -16,16 +16,16 @@ repositories {
 
 dependencies {
     implementation(gradleKotlinDsl())
-    implementation("commons-io:commons-io:2.11.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.0")
-    testImplementation("org.assertj:assertj-core:3.23.1")
-    testImplementation("com.github.tomakehurst:wiremock-jre8:2.35.0")
+    implementation("commons-io:commons-io:2.13.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("org.wiremock:wiremock:3.0.4")
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(11))
     }
 }
 
@@ -43,7 +43,7 @@ tasks {
     }
     compileKotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
 }

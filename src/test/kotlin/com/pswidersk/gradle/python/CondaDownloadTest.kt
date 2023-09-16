@@ -47,7 +47,7 @@ class CondaDownloadTest {
             .withPluginClasspath()
             .withProjectDir(tempDir)
             .forwardOutput()
-            .withArguments("--stacktrace", ":condaSetup")
+            .withArguments(":condaSetup")
 
         // when
         runner.buildAndFail()
