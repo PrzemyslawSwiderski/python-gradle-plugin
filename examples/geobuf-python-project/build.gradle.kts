@@ -5,8 +5,8 @@ plugins {
 }
 
 pythonPlugin {
-    pythonVersion.set("3.8.3")
-    installDir.set(file(buildDir.resolve("python"))) // setting different install directory this time
+    pythonVersion = "3.8.3"
+    installDir = file(layout.buildDirectory.dir("python")) // setting different install directory this time
 }
 
 tasks {
@@ -18,16 +18,16 @@ tasks {
 
     register<VenvTask>("runGeobufEncode") {
         venvExec = "geobuf"
-        inputFile.set(file("sample.geojson"))
-        outputFile.set(file("sample.pbf"))
+        inputFile = file("sample.geojson")
+        outputFile = file("sample.pbf")
         args = listOf("encode")
         dependsOn(pipInstall)
     }
 
     register<VenvTask>("runGeobufDecode") {
         venvExec = "geobuf"
-        inputFile.set(file("sample.pbf"))
-        outputFile.set(file("sample.geojson"))
+        inputFile = file("sample.pbf")
+        outputFile = file("sample.geojson")
         args = listOf("decode")
         dependsOn(pipInstall)
     }
