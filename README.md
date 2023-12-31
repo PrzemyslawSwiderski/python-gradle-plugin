@@ -33,7 +33,7 @@ in `build.gradle.kts` file.
 2. Configure a plugin by specifying desired python version in build script:
     ```kotlin
     pythonPlugin {
-        pythonVersion.set("3.8.2")
+        pythonVersion = "3.8.2"
     }
     ```
 3. Define a task to run desired python script, for example to run `quicksort.py` script in `main` dir add the following
@@ -81,20 +81,20 @@ Sample extension configuration inside of `build.gradle.kts` file:
 
 ```kotlin
 pythonPlugin {
-    pythonVersion.set("3.7.0")
-    condaVersion.set("2022.05")
-    condaInstaller.set("Anaconda3")
-    condaRepoUrl.set("https://nexus.com/repositories/conda")
-    condaRepoUsername.set("user")
-    condaRepoPassword.set(extra["conda.repo.pass"].toString())
-    condaRepoHeaders.set(
+    pythonVersion = "3.7.0"
+    condaVersion = "2022.05"
+    condaInstaller = "Anaconda3"
+    condaRepoUrl = "https://nexus.com/repositories/conda"
+    condaRepoUsername = "user"
+    condaRepoPassword = extra["conda.repo.pass"].toString()
+    condaRepoHeaders = 
         mapOf(
             "CUSTOM_HEADER_1" to "headerValue1",
             "CUSTOM_HEADER_2" to "headerValue2"
         )
     )
-    installDir.set(file(buildDir.resolve("python")))
-    systemArch.set("arm64")
+    installDir = file(layout.buildDirectory.dir("python"))
+    systemArch = "arm64"
 }
 ```
 
@@ -114,10 +114,10 @@ Sample `VenvTask` configuration inside of `build.gradle.kts` file:
 ```kotlin
 register<VenvTask>("runPythonScript") {
     venvExec = "python"
-    inputFile.set(file("inputFile.txt"))
-    outputFile.set(file("outputFile.txt"))
+    inputFile = file("inputFile.txt")
+    outputFile = file("outputFile.txt")
     args = listOf("--some-flag", "arg1")
-    workingDir.set(projectDir.resolve("main"))
+    workingDir = projectDir.resolve("main")
     environment = mapOf("ENV_VAR_TO_PRINT" to "sampleEnvVar")
 }
 ```

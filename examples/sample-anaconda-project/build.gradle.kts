@@ -5,10 +5,10 @@ plugins {
 }
 
 pythonPlugin {
-    pythonVersion.set("3.7.0")
-    condaInstaller.set("Anaconda3")
-    condaVersion.set("2022.05")
-    condaRepoUrl.set("https://repo.anaconda.com/archive/")
+    pythonVersion = "3.7.0"
+    condaInstaller = "Anaconda3"
+    condaVersion = "2022.05"
+    condaRepoUrl = "https://repo.anaconda.com/archive/"
 }
 
 tasks {

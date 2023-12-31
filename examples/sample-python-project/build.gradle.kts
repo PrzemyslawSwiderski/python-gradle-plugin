@@ -5,8 +5,8 @@ plugins {
 }
 
 pythonPlugin {
-    pythonVersion.set("3.9.2")
-    condaVersion.set("py38_4.8.3")
+    pythonVersion = "3.9.2"
+    condaVersion = "py38_4.8.3"
 }
 
 tasks {
@@ -37,12 +37,12 @@ for num in range(0,5):
 print(f'Lucky numbers are: {lucky_numbers}')
             """.trimIndent()
             )
-            inputFile.set(scriptFile)
+            inputFile = scriptFile
         }
     }
 
     register<VenvTask>("runQuickSort") {
-        workingDir.set(projectDir.resolve("main"))
+        workingDir = projectDir.resolve("main")
         args = listOf("quicksort.py")
     }
 
@@ -52,14 +52,14 @@ print(f'Lucky numbers are: {lucky_numbers}')
     }
 
     register<VenvTask>("runNumpy") {
-        workingDir.set(projectDir.resolve("main"))
+        workingDir = projectDir.resolve("main")
         args = listOf("numpy_test.py")
         environment = mapOf("ENV_VAR_TO_PRINT" to "sampleEnvVar")
         dependsOn(pipInstall)
     }
     register<VenvTask>("runPyTests") {
         venvExec = "pytest"
-        workingDir.set(projectDir.resolve("test"))
+        workingDir = projectDir.resolve("test")
         environment = mapOf("PYTHONPATH" to projectDir.resolve("main").canonicalPath)
         args = listOf("test_quicksort.py")
         dependsOn(pipInstall)

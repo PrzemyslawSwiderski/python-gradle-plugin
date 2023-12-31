@@ -16,16 +16,16 @@ repositories {
 
 dependencies {
     implementation(gradleKotlinDsl())
-    implementation("commons-io:commons-io:2.13.0")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+    implementation("commons-io:commons-io:2.15.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.wiremock:wiremock:3.0.4")
+    testImplementation("org.wiremock:wiremock:3.3.1")
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
@@ -43,14 +43,14 @@ tasks {
     }
     compileKotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget = JvmTarget.JVM_11
         }
     }
 }
 
 gradlePlugin {
-    website.set("https://github.com/PrzemyslawSwiderski/python-gradle-plugin")
-    vcsUrl.set("https://github.com/PrzemyslawSwiderski/python-gradle-plugin")
+    website = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
+    vcsUrl = "https://github.com/PrzemyslawSwiderski/python-gradle-plugin"
     plugins {
         create("python-gradle-plugin") {
             id = "com.pswidersk.python-plugin"
@@ -58,20 +58,18 @@ gradlePlugin {
             displayName = "Gradle plugin to run Python projects in Conda virtual env. "
                 .plus("https://github.com/PrzemyslawSwiderski/python-gradle-plugin")
             description = "Gradle plugin to run Python projects."
-            tags.set(
-                listOf(
-                    "python",
-                    "venv",
-                    "numpy",
-                    "conda",
-                    "miniconda",
-                    "anaconda",
-                    "scipy",
-                    "pandas",
-                    "flask",
-                    "matplotlib",
-                    "sklearn"
-                )
+            tags = listOf(
+                "python",
+                "venv",
+                "numpy",
+                "conda",
+                "miniconda",
+                "anaconda",
+                "scipy",
+                "pandas",
+                "flask",
+                "matplotlib",
+                "sklearn"
             )
         }
     }
@@ -85,5 +83,5 @@ publishing {
 
 // Configuring changelog Gradle plugin https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
-    header.set(provider { "[${version.get()}] - ${date()}" })
+    header = provider { "[${version.get()}] - ${date()}" }
 }

@@ -5,7 +5,7 @@ plugins {
 }
 
 pythonPlugin {
-    pythonVersion.set("3.10.4")
+    pythonVersion = "3.10.4"
 }
 
 tasks {
