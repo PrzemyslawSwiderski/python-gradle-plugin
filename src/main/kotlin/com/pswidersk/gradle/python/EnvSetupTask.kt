@@ -20,17 +20,18 @@ abstract class EnvSetupTask @Inject constructor(
 
     @TaskAction
     fun setup(): ExecResult = with(pythonPluginExtension) {
+        val condaExec = condaExec.get().asFile.absolutePath
+        val condaArgs = listOf(
+            "create",
+            "--name",
+            pythonEnvName.get(),
+            "python=${pythonVersion.get()}",
+            "--yes"
+        )
+        logger.lifecycle("Executing command: $condaExec ${condaArgs.joinToString(" ")}")
         execOperations.exec {
-            it.executable = condaExec.get().asFile.absolutePath
-            it.args(
-                listOf(
-                    "create",
-                    "--name",
-                    pythonEnvName.get(),
-                    "python=${pythonVersion.get()}",
-                    "--yes"
-                )
-            )
+            it.executable = condaExec
+            it.args(condaArgs)
         }
     }
 }

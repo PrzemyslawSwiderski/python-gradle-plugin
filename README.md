@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
-[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-7.5-yellowgreen?style=plastic)](https://gradle.org/releases/)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.7.10-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
+[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.5-yellowgreen?style=plastic)](https://gradle.org/releases/)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.9.10-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
 
@@ -62,11 +62,13 @@ in `build.gradle.kts` file.
 
 Plugin default behavior can be adjusted by specifying the following properties:
 
-- `pythonVersion` -> Python environment version, default `3.10.12`
-- `condaVersion` -> Miniconda3 version, default `py311_23.5.2-0`
-- `condaInstaller` -> Conda environment installer name, default is `Miniconda3`
+- `pythonVersion` -> Python environment version, default `3.10.12`, the available ones can be checked
+  at https://anaconda.org/conda-forge/python/
+- `condaVersion` -> Miniconda or Anaconda version, default `py311_23.5.2-0`, the available ones can be checked
+  at https://repo.anaconda.com/miniconda/ or https://repo.anaconda.com/archive/ (Anaconda)
+- `condaInstaller` -> Conda environment installer name, default is `Miniconda3`, for Anaconda change to `Anaconda3`
 - `condaRepoUrl` -> repository URL which should be used to download binaries,
-  default `https://repo.anaconda.com/miniconda`
+  default `https://repo.anaconda.com/miniconda`, for Anaconda `https://repo.anaconda.com/archive/`
 - `condaRepoUsername` -> username for the basic auth if needed, absent by default
 - `condaRepoPassword` -> password for the basic auth, used if `condaRepoUsername` is specified, should not be
   passed directly in script file, can be supplied
@@ -87,11 +89,9 @@ pythonPlugin {
     condaRepoUrl = "https://nexus.com/repositories/conda"
     condaRepoUsername = "user"
     condaRepoPassword = extra["conda.repo.pass"].toString()
-    condaRepoHeaders = 
-        mapOf(
-            "CUSTOM_HEADER_1" to "headerValue1",
-            "CUSTOM_HEADER_2" to "headerValue2"
-        )
+    condaRepoHeaders = mapOf(
+        "CUSTOM_HEADER_1" to "headerValue1",
+        "CUSTOM_HEADER_2" to "headerValue2"
     )
     installDir = file(layout.buildDirectory.dir("python"))
     systemArch = "arm64"
@@ -153,3 +153,15 @@ conda commands like `conda activate` or `conda install` directly with the binari
   ![Quick Sort Python Script run](./images/inlineScriptTask.JPG)
 
   Intellij 'inject language' feature can be useful in such scenario :)
+
+## Known Issues
+
+* `/usr/bin/env: ‘python’: No such file or directory` when executing `envSetup` task -> It is related to the shebang
+  char limit which is **128**.
+
+  When installing the conda if the prefix path is longer than the limit the default shebang (`#!/usr/bin/env
+  python`) is being used in the installed conda script file (`condabin/conda`).
+  Since no python binary is accessible by this path the exception is being thrown.
+
+  The easiest solution is to store the root project at the shortest possible path or use the `installDir`
+  to specify shorter path per particular troublesome subproject.

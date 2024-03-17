@@ -6,7 +6,8 @@ plugins {
 
 pythonPlugin {
     pythonVersion = "3.8.3"
-    installDir = file(layout.buildDirectory.dir("python")) // setting different install directory this time
+    condaVersion = "py38_23.11.0-2"
+    installDir = file(rootProject.file(".gradle/python/${project.name}"))
 }
 
 tasks {

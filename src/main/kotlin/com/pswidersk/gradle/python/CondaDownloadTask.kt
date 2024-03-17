@@ -11,7 +11,7 @@ import java.util.*
 abstract class CondaDownloadTask : DefaultTask() {
 
     private val pythonPlugin: PythonPluginExtension = project.pythonPlugin
-    private val progressLogger = ProgressLogger(consumer = { msg -> logger.quiet(msg) })
+    private val progressLogger = ProgressLogger(consumer = { msg -> logger.lifecycle(msg) })
 
     init {
         group = "python"

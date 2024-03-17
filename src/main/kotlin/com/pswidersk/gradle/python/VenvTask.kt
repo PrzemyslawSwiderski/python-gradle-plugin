@@ -5,13 +5,13 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.logging.LogLevel.LIFECYCLE
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
 import org.gradle.process.ExecResult
-import org.gradle.process.internal.streams.SafeStreams
 import javax.inject.Inject
 
 abstract class VenvTask @Inject constructor(
@@ -112,13 +112,14 @@ abstract class VenvTask @Inject constructor(
             )
         logger.lifecycle("Executing command: '${allArgs.joinToString(" ")}'")
         execOperations.exec {
+            logging.captureStandardOutput(LIFECYCLE)
             it.commandLine(allArgs)
             it.workingDir(workingDir)
             it.environment(environment)
-            it.standardInput =
-                if (inputFile.isPresent) inputFile.get().asFile.inputStream() else SafeStreams.emptyInput()
-            it.standardOutput =
-                if (outputFile.isPresent) outputFile.get().asFile.outputStream() else SafeStreams.systemOut()
+            if (inputFile.isPresent)
+                it.standardInput = inputFile.get().asFile.inputStream()
+            if (outputFile.isPresent)
+                it.standardOutput = outputFile.get().asFile.outputStream()
         }
     }
 }
