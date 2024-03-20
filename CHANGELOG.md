@@ -3,9 +3,22 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [2.5.0] - 2024-03-20
 ### Changed
 - Updated Gradle to `8.5` and Java dependencies to the latest ones.
-- Changed std out for the `VenvTask` tasks from System out to Gradle's `LIFECYCLE` logging stream. 
+- Changed std out for the `VenvTask` tasks from System out to Gradle's `LIFECYCLE` logging stream.
 
 ## [2.4.0] - 2023-08-23
 ### Added
@@ -37,7 +50,6 @@ All notable changes to this project will be documented in this file.
   be downloaded.
 - `systemArch` property so that target operating system architecture can be overridden.
 - `sample-anaconda-project` sample project [here](./examples/sample-anaconda-project)
-
 
 ### Changed
 - Renamed `minicondaVersion`, `minicondaRepoUrl`, `minicondaRepoUsername`, `minicondaRepoPassword`
@@ -82,14 +94,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Possibility to specify miniconda3 version by `minicondaVersion` property.
 
-
 ### Changed
 - Default Python version updated to a `3.8.5`.
 
 ## [1.2.1] - 2020-06-29
 ### Changed
 - Refactored and simplified plugin.
-
 
 ### Fixed
 - Conda env fix.
@@ -111,10 +121,8 @@ All notable changes to this project will be documented in this file.
 - Added Miniconda backend.
 - Added test in linux docker.
 
-
 ### Removed
 - Removed Jet brains envs plugin.
-
 
 ### Changed
 - Plugin structure simplified.
