@@ -5,13 +5,12 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.logging.LogLevel.LIFECYCLE
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.process.ExecOperations
-import org.gradle.process.ExecResult
-import org.gradle.process.internal.streams.SafeStreams
 import javax.inject.Inject
 
 abstract class VenvTask @Inject constructor(
@@ -92,33 +91,36 @@ abstract class VenvTask @Inject constructor(
     }
 
     @TaskAction
-    fun execute(): ExecResult = with(pythonPluginExtension) {
-        val allArgs = if (isWindows)
-            listOf(
-                "cmd",
-                "/c",
-                condaBinDir.get().asFile.resolve("activate.bat").absolutePath,
-                pythonEnvName.get(),
-                ">nul",
-                "2>&1",
-                "&&",
-                venvExec
-            ) + args
-        else
-            listOf(
-                "sh", "-c", ". ${condaActivatePath.get()} >/dev/null 2>&1 && " +
-                        "conda activate ${pythonEnvName.get()} >/dev/null 2>&1 && " +
-                        "$venvExec ${args.joinToString(" ")}"
-            )
-        logger.lifecycle("Executing command: '${allArgs.joinToString(" ")}'")
-        execOperations.exec {
-            it.commandLine(allArgs)
-            it.workingDir(workingDir)
-            it.environment(environment)
-            it.standardInput =
-                if (inputFile.isPresent) inputFile.get().asFile.inputStream() else SafeStreams.emptyInput()
-            it.standardOutput =
-                if (outputFile.isPresent) outputFile.get().asFile.outputStream() else SafeStreams.systemOut()
+    fun execute() {
+        with(pythonPluginExtension) {
+            val allArgs = if (isWindows)
+                listOf(
+                    "cmd",
+                    "/c",
+                    condaBinDir.get().asFile.resolve("activate.bat").absolutePath,
+                    pythonEnvName.get(),
+                    ">nul",
+                    "2>&1",
+                    "&&",
+                    venvExec
+                ) + args
+            else
+                listOf(
+                    "sh", "-c", ". ${condaActivatePath.get()} >/dev/null 2>&1 && " +
+                            "conda activate ${pythonEnvName.get()} >/dev/null 2>&1 && " +
+                            "$venvExec ${args.joinToString(" ")}"
+                )
+            logger.lifecycle("Executing command: '${allArgs.joinToString(" ")}'")
+            execOperations.exec {
+                logging.captureStandardOutput(LIFECYCLE)
+                it.commandLine(allArgs)
+                it.workingDir(workingDir)
+                it.environment(environment)
+                if (inputFile.isPresent)
+                    it.standardInput = inputFile.get().asFile.inputStream()
+                if (outputFile.isPresent)
+                    it.standardOutput = outputFile.get().asFile.outputStream()
+            }
         }
     }
 }

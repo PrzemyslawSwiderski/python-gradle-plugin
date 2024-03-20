@@ -13,9 +13,10 @@ abstract class ListPropertiesTask : DefaultTask() {
     }
 
     @TaskAction
-    fun setup() = with(pythonPluginExtension) {
-        logger.lifecycle(
-            """
+    fun setup() {
+        with(pythonPluginExtension) {
+            logger.lifecycle(
+                """
                 Operating system: $os
                 Arch: ${systemArch.get()}
                 Install directory: ${installDir.get()}
@@ -27,7 +28,7 @@ abstract class ListPropertiesTask : DefaultTask() {
                 Conda activate path: ${condaActivatePath.get()}
                 Conda exec location: ${condaExec.get()}
             """.trimIndent()
-        )
+            )
+        }
     }
-
 }

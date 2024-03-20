@@ -11,7 +11,7 @@ import java.util.*
 abstract class CondaDownloadTask : DefaultTask() {
 
     private val pythonPlugin: PythonPluginExtension = project.pythonPlugin
-    private val progressLogger = ProgressLogger(consumer = { msg -> logger.quiet(msg) })
+    private val progressLogger = ProgressLogger(consumer = { msg -> logger.lifecycle(msg) })
 
     init {
         group = "python"
@@ -22,9 +22,11 @@ abstract class CondaDownloadTask : DefaultTask() {
     }
 
     @TaskAction
-    fun setup() = with(pythonPlugin) {
-        val condaInstaller = condaInstallerFile.get()
-        downloadConda(condaInstaller.asFile)
+    fun setup() {
+        with(pythonPlugin) {
+            val condaInstaller = condaInstallerFile.get()
+            downloadConda(condaInstaller.asFile)
+        }
     }
 
     private fun downloadConda(destinationFile: File) {

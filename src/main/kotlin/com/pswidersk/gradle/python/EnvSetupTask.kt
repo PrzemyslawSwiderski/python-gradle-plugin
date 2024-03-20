@@ -3,7 +3,6 @@ package com.pswidersk.gradle.python
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
-import org.gradle.process.ExecResult
 import javax.inject.Inject
 
 abstract class EnvSetupTask @Inject constructor(
@@ -19,18 +18,21 @@ abstract class EnvSetupTask @Inject constructor(
     }
 
     @TaskAction
-    fun setup(): ExecResult = with(pythonPluginExtension) {
-        execOperations.exec {
-            it.executable = condaExec.get().asFile.absolutePath
-            it.args(
-                listOf(
-                    "create",
-                    "--name",
-                    pythonEnvName.get(),
-                    "python=${pythonVersion.get()}",
-                    "--yes"
-                )
+    fun setup() {
+        with(pythonPluginExtension) {
+            val condaExec = condaExec.get().asFile.absolutePath
+            val condaArgs = listOf(
+                "create",
+                "--name",
+                pythonEnvName.get(),
+                "python=${pythonVersion.get()}",
+                "--yes"
             )
+            logger.lifecycle("Executing command: $condaExec ${condaArgs.joinToString(" ")}")
+            execOperations.exec {
+                it.executable = condaExec
+                it.args(condaArgs)
+            }
         }
     }
 }
