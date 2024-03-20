@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Changed
 - Updated Gradle to `8.5` and Java dependencies to the latest ones.
-- Changed logging for the `VenvTask` tasks from System out to Gradle's `LIFECYCLE` logging stream. 
+- Changed std out for the `VenvTask` tasks from System out to Gradle's `LIFECYCLE` logging stream. 
 
 ## [2.4.0] - 2023-08-23
 ### Added
