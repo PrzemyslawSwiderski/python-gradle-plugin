@@ -22,9 +22,11 @@ abstract class CondaDownloadTask : DefaultTask() {
     }
 
     @TaskAction
-    fun setup() = with(pythonPlugin) {
-        val condaInstaller = condaInstallerFile.get()
-        downloadConda(condaInstaller.asFile)
+    fun setup() {
+        with(pythonPlugin) {
+            val condaInstaller = condaInstallerFile.get()
+            downloadConda(condaInstaller.asFile)
+        }
     }
 
     private fun downloadConda(destinationFile: File) {

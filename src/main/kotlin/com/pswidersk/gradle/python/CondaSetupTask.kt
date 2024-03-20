@@ -3,7 +3,6 @@ package com.pswidersk.gradle.python
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
-import org.gradle.process.ExecResult
 import java.io.File
 import javax.inject.Inject
 
@@ -22,14 +21,16 @@ abstract class CondaSetupTask @Inject constructor(
     }
 
     @TaskAction
-    fun setup(): ExecResult = with(pythonPluginExtension) {
-        val condaDirFile = condaDir.get().asFile
-        val condaInstaller = condaInstallerFile.get().asFile
-        logger.lifecycle("Installing ${this.condaInstaller.get()}...")
-        if (isWindows) {
-            runOnWindows(condaInstaller, condaDirFile)
-        } else {
-            runOnUnix(condaInstaller, condaDirFile)
+    fun setup() {
+        with(pythonPluginExtension) {
+            val condaDirFile = condaDir.get().asFile
+            val condaInstaller = condaInstallerFile.get().asFile
+            logger.lifecycle("Installing ${this.condaInstaller.get()}...")
+            if (isWindows) {
+                runOnWindows(condaInstaller, condaDirFile)
+            } else {
+                runOnUnix(condaInstaller, condaDirFile)
+            }
         }
     }
 
