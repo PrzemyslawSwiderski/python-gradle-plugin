@@ -1,12 +1,11 @@
-import org.jetbrains.changelog.date
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.9.10"
-    id("org.jetbrains.kotlinx.kover") version "0.7.3"
-    id("com.gradle.plugin-publish") version "1.2.1"
-    id("net.researchgate.release") version "2.8.1"
-    id("org.jetbrains.changelog") version "1.3.1"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.pluginPublish)
+    alias(libs.plugins.releasePlugin)
+    alias(libs.plugins.changelog)
 }
 
 repositories {
@@ -16,11 +15,13 @@ repositories {
 
 dependencies {
     implementation(gradleKotlinDsl())
-    implementation("commons-io:commons-io:2.15.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
-    testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.wiremock:wiremock:3.3.1")
+    implementation(libs.commonsIO)
+    implementation(libs.jacksonKotlin)
+    implementation(libs.jacksonYaml)
+    testImplementation(libs.jupiter)
+    testImplementation(libs.jupiterParams)
+    testImplementation(libs.assertj)
+    testImplementation(libs.wiremock)
 }
 
 java {
@@ -30,13 +31,10 @@ java {
 tasks {
     test {
         useJUnitPlatform()
-        testLogging.showStandardStreams = true
     }
     afterReleaseBuild {
         dependsOn(
-            "publish",
-            "publishPlugins",
-            "patchChangelog"
+            "publish", "publishPlugins", "patchChangelog"
         )
     }
     compileKotlin {
@@ -81,5 +79,5 @@ publishing {
 
 // Configuring changelog Gradle plugin https://github.com/JetBrains/gradle-changelog-plugin
 changelog {
-    header = provider { "[${version.get()}] - ${date()}" }
+    groups = listOf("Added", "Changed", "Removed")
 }

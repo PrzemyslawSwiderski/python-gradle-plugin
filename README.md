@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
 [![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.5-yellowgreen?style=plastic)](https://gradle.org/releases/)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.9.10-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-1.9.23-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
 
@@ -78,6 +78,8 @@ Plugin default behavior can be adjusted by specifying the following properties:
 - `installDir` -> property to customize conda installation directory, equals to `<rootProjectDir>/.gradle/python` by
   default
 - `systemArch` -> operating system architecture, default is got from `os.arch` system property
+- `ideaDir` -> target `.idea` directory to detect Intellij project, equals to `<rootProjectDir>/.idea` by
+  default
 
 Sample extension configuration inside of `build.gradle.kts` file:
 
@@ -126,10 +128,17 @@ register<VenvTask>("runPythonScript") {
 
 ## Intellij setup
 
+Auto import installed Python SDK:
+* Install [SDK-Import Intellij Plugin](https://github.com/PrzemyslawSwiderski/sdk-import-plugin).
+* Execute gradle `envSetup` task.
+* Choose from "Tools" -> "Reimport SDK" to import installed Python SDK with plugin.
+
+Manual way:
 * To have autocomplete and modules properly recognized in Intellij Idea point to Conda environment as described in:
   https://www.jetbrains.com/help/idea/configuring-python-sdk.html
 * To have properly recognized imported source modules in tests, right click on sources directory (for example `main`)
   -> `Mark Directory as` -> `as Sources root`.
+
 
 ### Conda install directories
 
