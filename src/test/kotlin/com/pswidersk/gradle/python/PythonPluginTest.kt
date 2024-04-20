@@ -27,6 +27,7 @@ internal class PythonPluginTest {
     @Test
     fun `test if test python script was run successfully`() {
         // given
+        tempDir.resolve(".idea").mkdir()
         val pythonMessage = "Hello world from Gradle Python Plugin :)"
         val buildFile = File(tempDir, "build.gradle.kts")
         val testScriptFile = File(tempDir, "testScript.py")
@@ -64,14 +65,19 @@ internal class PythonPluginTest {
         with(firstRunResult) {
             assertThat(task(":condaSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":locatePython")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":saveSdkImportConfig")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(pythonMessage)
         }
         with(secondRunResult) {
             assertThat(task(":condaSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
             assertThat(task(":envSetup")!!.outcome).isEqualTo(TaskOutcome.SKIPPED)
+            assertThat(task(":locatePython")!!.outcome).isEqualTo(TaskOutcome.UP_TO_DATE)
+            assertThat(task(":saveSdkImportConfig")!!.outcome).isEqualTo(TaskOutcome.UP_TO_DATE)
             assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(pythonMessage)
         }
+        assertThat(tempDir.resolve(".idea/sdk-import.yml")).exists()
     }
 }

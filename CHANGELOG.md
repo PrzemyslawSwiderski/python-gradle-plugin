@@ -4,16 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- [SDK-Import Intellij Plugin](https://github.com/PrzemyslawSwiderski/sdk-import-plugin) support.
+- Versioning applied from: `gradle/libs.versions.toml` file.
+- The `ideaDir` Plugin property.
 
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+- Updated Changelog plugin.
+- Updated Kotlin to `1.9.23`.
 
 ## [2.5.0] - 2024-03-20
 ### Changed

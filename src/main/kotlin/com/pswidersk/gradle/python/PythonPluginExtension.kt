@@ -42,6 +42,9 @@ abstract class PythonPluginExtension @Inject constructor(
 
     val systemArch: Property<String> = objects.property<String>().convention(arch)
 
+    val ideaDir: DirectoryProperty = objects.directoryProperty()
+        .convention(fileFactory.dir(project.rootDir.resolve(DEFAULT_IDEA_DIR)))
+
     internal val condaDir: DirectoryProperty = objects.directoryProperty().convention(
         providerFactory.provider {
             installDir.get()
