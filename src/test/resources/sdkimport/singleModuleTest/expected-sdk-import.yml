@@ -1,0 +1,4 @@
+import:
+  - module: "parent"
+    path: "<SAMPLE_SDK_PATH_SINGLE_MODULE>"
+    type: "PYTHON"

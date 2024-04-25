@@ -40,10 +40,12 @@ internal val arch: String
                 "aarch64" -> "arm64"
                 else -> arch
             }
+
             isWindows -> when (arch) {
                 "amd64" -> "x86_64"
                 else -> arch
             }
+
             else -> "x86_64"
         }
     }
@@ -59,3 +61,12 @@ internal val exec: String
             else -> "sh"
         }
     }
+
+/**
+ * Converts Gradle project path to Intellij one
+ * For example: :nestedModule:someOtherModule -> parent.nestedModule.someOtherModule
+ */
+internal fun Project.intellijModuleName(): String = this.path
+    .replace(':', '.')
+    .replaceFirst(".", this.rootProject.name + '.')
+    .trimEnd('.')

@@ -6,9 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-### Changed
-
-### Removed
+- Properly mapping submodules in the SDK Import config.
+- Install Directory length validation for the unix systems.
 
 ## 2.6.0 - 2024-04-20
 
