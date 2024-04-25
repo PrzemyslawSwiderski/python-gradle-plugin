@@ -8,7 +8,8 @@ import org.gradle.kotlin.dsl.register
 class PythonPlugin : Plugin<Project> {
 
     override fun apply(project: Project): Unit = with(project) {
-        extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java, this)
+        val extension = extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java, this)
+
         tasks.register<ListPropertiesTask>("listPluginProperties")
         val condaDownloadTask = tasks.register<CondaDownloadTask>("condaDownload")
         val condaSetupTask = tasks.register<CondaSetupTask>("condaSetup") {
@@ -18,12 +19,12 @@ class PythonPlugin : Plugin<Project> {
             dependsOn(condaSetupTask)
             finalizedBy("saveSdkImportConfig")
         }
-        registerSdkImportTasks()
+        registerSdkImportTasks(extension)
     }
 
-    private fun Project.registerSdkImportTasks() {
+    private fun Project.registerSdkImportTasks(pythonExtension: PythonPluginExtension) {
         val locatePythonTask = tasks.register<VenvTask>("locatePython") {
-            inputs.property("uniquePythonDir", pythonPlugin.pythonEnvDir.get().asFile.path)
+            inputs.property("uniquePythonDir", pythonExtension.pythonEnvDir.get().asFile.path)
             val pythonEnvFileName = "${project.name}-pythonEnv.txt"
             val pythonEnvFile = temporaryDir.resolve(pythonEnvFileName)
             description = "Saves Python SDK reference to a temporary file"
@@ -33,9 +34,10 @@ class PythonPlugin : Plugin<Project> {
         }
 
         tasks.register<SaveSdkImportConfigTask>("saveSdkImportConfig") {
-            sdkConfigFile = pythonPlugin.ideaDir.file(SDK_IMPORT_FILE_NAME).get().asFile
+            sdkConfigFile = pythonExtension.ideaDir.file(SDK_IMPORT_FILE_NAME).get().asFile
             inputFile = locatePythonTask.get().outputFile.get().asFile
             dependsOn(locatePythonTask)
+            onlyIf { pythonExtension.ideaDir.get().asFile.exists() }
         }
     }
 

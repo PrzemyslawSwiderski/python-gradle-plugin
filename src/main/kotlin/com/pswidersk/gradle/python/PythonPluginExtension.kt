@@ -90,4 +90,11 @@ abstract class PythonPluginExtension @Inject constructor(
                 this.condaBinDir.get().file("conda")
         }
     )
+
+    internal val intellijModuleName: Property<String> = objects.property<String>().convention(
+        providerFactory.provider {
+            project.intellijModuleName()
+        }
+    )
+
 }

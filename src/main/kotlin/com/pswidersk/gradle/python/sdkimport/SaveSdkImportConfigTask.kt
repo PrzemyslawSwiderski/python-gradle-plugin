@@ -16,13 +16,7 @@ abstract class SaveSdkImportConfigTask : DefaultTask() {
     init {
         group = "python"
         description = "Saves SDK reference to `$SDK_IMPORT_FILE_NAME` file."
-
-        this.onlyIf {
-            pythonPluginExtension.ideaDir.get().asFile.exists()
-        }
     }
-
-    private val moduleName = project.name
 
     @get:OutputFile
     lateinit var sdkConfigFile: File
@@ -32,6 +26,7 @@ abstract class SaveSdkImportConfigTask : DefaultTask() {
 
     @TaskAction
     fun setup() {
+        val moduleName = pythonPluginExtension.intellijModuleName.get()
         val pythonEnvs = inputFile.readLines()
         val pythonSdkPath = pythonEnvs.firstOrNull()
 

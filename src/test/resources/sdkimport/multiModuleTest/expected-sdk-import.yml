@@ -1,0 +1,10 @@
+import:
+- module: "multiModuleTestParent"
+  path: "<SAMPLE_SDK_PATH_PARENT_MODULE>"
+  type: "PYTHON"
+- module: "multiModuleTestParent.nestedModule"
+  path: "<SAMPLE_SDK_PATH_NESTED_MODULE>"
+  type: "PYTHON"
+- module: "multiModuleTestParent.nestedModule.nestedNestedModule"
+  path: "<SAMPLE_SDK_PATH_NESTED_NESTED_MODULE>"
+  type: "PYTHON"
