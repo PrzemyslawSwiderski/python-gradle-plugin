@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Removed
+
+## 2.6.1 - 2024-04-25
+
+### Added
+
 - Properly mapping submodules in the SDK Import config.
 
 ## 2.6.0 - 2024-04-20
