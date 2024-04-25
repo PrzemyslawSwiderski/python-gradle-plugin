@@ -9,7 +9,6 @@ class PythonPlugin : Plugin<Project> {
 
     override fun apply(project: Project): Unit = with(project) {
         val extension = extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java, this)
-        validateInstallDirectoryLength()
 
         tasks.register<ListPropertiesTask>("listPluginProperties")
         val condaDownloadTask = tasks.register<CondaDownloadTask>("condaDownload")
@@ -21,17 +20,6 @@ class PythonPlugin : Plugin<Project> {
             finalizedBy("saveSdkImportConfig")
         }
         registerSdkImportTasks(extension)
-    }
-
-    private fun Project.validateInstallDirectoryLength() {
-        if (isWindows) return
-        val condaInstallDir = pythonPlugin.condaDir.get().asFile.absolutePath
-        require(condaInstallDir.length <= 117) {
-            """Full Conda install directory: '$condaInstallDir'
-                    |has to be shorter than 118 characters.
-                    |Please change 'installDir' property directory to a shorter one.
-                  """.trimMargin()
-        }
     }
 
     private fun Project.registerSdkImportTasks(pythonExtension: PythonPluginExtension) {
