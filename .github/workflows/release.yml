@@ -1,38 +1,37 @@
-# This is a basic workflow that is manually triggered
+# Workflow triggered when new Release is created.
 
 name: Release
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      releaseVersion:
-        description: 'Release Version'
-        required: true
-      newVersion:
-        description: 'Next Release Version'
-        required: true
+  release:
+    types: [ prereleased, released ]
+
 jobs:
-  build:
+  release:
+    name: Release Plugin
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.12.0
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
         with:
-          java-version: '11'
-          distribution: 'adopt'
-          cache: 'gradle'
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.1.0
-      - name: Configure git credentials
-        uses: OleksiyRudenko/gha-git-credentials@v2
+          ref: ${{ github.event.release.tag_name }}
+
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Release and Publish Plugin
-        run: ./gradlew release -Prelease.useAutomaticVersion=true -Prelease.releaseVersion=${{ github.event.inputs.releaseVersion }} -Prelease.newVersion=${{ github.event.inputs.newVersion }}
+          distribution: zulu
+          java-version: 11
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+
+      # Publish plugin to Gradle Repository
+      - name: Publish Plugin
+        run: ./gradlew publishPlugins
         env:
           GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
           GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}

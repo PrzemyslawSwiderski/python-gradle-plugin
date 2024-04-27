@@ -1,0 +1,96 @@
+# Workflow triggered to adjust `CHANGELOG.md` and properties files.
+
+name: Post Release Updates
+
+# Only trigger, when the 'Release' workflow succeeded
+on:
+  workflow_run:
+    workflows: [ "Release" ]
+    types:
+      - completed
+
+jobs:
+  post-release-updates:
+    name: Post Release Updates
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 11
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+
+      # Update Unreleased section with the current release note
+      - name: Patch Changelog
+        run: ./gradlew patchChangelog
+
+      # Export current version
+      - name: Export Current Version
+        id: currentVersion
+        run: grep 'version=' gradle.properties | tr -d '[:blank:]' >> $GITHUB_OUTPUT
+
+      # Update Samples Version to newly published one
+      - name: Update Samples Version
+        run: |
+          CURRENT_VERSION="${{ steps.currentVersion.outputs.version }}"
+          sed -i "s/pythonPluginVersionForExamples.*/pythonPluginVersionForExamples=$CURRENT_VERSION/g" gradle.properties
+
+      # Find the next semantic version based on commits
+      # https://github.com/thenativeweb/get-next-version?tab=readme-ov-file#using-commit-messages
+      - name: Get next version
+        id: get_next_version
+        uses: thenativeweb/get-next-version@2.6.2
+
+      # Update Plugin Version to new version
+      - name: Update Version
+        run: |
+          NEXT_VERSION="${{ steps.get_next_version.outputs.version }}"
+          sed -i "s/version.*/version=$NEXT_VERSION/g" gradle.properties
+
+      # Verify samples by running 'listPluginProperties' tasks
+      - name: Verify Samples
+        run: ./gradlew listPluginProperties
+
+      # Create a pull request
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.currentVersion.outputs.version }}"
+          BRANCH="post-release-update-$VERSION"
+          LABEL="post release update"
+          
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          
+          git checkout -b $BRANCH
+          git commit -am "Post release update - $VERSION"
+          git push --set-upstream origin $BRANCH
+          
+          gh label create "$LABEL" \
+            --description "Pull requests with post release updates" \
+            --force \
+            || true
+          
+          gh pr create \
+            --title "Changelog update - \`$VERSION\`" \
+            --body "Current pull request contains patched files for the \`$VERSION\` version." \
+            --label "$LABEL" \
+            --head $BRANCH

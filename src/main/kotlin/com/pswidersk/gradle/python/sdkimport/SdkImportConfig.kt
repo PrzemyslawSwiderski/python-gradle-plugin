@@ -1,15 +1,13 @@
 package com.pswidersk.gradle.python.sdkimport
 
-data class SdkImportConfig(
-    val import: MutableList<SdkImportConfigEntry> = mutableListOf()
-)
-
-data class SdkImportConfigEntry(
-    var module: String,
-    var path: String,
-    var type: SdkType,
-)
-
-enum class SdkType {
-    PYTHON
+class SdkImportConfig {
+    var import: MutableList<SdkImportConfigEntry> = mutableListOf()
 }
+
+class SdkImportConfigEntry {
+    var type: String = PYTHON_SDK_TYPE
+    var path: String = ""
+    var module: String = ""
+}
+
+const val PYTHON_SDK_TYPE = "PYTHON"

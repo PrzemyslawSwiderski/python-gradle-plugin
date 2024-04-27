@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
     alias(libs.plugins.pluginPublish)
-    alias(libs.plugins.releasePlugin)
     alias(libs.plugins.changelog)
 }
 
@@ -16,8 +15,7 @@ repositories {
 dependencies {
     implementation(gradleKotlinDsl())
     implementation(libs.commonsIO)
-    implementation(libs.jacksonKotlin)
-    implementation(libs.jacksonYaml)
+    implementation(libs.snakeyaml)
     testImplementation(libs.jupiter)
     testImplementation(libs.jupiterParams)
     testImplementation(libs.assertj)
@@ -31,11 +29,6 @@ java {
 tasks {
     test {
         useJUnitPlatform()
-    }
-    afterReleaseBuild {
-        dependsOn(
-            "publish", "publishPlugins", "patchChangelog"
-        )
     }
     compileKotlin {
         compilerOptions {

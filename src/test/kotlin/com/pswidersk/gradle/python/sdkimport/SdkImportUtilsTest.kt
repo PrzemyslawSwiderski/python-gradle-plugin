@@ -2,30 +2,31 @@ package com.pswidersk.gradle.python.sdkimport
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
 import org.slf4j.LoggerFactory
-import java.io.File
+import java.io.File.createTempFile
+import kotlin.io.path.createTempDirectory
+
 
 class SdkImportUtilsTest {
 
     private val log = LoggerFactory.getLogger(this.javaClass)
 
-    @TempDir
-    lateinit var tempDir: File
-
     @Test
     fun `it should properly update config`() {
         // given
-        val sdkConfig = tempDir.resolve("sdk-import.yml")
+        val sdkConfig = createTempFile("SdkImportUtilsTest", "testFile")
         sdkConfig.writeText(
             """
 import:
-- module: "sample-python-project"
-  path: "sample-path-1"
-  type: "PYTHON"
-- module: "sample-python-project-2"
-  path: "P:\\python-3.9.2\\python.exe"
-  type: "PYTHON"
+- module: sample-python-project
+  path: sample-path-1
+  type: PYTHON
+- module: sample-python-project-2
+  path: P:\python-3.9.2\python.exe
+  type: PYTHON
+- module: sample-python-project
+  path: P:\JAVA\azul-home
+  type: JAVA
         """.trimIndent()
         )
 
@@ -33,15 +34,19 @@ import:
         updateSdkConfig(sdkConfig, "some-other-path", "sample-python-project", log)
 
         // then
-        assertThat(sdkConfig).hasContent(
+        assertThat(sdkConfig.readText()).hasToString(
             """
 import:
-- module: "sample-python-project"
-  path: "some-other-path"
-  type: "PYTHON"
-- module: "sample-python-project-2"
-  path: "P:\\python-3.9.2\\python.exe"
-  type: "PYTHON"
+- module: sample-python-project
+  path: some-other-path
+  type: PYTHON
+- module: sample-python-project-2
+  path: P:\python-3.9.2\python.exe
+  type: PYTHON
+- module: sample-python-project
+  path: P:\JAVA\azul-home
+  type: JAVA
+
         """.trimIndent()
         )
     }
@@ -49,13 +54,13 @@ import:
     @Test
     fun `it should add new entry`() {
         // given
-        val sdkConfig = tempDir.resolve("sdk-import.yml")
+        val sdkConfig = createTempFile("SdkImportUtilsTest", "testFile")
         sdkConfig.writeText(
             """
 import:
-- type: "PYTHON"
-  path: "sample-path-2"
-  module: "sample-python-project-2"
+- type: PYTHON
+  path: sample-path-2
+  module: sample-python-project-2
         """.trimIndent()
         )
 
@@ -66,12 +71,12 @@ import:
         assertThat(sdkConfig).hasContent(
             """
 import:
-- module: "sample-python-project-2"
-  path: "sample-path-2"
-  type: "PYTHON"
-- module: "sample-python-project"
-  path: "P:\\python-3.9.2\\python.exe"
-  type: "PYTHON"
+- module: sample-python-project-2
+  path: sample-path-2
+  type: PYTHON
+- module: sample-python-project
+  path: P:\python-3.9.2\python.exe
+  type: PYTHON
         """.trimIndent()
         )
     }
@@ -79,20 +84,39 @@ import:
     @Test
     fun `it should not fail on empty file`() {
         // given
-        val sdkConfig = tempDir.resolve("sdk-import.yml")
-        sdkConfig.writeText("")
+        val emptySdkConfigFile = createTempFile("SdkImportUtilsTest", "testFile")
 
         // when
-        updateSdkConfig(sdkConfig, "some-path", "sample-python-project", log)
+        updateSdkConfig(emptySdkConfigFile, "some-path", "sample-python-project", log)
 
         // then
-        assertThat(sdkConfig).hasContent(
+        assertThat(emptySdkConfigFile).hasContent(
             """
 import:
-- module: "sample-python-project"
-  path: "some-path"
-  type: "PYTHON"
+- module: sample-python-project
+  path: some-path
+  type: PYTHON
         """.trimIndent()
         )
     }
+
+    @Test
+    fun `it should not fail on missing file`() {
+        // given
+        val emptySdkConfigFile = createTempDirectory("SdkImportUtilsTest").toFile().resolve("nonExistingConfig")
+
+        // when
+        updateSdkConfig(emptySdkConfigFile, "some-path", "sample-python-project", log)
+
+        // then
+        assertThat(emptySdkConfigFile).hasContent(
+            """
+import:
+- module: sample-python-project
+  path: some-path
+  type: PYTHON
+        """.trimIndent()
+        )
+    }
+
 }
