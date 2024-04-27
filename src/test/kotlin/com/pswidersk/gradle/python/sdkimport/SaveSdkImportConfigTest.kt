@@ -4,21 +4,19 @@ import com.pswidersk.gradle.python.loadResource
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import java.io.File
+import java.nio.file.Files
 
 class SaveSdkImportConfigTest {
-
-    @TempDir
-    lateinit var tempDir: File
 
     private lateinit var parentModule: File
 
     @BeforeEach
     fun setup() {
-        parentModule = tempDir.resolve("parent").also { it.mkdir() }
+        val tmpDirection = Files.createTempDirectory("SaveSdkImportConfigTest")
+        parentModule = tmpDirection.toFile().resolve("parent").also { it.mkdir() }
     }
 
     @ValueSource(

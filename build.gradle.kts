@@ -16,8 +16,7 @@ repositories {
 dependencies {
     implementation(gradleKotlinDsl())
     implementation(libs.commonsIO)
-    implementation(libs.jacksonKotlin)
-    implementation(libs.jacksonYaml)
+    implementation(libs.snakeyaml)
     testImplementation(libs.jupiter)
     testImplementation(libs.jupiterParams)
     testImplementation(libs.assertj)
