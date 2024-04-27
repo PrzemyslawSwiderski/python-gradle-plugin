@@ -10,7 +10,6 @@ wiremock = "3.5.3"
 kotlin = "1.9.23"
 kover = "0.7.6"
 pluginPublish = "1.2.1"
-releasePlugin = "2.8.1"
 changelog = "2.2.0"
 
 [libraries]
@@ -25,5 +24,4 @@ wiremock = { group = "org.wiremock", name = "wiremock", version.ref = "wiremock"
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
-releasePlugin = { id = "net.researchgate.release", version.ref = "releasePlugin" }
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }

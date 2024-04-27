@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
     alias(libs.plugins.pluginPublish)
-    alias(libs.plugins.releasePlugin)
     alias(libs.plugins.changelog)
 }
 
@@ -30,11 +29,6 @@ java {
 tasks {
     test {
         useJUnitPlatform()
-    }
-    afterReleaseBuild {
-        dependsOn(
-            "publish", "publishPlugins", "patchChangelog"
-        )
     }
     compileKotlin {
         compilerOptions {

@@ -5,30 +5,105 @@
 
 name: Build
 
-on: [ push ]
+on:
+  # Trigger the workflow on pushes to only the 'main' branch (this avoids duplicate checks being run e.g., for dependabot pull requests)
+  push:
+    branches: [ main ]
+  # Trigger the workflow on any pull request
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Java JDK
-        uses: actions/setup-java@v3.12.0
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
         with:
-          java-version: '11'
-          distribution: 'adopt'
-          cache: 'gradle'
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.1.0
+          ref: ${{ github.event.release.tag_name }}
+
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 11
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+
       - name: Build and Test with Gradle
         run: ./gradlew --no-daemon --continue build
+
+      # Publish test results
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.9.0
         if: always()
         with:
           files: build/test-results/**/*.xml
+
+      # Add coverage info to PR
       - name: Add coverage info to PR
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: build/reports/kover/report.xml
           token: ${{ secrets.GITHUB_TOKEN }}
+
+  # Prepare a draft release for GitHub Releases page for the manual verification
+  # If accepted and published, release workflow would be triggered
+  releaseDraft:
+    name: Release draft
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
+
+      # Export current version
+      - name: Export Current Version
+        id: currentVersion
+        run: grep 'version=' gradle.properties | tr -d '[:blank:]' >> $GITHUB_OUTPUT
+
+      # Set environment variables
+      - name: Export Changelog
+        id: changelog
+        shell: bash
+        run: |
+          CHANGELOG="$(./gradlew getChangelog --unreleased --no-header --console=plain -q)"
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # Remove old release drafts by using the curl request for the available releases with a draft flag
+      - name: Remove Old Release Drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api repos/{owner}/{repo}/releases \
+            --jq '.[] | select(.draft == true) | .id' \
+            | xargs -I '{}' gh api -X DELETE repos/{owner}/{repo}/releases/{}
+
+      # Create a new release draft which is not publicly visible and requires manual acceptance
+      - name: Create Release Draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.currentVersion.outputs.version }}" \
+            --draft \
+            --title "v${{ steps.currentVersion.outputs.version }}" \
+            --notes "$(cat << 'EOM'
+          ${{ steps.changelog.outputs.changelog }}
+          EOM
+          )"

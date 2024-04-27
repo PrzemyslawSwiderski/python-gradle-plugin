@@ -1,0 +1,88 @@
+name: Post Release Updates
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      nextVersion:
+        description: 'Next Version'
+        required: true
+
+jobs:
+  post-release-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v4
+
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 11
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-home-cache-cleanup: true
+
+      # Update Unreleased section with the current release note
+      - name: Patch Changelog
+        run: ./gradlew patchChangelog
+
+      # Export current version
+      - name: Export Current Version
+        id: currentVersion
+        run: grep 'version=' gradle.properties | tr -d '[:blank:]' >> $GITHUB_OUTPUT
+
+      # Update Samples Version to newly published one
+      - name: Update Samples Version
+        run: |
+          CURRENT_VERSION="${{ steps.currentVersion.outputs.version }}"
+          sed -i "s/pythonPluginVersionForExamples.*/pythonPluginVersionForExamples=$CURRENT_VERSION/g" gradle.properties
+
+      # Update Plugin Version to new one
+      - name: Update Version
+        run: |
+          NEXT_VERSION="${{ github.event.inputs.nextVersion }}"
+          sed -i "s/version.*/version=$NEXT_VERSION/g" gradle.properties
+
+      # Verify samples by running 'listPluginProperties' tasks
+      - name: Verify Samples
+        run: ./gradlew listPluginProperties
+
+      # Create a pull request
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ steps.currentVersion.outputs.version }}"
+          BRANCH="post-release-update-$VERSION"
+          LABEL="post release update"
+          
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          
+          git checkout -b $BRANCH
+          git commit -am "Post release update - $VERSION"
+          git push --set-upstream origin $BRANCH
+          
+          gh label create "$LABEL" \
+            --description "Pull requests with post release updates" \
+            --force \
+            || true
+          
+          gh pr create \
+            --title "Changelog update - \`$VERSION\`" \
+            --body "Current pull request contains patched files for the \`$VERSION\` version." \
+            --label "$LABEL" \
+            --head $BRANCH
