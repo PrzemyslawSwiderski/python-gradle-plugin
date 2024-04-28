@@ -78,10 +78,11 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      # Export current version
-      - name: Export Current Version
-        id: currentVersion
-        run: grep 'version=' gradle.properties | tr -d '[:blank:]' >> $GITHUB_OUTPUT
+      # Find the next semantic version based on commits
+      # https://github.com/thenativeweb/get-next-version?tab=readme-ov-file#using-commit-messages
+      - name: Get next version
+        id: get_next_version
+        uses: thenativeweb/get-next-version@2.6.2
 
       # Set environment variables
       - name: Export Changelog
@@ -108,9 +109,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create "v${{ steps.currentVersion.outputs.version }}" \
+          gh release create "${{ steps.get_next_version.outputs.version }}" \
             --draft \
-            --title "v${{ steps.currentVersion.outputs.version }}" \
+            --title "${{ steps.get_next_version.outputs.version }}" \
             --notes "$(cat << 'EOM'
           ${{ steps.changelog.outputs.changelog }}
           EOM

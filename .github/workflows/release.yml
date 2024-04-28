@@ -4,7 +4,8 @@ name: Release
 on:
   release:
     types: [ prereleased, released ]
-
+env:
+  RELEASE_VERSION: ${{ github.event.release.tag_name }}
 jobs:
   release:
     name: Release Plugin
@@ -14,7 +15,7 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ env.$RELEASE_VERSION }}
 
       # Set up Java environment for the next steps
       - name: Setup Java
@@ -35,3 +36,9 @@ jobs:
         env:
           GRADLE_PUBLISH_KEY: ${{ secrets.GRADLE_PUBLISH_KEY }}
           GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
+
+  post-release-updates:
+    name: Post Release Updates
+    uses: ./.github/workflows/post-release-updates.yml
+    with:
+      release-version: ${{ env.$RELEASE_VERSION }}
