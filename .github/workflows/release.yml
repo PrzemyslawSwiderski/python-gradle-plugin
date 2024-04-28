@@ -15,7 +15,7 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.$RELEASE_VERSION }}
+          ref: ${{ env.RELEASE_VERSION }}
 
       # Set up Java environment for the next steps
       - name: Setup Java
@@ -41,4 +41,4 @@ jobs:
     name: Post Release Updates
     uses: ./.github/workflows/post-release-updates.yml
     with:
-      release-version: ${{ env.$RELEASE_VERSION }}
+      release-version: ${{ env.RELEASE_VERSION }}
