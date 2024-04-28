@@ -1,11 +1,14 @@
 # Workflow triggered when new Release is created.
 
 name: Release
+
 on:
   release:
     types: [ prereleased, released ]
+
 env:
   RELEASE_VERSION: ${{ github.event.release.tag_name }}
+
 jobs:
   release:
     name: Release Plugin
