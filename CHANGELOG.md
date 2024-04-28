@@ -6,11 +6,19 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Removed
+
+## 2.6.2 - 2024-04-27
+
+### Added
+
 - Filtering by `PYTHON` SDK type.
 
 ### Changed
 
-- Yaml implementation lib to SnakeYAML for the better backward-compatibility. 
+- Yaml implementation lib to SnakeYAML for the better backward-compatibility.
 
 ## 2.6.1 - 2024-04-25
 
