@@ -24,6 +24,12 @@ jobs:
           distribution: zulu
           java-version: 11
 
+      # Update Plugin Version to new one
+      - name: Update Version
+        run: |
+          VERSION="${{ inputs.release-version }}"
+          sed -i "s/version.*/version=$VERSION/g" gradle.properties
+
       # Setup Gradle
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -39,6 +45,7 @@ jobs:
 
   post-release-updates:
     name: Post Release Updates
+    needs: [ release ]
     uses: ./.github/workflows/post-release-updates.yml
     with:
       release-version: ${{ github.event.release.tag_name }}
