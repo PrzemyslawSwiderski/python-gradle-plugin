@@ -74,17 +74,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Setup Gradle
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-home-cache-cleanup: true
-
       # Find the next semantic version based on commits
       # https://github.com/thenativeweb/get-next-version?tab=readme-ov-file#using-commit-messages
       - name: Get next version
         id: get_next_version
         uses: thenativeweb/get-next-version@2.6.2
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
 
       # Set environment variables
       - name: Export Changelog
