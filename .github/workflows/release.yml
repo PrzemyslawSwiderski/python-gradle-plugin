@@ -6,9 +6,6 @@ on:
   release:
     types: [ prereleased, released ]
 
-env:
-  RELEASE_VERSION: ${{ github.event.release.tag_name }}
-
 jobs:
   release:
     name: Release Plugin
@@ -18,7 +15,7 @@ jobs:
       - name: Fetch Sources
         uses: actions/checkout@v4
         with:
-          ref: ${{ env.RELEASE_VERSION }}
+          ref: ${{ github.event.release.tag_name }}
 
       # Set up Java environment for the next steps
       - name: Setup Java
@@ -44,4 +41,4 @@ jobs:
     name: Post Release Updates
     uses: ./.github/workflows/post-release-updates.yml
     with:
-      release-version: ${{ env.RELEASE_VERSION }}
+      release-version: ${{ github.event.release.tag_name }}
