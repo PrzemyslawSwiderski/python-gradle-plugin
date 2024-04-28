@@ -27,7 +27,7 @@ jobs:
       # Update Plugin Version to new one
       - name: Update Version
         run: |
-          VERSION="${{ inputs.release-version }}"
+          VERSION="${{ github.event.release.tag_name }}"
           sed -i "s/version.*/version=$VERSION/g" gradle.properties
 
       # Setup Gradle
