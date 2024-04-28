@@ -51,10 +51,6 @@ jobs:
           VERSION="${{ inputs.release-version }}"
           sed -i "s/pythonPluginVersionForExamples.*/pythonPluginVersionForExamples=$VERSION/g" gradle.properties
 
-      # Verify samples by running 'listPluginProperties' tasks
-      - name: Verify Samples
-        run: ./gradlew listPluginProperties
-
       # Create a pull request
       - name: Create Pull Request
         env:
@@ -77,7 +73,7 @@ jobs:
             || true
           
           gh pr create \
-            --title "Changelog update - \`$VERSION\`" \
+            --title "Post release update - \`$VERSION\`" \
             --body "Current pull request contains patched files for the \`$VERSION\` version." \
             --label "$LABEL" \
             --head $BRANCH
