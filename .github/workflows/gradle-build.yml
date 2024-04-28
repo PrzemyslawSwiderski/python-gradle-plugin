@@ -71,6 +71,8 @@ jobs:
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # Setup Gradle
       - name: Setup Gradle
