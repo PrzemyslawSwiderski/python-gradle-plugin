@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
+## 2.7.1 - 2024-04-28
+
 ### Changed
 
 - Updated Commons IO dependency.
