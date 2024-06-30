@@ -2,13 +2,13 @@
 # libraries
 commonsIO = "2.16.1"
 snakeyaml = "2.2"
-junit = "5.10.2"
-assertj = "3.25.3"
-wiremock = "3.5.3"
+junit = "5.10.3"
+assertj = "3.26.0"
+wiremock = "3.8.0"
 
 # plugins
-kotlin = "1.9.23"
-kover = "0.7.6"
+kotlin = "2.0.0"
+kover = "0.8.2"
 pluginPublish = "1.2.1"
 changelog = "2.2.0"
 

@@ -13,9 +13,6 @@ import java.io.File
 
 internal class PythonPluginTest {
 
-    @TempDir
-    lateinit var tempDir: File
-
     @Test
     fun `test if plugin was applied`() {
         val project: Project = ProjectBuilder.builder().build()
@@ -25,9 +22,10 @@ internal class PythonPluginTest {
     }
 
     @Test
-    fun `test if test python script was run successfully`() {
+    fun `test if test python script was run successfully`(@TempDir tempDir: File) {
         // given
-        tempDir.resolve(".idea").mkdir()
+        val ideaDir = tempDir.resolve(".idea")
+        ideaDir.mkdir()
         val pythonMessage = "Hello world from Gradle Python Plugin :)"
         val buildFile = File(tempDir, "build.gradle.kts")
         val testScriptFile = File(tempDir, "testScript.py")
@@ -78,6 +76,6 @@ internal class PythonPluginTest {
             assertThat(task(":runTestScript")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(pythonMessage)
         }
-        assertThat(tempDir.resolve(".idea/sdk-import.yml")).exists()
+        assertThat(ideaDir.resolve("sdk-import.yml")).exists()
     }
 }

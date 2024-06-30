@@ -74,3 +74,13 @@ publishing {
 changelog {
     groups = listOf("Added", "Changed", "Removed")
 }
+
+kover {
+    reports {
+        total {
+            xml {
+                onCheck = true
+            }
+        }
+    }
+}

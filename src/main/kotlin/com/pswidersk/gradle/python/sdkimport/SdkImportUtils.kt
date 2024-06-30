@@ -41,14 +41,18 @@ private fun entryMatches(
     moduleName: String
 ) = entry.module == moduleName && entry.type == PYTHON_SDK_TYPE
 
-internal fun File.loadAsYamlImportConfig(): SdkImportConfig =
+internal fun File.loadAsYamlImportConfig(): SdkImportConfig = this.inputStream().use {
     Yaml(Constructor(SdkImportConfig::class.java, LoaderOptions()))
-        .load(this.inputStream()) ?: SdkImportConfig()
+        .load(it) ?: SdkImportConfig()
+}
+
 
 internal fun SdkImportConfig.saveAsYamlFile(file: File) {
     val dumperOptions = DumperOptions()
     dumperOptions.defaultFlowStyle = BLOCK
     val representer = Representer(dumperOptions)
     representer.addClassTag(SdkImportConfig::class.java, MAP)
-    Yaml(representer, dumperOptions).dump(this, file.writer())
+    file.writer().use {
+        Yaml(representer, dumperOptions).dump(this, it)
+    }
 }
