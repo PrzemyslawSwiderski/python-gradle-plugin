@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
+## 2.7.2 - 2024-06-30
+
 ### Changed
 
 - Fixed `.idea` directory file locking.
