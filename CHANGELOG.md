@@ -4,11 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-### Added
-
 ### Changed
 
-### Removed
+- Fixed `.idea` directory file locking.
+- Updated Kotlin to `2.0.0` and other dependencies.
+- Default Miniconda version to `py312_24.5.0-0`.
+- Default Python version to `3.12.4`.
 
 ## 2.7.1 - 2024-04-28
 
