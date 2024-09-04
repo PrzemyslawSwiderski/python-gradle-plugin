@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
+## 2.7.3 - 2024-09-04
+
 ### Changed
 
 - Updated tools and dependencies.
