@@ -6,9 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-### Changed
-
-### Removed
+- `useHomeDir` property support.
 
 ## 2.7.3 - 2024-09-04
 

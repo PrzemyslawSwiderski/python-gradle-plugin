@@ -75,8 +75,10 @@ Plugin default behavior can be adjusted by specifying the following properties:
   by [gradle properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
   , absent by default
 - `condaRepoHeaders` -> additional optional headers used for connection, empty map by default
-- `installDir` -> property to customize conda installation directory, equals to `<rootProjectDir>/.gradle/python` by
-  default
+- `useHomeDir` -> when `true` the default install directory will be the one from `user.home` system property,
+  `false` by default
+- `installDir` -> property to customize conda installation directory, equals to `<rootProjectDir>/.gradle/python` or
+  user home (if `useHomeDir` = `true`) by default
 - `systemArch` -> operating system architecture, default is got from `os.arch` system property
 - `ideaDir` -> target `.idea` directory to detect Intellij project, equals to `<rootProjectDir>/.idea` by
   default
@@ -129,30 +131,32 @@ register<VenvTask>("runPythonScript") {
 ## Intellij setup
 
 Auto import installed Python SDK:
+
 * Install [SDK-Import Intellij Plugin](https://github.com/PrzemyslawSwiderski/sdk-import-plugin).
 * Execute gradle `envSetup` task.
 * Choose from "Tools" -> "Reimport SDK" to import installed Python SDK with plugin.
 
 Manual way:
+
 * To have autocomplete and modules properly recognized in Intellij Idea point to Conda environment as described in:
   https://www.jetbrains.com/help/idea/configuring-python-sdk.html
 * To have properly recognized imported source modules in tests, right click on sources directory (for example `main`)
   -> `Mark Directory as` -> `as Sources root`.
 
-
 ### Conda install directories
 
-* Linux - `<rootProjectDir>/.gradle/python/Linux/<condaInstaller>-<condaVersion>`
+* Linux - `<installDir>/.gradle/python/Linux/<condaInstaller>-<condaVersion>`
 
-* Windows - `<rootProjectDir>/.gradle/python/Windows/<condaInstaller>-<condaVersion>`
+* Windows - `<installDir>/.gradle/python/Windows/<condaInstaller>-<condaVersion>`
 
-* MacOSX - `<rootProjectDir>/.gradle/python/MacOSX/<condaInstaller>-<condaVersion>`
+* MacOSX - `<installDir>/.gradle/python/MacOSX/<condaInstaller>-<condaVersion>`
 
-Where `<rootProjectDir>` is the root catalog where the project exists, `<condaInstaller>` is Conda installer
-e.g. `Miniconda3` and `<condaVersion>` is Conda installer version e.g. `py38_4.8.3`
+Where `<installDir>` is the root catalog where the Conda will be installed specified by `installDir` property,
+`<condaInstaller>` is Conda installer e.g. `Miniconda3` and `<condaVersion>` is Conda installer version e.g.
+`py38_4.8.3`
 
 If you are familiar with [conda](https://conda.io/projects/conda/en/latest/user-guide/index.html) you can also execute
-conda commands like `conda activate` or `conda install` directly with the binaries from the catalogs above.
+conda commands like `conda deactivate` or `conda install` directly with the binaries from the catalogs above.
 
 ## Notes
 

@@ -70,3 +70,4 @@ internal fun Project.intellijModuleName(): String = this.path
     .replace(':', '.')
     .replaceFirst(".", this.rootProject.name + '.')
     .trimEnd('.')
+

@@ -44,9 +44,9 @@ gradlePlugin {
         create("python-gradle-plugin") {
             id = "com.pswidersk.python-plugin"
             implementationClass = "com.pswidersk.gradle.python.PythonPlugin"
-            displayName = "Gradle plugin to run Python projects in Conda virtual env. "
+            displayName = "Plugin to run Python projects in Conda virtual env. "
                 .plus("https://github.com/PrzemyslawSwiderski/python-gradle-plugin")
-            description = "Gradle plugin to run Python projects."
+            description = "Plugin to setup Python and run scripts in Conda virtual environments."
             tags = listOf(
                 "python",
                 "venv",
