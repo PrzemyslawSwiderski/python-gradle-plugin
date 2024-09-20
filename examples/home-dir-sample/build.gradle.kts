@@ -5,7 +5,7 @@ plugins {
 }
 
 pythonPlugin {
-    useHomeDir = true
+//    useHomeDir = true
 }
 
 tasks {
