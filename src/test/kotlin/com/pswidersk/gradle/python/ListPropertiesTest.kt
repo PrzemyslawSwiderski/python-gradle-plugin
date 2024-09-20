@@ -14,7 +14,7 @@ class ListPropertiesTest {
     @Test
     fun `test if default properties were correctly set`() {
         // given
-        val defaultWorkingDir = tempDir.resolve(".gradle").resolve("python")
+        val defaultInstallDir = tempDir.resolve(".gradle").resolve("python")
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -36,7 +36,7 @@ class ListPropertiesTest {
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
-                "Install directory: $defaultWorkingDir",
+                "Install directory: $defaultInstallDir",
                 "Miniconda3 version: py312_24.5.0-0",
                 "Conda repo URL: https://repo.anaconda.com/miniconda"
             )
@@ -46,7 +46,7 @@ class ListPropertiesTest {
     @Test
     fun `test if defaults are overridden by user`() {
         // given
-        val customWorkingDir = tempDir.resolve(".gradleCustomPath").resolve("python")
+        val customInstallDir = tempDir.resolve(".gradleCustomPath").resolve("python")
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -56,7 +56,7 @@ class ListPropertiesTest {
             pythonPlugin {
                 pythonVersion.set("3.9.1")
                 condaVersion.set("py38_4.8.0")
-                installDir.set(file("${customWorkingDir.invariantSeparatorsPath}"))
+                installDir.set(file("${customInstallDir.invariantSeparatorsPath}"))
             }
         """.trimIndent()
         )
@@ -73,7 +73,7 @@ class ListPropertiesTest {
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
-                "Install directory: $customWorkingDir",
+                "Install directory: $customInstallDir",
                 "Python: python-3.9.1",
                 "Miniconda3 version: py38_4.8.0"
             )
@@ -104,6 +104,40 @@ class ListPropertiesTest {
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).doesNotContain("Configuration cache problems found in this build.")
+        }
+    }
+
+    @Test
+    fun `test if home dir was used`() {
+        // given
+        val customInstallDir = System.getProperty("user.home")
+        val buildFile = File(tempDir, "build.gradle.kts")
+        buildFile.writeText(
+            """
+            plugins {
+                id("com.pswidersk.python-plugin")
+            }
+            pythonPlugin {
+                useHomeDir = true
+            }
+        """.trimIndent()
+        )
+        val runner = GradleRunner.create()
+            .withPluginClasspath()
+            .withProjectDir(tempDir)
+            .forwardOutput()
+            .withArguments(":listPluginProperties")
+
+        // when
+        val runResult = runner.build()
+
+        // then
+        with(runResult) {
+            assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(output).contains(
+                "Use home directory: true",
+                "Install directory: $customInstallDir"
+            )
         }
     }
 }

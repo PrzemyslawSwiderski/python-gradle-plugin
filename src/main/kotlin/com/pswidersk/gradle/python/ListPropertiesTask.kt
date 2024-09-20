@@ -19,6 +19,7 @@ abstract class ListPropertiesTask : DefaultTask() {
                 """
                 Operating system: $os
                 Arch: ${systemArch.get()}
+                Use home directory: ${useHomeDir.get()}
                 Install directory: ${installDir.get()}
                 Python: ${pythonEnvName.get()}
                 Python environment: ${pythonEnvDir.get()}

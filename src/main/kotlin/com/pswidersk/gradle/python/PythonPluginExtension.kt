@@ -11,6 +11,7 @@ import org.gradle.api.provider.ProviderFactory
 import org.gradle.internal.os.OperatingSystem
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
+import java.io.File
 import javax.inject.Inject
 
 abstract class PythonPluginExtension @Inject constructor(
@@ -34,9 +35,11 @@ abstract class PythonPluginExtension @Inject constructor(
 
     val condaRepoHeaders: MapProperty<String, String> = objects.mapProperty()
 
+    val useHomeDir: Property<Boolean> = objects.property<Boolean>().convention(false)
+
     val installDir: DirectoryProperty = objects.directoryProperty().convention(
         providerFactory.provider {
-            fileFactory.dir(project.rootDir).dir(GRADLE_FILES_DIR).dir(PYTHON_ENVS_DIR)
+            baseInstallDirectory.get().dir(GRADLE_FILES_DIR).dir(PYTHON_ENVS_DIR)
         }
     )
 
@@ -94,6 +97,17 @@ abstract class PythonPluginExtension @Inject constructor(
     internal val intellijModuleName: Property<String> = objects.property<String>().convention(
         providerFactory.provider {
             project.intellijModuleName()
+        }
+    )
+
+    internal val baseInstallDirectory: DirectoryProperty = objects.directoryProperty().convention(
+        providerFactory.provider {
+            if (useHomeDir.get()) {
+                val homePath = providerFactory.systemProperty("user.home").get()
+                fileFactory.dir(File(homePath))
+            } else {
+                fileFactory.dir(project.rootDir)
+            }
         }
     )
 
