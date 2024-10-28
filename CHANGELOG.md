@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
+## 2.8.1 - 2024-10-28
+
 ### Changed
 
 - Updated Kotlin to `2.0.21` and other dependencies.
