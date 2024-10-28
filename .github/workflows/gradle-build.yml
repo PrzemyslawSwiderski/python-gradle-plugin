@@ -50,13 +50,6 @@ jobs:
         with:
           files: build/test-results/**/*.xml
 
-      # Add coverage info to PR
-      - name: Add coverage info to PR
-        uses: madrapps/jacoco-report@v1.6.1
-        with:
-          paths: build/reports/kover/report.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered
   releaseDraft:

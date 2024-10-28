@@ -37,7 +37,7 @@ class ListPropertiesTest {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
                 "Install directory: $defaultInstallDir",
-                "Miniconda3 version: py312_24.5.0-0",
+                "Miniconda3 version: py312_24.9.2-0",
                 "Conda repo URL: https://repo.anaconda.com/miniconda"
             )
         }

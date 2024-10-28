@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
-[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.10-yellowgreen?style=plastic)](https://gradle.org/releases/)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-2.0.20-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
+[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.10.2-yellowgreen?style=plastic)](https://gradle.org/releases/)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-2.0.21-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
 
@@ -62,9 +62,9 @@ in `build.gradle.kts` file.
 
 Plugin default behavior can be adjusted by specifying the following properties:
 
-- `pythonVersion` -> Python environment version, default `3.12.4`, the available ones can be checked
+- `pythonVersion` -> Python environment version, default `3.13.0`, the available ones can be checked
   at https://anaconda.org/conda-forge/python/
-- `condaVersion` -> Miniconda or Anaconda version, default `py312_24.5.0-0`, the available ones can be checked
+- `condaVersion` -> Miniconda or Anaconda version, default `py312_24.9.2-0`, the available ones can be checked
   at https://repo.anaconda.com/miniconda/ or https://repo.anaconda.com/archive/ (Anaconda)
 - `condaInstaller` -> Conda environment installer name, default is `Miniconda3`, for Anaconda change to `Anaconda3`
 - `condaRepoUrl` -> repository URL which should be used to download binaries,
@@ -77,8 +77,8 @@ Plugin default behavior can be adjusted by specifying the following properties:
 - `condaRepoHeaders` -> additional optional headers used for connection, empty map by default
 - `useHomeDir` -> when `true` the default install directory will be the one from `user.home` system property,
   `false` by default
-- `installDir` -> property to customize conda installation directory, equals to `<rootProjectDir>/.gradle/python` or
-  user home (if `useHomeDir` = `true`) by default
+- `installDir` -> property to customize conda installation directory, equals to `<rootProjectDir>/.gradle/python` by
+  default or user home if `useHomeDir` = `true`
 - `systemArch` -> operating system architecture, default is got from `os.arch` system property
 - `ideaDir` -> target `.idea` directory to detect Intellij project, equals to `<rootProjectDir>/.idea` by
   default

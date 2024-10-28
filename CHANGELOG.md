@@ -4,11 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-### Added
-
 ### Changed
 
-### Removed
+- Updated Kotlin to `2.0.21` and other dependencies.
+- Default Miniconda version to `py312_24.9.2-0`.
+- Default Python version to `3.13.0`.
 
 ## 2.8.0 - 2024-09-20
 
