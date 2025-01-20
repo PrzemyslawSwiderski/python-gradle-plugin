@@ -1,6 +1,6 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
-[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.10.2-yellowgreen?style=plastic)](https://gradle.org/releases/)
+[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.12-yellowgreen?style=plastic)](https://gradle.org/releases/)
 [![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-2.0.21-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
