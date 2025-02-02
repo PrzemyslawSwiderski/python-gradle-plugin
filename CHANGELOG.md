@@ -4,11 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-### Added
-
 ### Changed
 
-### Removed
+- Dependencies and tools update.
+- Deprecations fixed.
 
 ## 2.8.1 - 2024-10-28
 

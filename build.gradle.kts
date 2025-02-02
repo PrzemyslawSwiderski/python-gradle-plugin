@@ -16,8 +16,8 @@ dependencies {
     implementation(gradleKotlinDsl())
     implementation(libs.commonsIO)
     implementation(libs.snakeyaml)
-    testImplementation(libs.jupiter)
-    testImplementation(libs.jupiterParams)
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation(libs.bundles.jupiter)
     testImplementation(libs.assertj)
     testImplementation(libs.wiremock)
 }

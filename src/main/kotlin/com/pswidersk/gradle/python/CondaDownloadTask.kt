@@ -4,7 +4,7 @@ import org.apache.commons.io.input.ObservableInputStream
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.net.URL
+import java.net.URI
 import java.net.URLConnection
 import java.util.*
 
@@ -33,7 +33,7 @@ abstract class CondaDownloadTask : DefaultTask() {
         val condaRepoUrl = pythonPlugin.condaRepoUrl.get().dropLastWhile { it == '/' }
         val condaInstaller = pythonPlugin.condaInstaller.get()
         logger.lifecycle("Downloading $condaInstaller to: ${destinationFile.canonicalPath} from: $condaRepoUrl (please wait, it can take a while)")
-        val connection = URL("${condaRepoUrl}/${destinationFile.name}").openConnection()
+        val connection = URI.create("${condaRepoUrl}/${destinationFile.name}").toURL().openConnection()
         addBasicAuth(connection)
         addCustomHeaders(connection)
         getExecutable(connection, destinationFile)
@@ -64,7 +64,10 @@ abstract class CondaDownloadTask : DefaultTask() {
                 input.copyTo(output)
             }
         }
-        destinationFile.setExecutable(true)
+        val res = destinationFile.setExecutable(true)
+        if (!res) {
+            logger.warn("Conda exec file could not be changed to executable.")
+        }
     }
 
 }
