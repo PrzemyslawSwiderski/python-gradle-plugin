@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
+## 2.8.2 - 2025-02-02
+
 ### Changed
 
 - Dependencies and tools update.
