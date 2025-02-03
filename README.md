@@ -128,6 +128,15 @@ register<VenvTask>("runPythonScript") {
 
 ### Additional examples alongside with sample PipTasks configurations can be found in `examples` module in this project.
 
+## Existing project integration
+
+Integration with the existing Python projects can also be done within a separate Gradle module.
+
+An example can be found [here](https://github.com/PrzemyslawSwiderski/Janus/tree/main/gradle-setup).
+
+By simply running the `runDemoScript` Gradle task user can bootstrap the whole project locally or in Docker container
+via `runDemoContainer` task.
+
 ## Intellij setup
 
 Auto import installed Python SDK:
