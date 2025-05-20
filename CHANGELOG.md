@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+### Changed
+
+### Removed
+
+## 2.9.0 - 2025-05-20
+
 ### Changed
 
 - Architecture name mapping improvement.
