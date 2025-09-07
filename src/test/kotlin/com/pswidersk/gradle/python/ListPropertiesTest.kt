@@ -14,7 +14,7 @@ class ListPropertiesTest {
     @Test
     fun `test if default properties were correctly set`() {
         // given
-        val defaultInstallDir = tempDir.resolve(".gradle").resolve("python").absolutePath
+        val defaultInstallDir = tempDir.resolve(".gradle").resolve("python").invariantSeparatorsPath
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -36,7 +36,8 @@ class ListPropertiesTest {
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
-                "Install directory: $defaultInstallDir",
+                defaultInstallDir,
+                "Python: python-3.13.0",
                 "Miniconda3 version: py312_24.9.2-0",
                 "Conda repo URL: https://repo.anaconda.com/miniconda"
             )
