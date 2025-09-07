@@ -44,12 +44,35 @@ jobs:
       - name: Build and Test with Gradle
         run: ./gradlew --no-daemon --continue build
 
-      # Publish test results
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.9.0
-        if: always()
+      - name: Upload Test Results
+        if: (!cancelled())
+        uses: actions/upload-artifact@v4
         with:
-          files: build/test-results/**/*.xml
+          name: Test Results (System ${{ matrix.os }})
+          path: build/test-results/**/*.xml
+
+  publish-test-results:
+    name: "Publish Tests Results"
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      # only needed unless run with comment_mode: off
+      pull-requests: write
+      # only needed for private repository
+      contents: read
+      # only needed for private repository
+      issues: read
+    if: (!cancelled())
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: "artifacts/**/*.xml"
 
   # Prepare a draft release for GitHub Releases page for the manual verification
   # If accepted and published, release workflow would be triggered
