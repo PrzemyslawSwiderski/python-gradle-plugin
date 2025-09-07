@@ -14,7 +14,7 @@ class ListPropertiesTest {
     @Test
     fun `test if default properties were correctly set`() {
         // given
-        val defaultInstallDir = tempDir.resolve(".gradle").resolve("python")
+        val defaultInstallDir = tempDir.resolve(".gradle").resolve("python").invariantSeparatorsPath
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -46,7 +46,7 @@ class ListPropertiesTest {
     @Test
     fun `test if defaults are overridden by user`() {
         // given
-        val customInstallDir = tempDir.resolve(".gradleCustomPath").resolve("python")
+        val customInstallDir = tempDir.resolve(".gradleCustomPath").resolve("python").invariantSeparatorsPath
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -56,7 +56,7 @@ class ListPropertiesTest {
             pythonPlugin {
                 pythonVersion.set("3.9.1")
                 condaVersion.set("py38_4.8.0")
-                installDir.set(file("${customInstallDir.invariantSeparatorsPath}"))
+                installDir.set(file("${customInstallDir}"))
             }
         """.trimIndent()
         )
