@@ -53,16 +53,12 @@ jobs:
 
   publish-test-results:
     name: "Publish Tests Results"
-    needs: build-and-test
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       checks: write
       # only needed unless run with comment_mode: off
       pull-requests: write
-      # only needed for private repository
-      contents: read
-      # only needed for private repository
-      issues: read
     if: (!cancelled())
     steps:
       - name: Download Artifacts
