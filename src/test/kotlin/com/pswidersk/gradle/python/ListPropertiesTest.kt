@@ -6,6 +6,7 @@ import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
+import java.io.File.separatorChar
 
 class ListPropertiesTest {
     @TempDir
@@ -14,7 +15,6 @@ class ListPropertiesTest {
     @Test
     fun `test if default properties were correctly set`() {
         // given
-        val defaultInstallDir = tempDir.resolve(".gradle").resolve("python").absolutePath
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -36,9 +36,9 @@ class ListPropertiesTest {
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
-                defaultInstallDir,
-                "Python: python-3.13.0",
+                ".gradle${separatorChar}python",
                 "Miniconda3 version: py312_24.9.2-0",
+                "Python: python-3.13.0",
                 "Conda repo URL: https://repo.anaconda.com/miniconda"
             )
         }
@@ -47,7 +47,7 @@ class ListPropertiesTest {
     @Test
     fun `test if defaults are overridden by user`() {
         // given
-        val customInstallDir = tempDir.resolve(".gradleCustomPath").resolve("python").absolutePath
+        val customInstallDir = tempDir.resolve(".gradleCustomPath").resolve("python").invariantSeparatorsPath
         val buildFile = File(tempDir, "build.gradle.kts")
         buildFile.writeText(
             """
@@ -74,7 +74,7 @@ class ListPropertiesTest {
         with(runResult) {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
-                "Install directory: $customInstallDir",
+                ".gradleCustomPath${separatorChar}python",
                 "Python: python-3.9.1",
                 "Miniconda3 version: py38_4.8.0"
             )
