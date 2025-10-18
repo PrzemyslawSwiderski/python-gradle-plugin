@@ -1,7 +1,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FPrzemyslawSwiderski%2Fpython-gradle-plugin%2Fbadge&style=plastic)](https://actions-badge.atrox.dev/PrzemyslawSwiderski/python-gradle-plugin/goto)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/PrzemyslawSwiderski/python-gradle-plugin?label=Plugin%20Version&sort=semver&style=plastic)](https://plugins.gradle.org/plugin/com.pswidersk.python-plugin)
-[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-8.12-yellowgreen?style=plastic)](https://gradle.org/releases/)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-2.0.21-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
+[![Gradle Version](https://img.shields.io/badge/Gradle%20Version-9.1.0-yellowgreen?style=plastic)](https://gradle.org/releases/)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin%20Version-2.2.20-darkviolet?style=plastic)](https://kotlinlang.org/docs/releases.html)
 
 # Python Gradle Plugin
 
@@ -10,12 +10,15 @@
 This Gradle Plugin **automatically downloads and installs** specific [Conda](https://repo.anaconda.com/) tool
 to run python scripts or other executables (`pip`, `conda` etc.) from virtual env.
 
+**Before** using this plugin, please make sure to read and agree with Anaconda
+Legal [Terms of Service](https://www.anaconda.com/legal).
+
 Python project configuration can be fully automated by Gradle tasks now.
 
 ## Requirements
 
 * Java `11` or higher
-* Gradle `6.2` or higher project
+* Gradle `7.0` or higher project
 
 ## Purpose
 
@@ -62,9 +65,9 @@ in `build.gradle.kts` file.
 
 Plugin default behavior can be adjusted by specifying the following properties:
 
-- `pythonVersion` -> Python environment version, default `3.13.0`, the available ones can be checked
+- `pythonVersion` -> Python environment version, default `3.14.0`, the available ones can be checked
   at https://anaconda.org/conda-forge/python/
-- `condaVersion` -> Miniconda or Anaconda version, default `py312_24.9.2-0`, the available ones can be checked
+- `condaVersion` -> Miniconda or Anaconda version, default `py313_25.7.0-2`, the available ones can be checked
   at https://repo.anaconda.com/miniconda/ or https://repo.anaconda.com/archive/ (Anaconda)
 - `condaInstaller` -> Conda environment installer name, default is `Miniconda3`, for Anaconda change to `Anaconda3`
 - `condaRepoUrl` -> repository URL which should be used to download binaries,

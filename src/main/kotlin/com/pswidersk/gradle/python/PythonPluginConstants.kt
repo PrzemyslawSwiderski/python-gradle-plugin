@@ -25,7 +25,7 @@ const val PLUGIN_TASKS_GROUP_NAME = "python"
 /**
  * Default Python version. [List of available releases](https://anaconda.org/conda-forge/python/).
  */
-const val DEFAULT_PYTHON_VERSION = "3.13.0"
+const val DEFAULT_PYTHON_VERSION = "3.14.0"
 
 /**
  * Default Conda installer.
