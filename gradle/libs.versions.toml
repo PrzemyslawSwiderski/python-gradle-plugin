@@ -1,21 +1,22 @@
 [versions]
 # libraries
-commonsIO = "2.18.0"
-snakeyaml = "2.3"
-junit = "5.11.4"
-assertj = "3.27.3"
-wiremock = "3.11.0"
+commonsIO = "2.20.0"
+snakeyaml = "2.5"
+junit = "6.0.0"
+assertj = "3.27.6"
+wiremock = "3.13.1"
 
 # plugins
-kotlin = "2.1.10"
-kover = "0.9.1"
-pluginPublish = "1.3.1"
-changelog = "2.2.1"
+kotlin = "2.2.20"
+kover = "0.9.3"
+pluginPublish = "2.0.0"
+changelog = "2.4.0"
+versions = "0.53.0"
 
 [libraries]
 commonsIO = { group = "commons-io", name = "commons-io", version.ref = "commonsIO" }
 snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyaml" }
-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
+jupiterMain = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit" }
 jupiterParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junit" }
 assertj = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
 wiremock = { group = "org.wiremock", name = "wiremock", version.ref = "wiremock" }
@@ -25,6 +26,7 @@ kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
+pluginVersions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 
 [bundles]
-jupiter = [ "jupiter", "jupiterParams" ]
+jupiter = ["jupiterMain", "jupiterParams"]

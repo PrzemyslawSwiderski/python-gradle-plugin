@@ -38,7 +38,7 @@ class ListPropertiesTest {
             assertThat(output).contains(
                 ".gradle${separatorChar}python",
                 "Miniconda3 version: py312_24.9.2-0",
-                "Python: python-3.13.0",
+                "Python: python-3.14.0",
                 "Conda repo URL: https://repo.anaconda.com/miniconda"
             )
         }

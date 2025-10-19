@@ -6,9 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Gradle `9.1` as base version.
+
 ### Changed
 
+- Updated dependencies.
+- JVM target as Java 17.
+
 ### Removed
+
+- Older `6.9.2` Gradle support.
 
 ## 2.9.0 - 2025-05-20
 
