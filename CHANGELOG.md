@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Removed
+
+## 2.10.0 - 2025-10-19
+
+### Added
+
 - Gradle `9.1` as base version.
 
 ### Changed
