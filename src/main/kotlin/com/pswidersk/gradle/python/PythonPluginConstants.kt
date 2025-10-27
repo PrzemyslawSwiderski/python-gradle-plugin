@@ -30,17 +30,17 @@ const val DEFAULT_PYTHON_VERSION = "3.14.0"
 /**
  * Default Conda installer.
  */
-const val DEFAULT_CONDA_INSTALLER = "Miniconda3"
+const val DEFAULT_CONDA_INSTALLER = "Miniforge3"
 
 /**
- * Default Conda version. [List of available releases](https://repo.anaconda.com/miniconda).
+ * Default Conda version. [List of available releases](https://github.com/conda-forge/miniforge/releases).
  */
-const val DEFAULT_CONDA_VERSION = "py312_24.9.2-0"
+const val DEFAULT_CONDA_VERSION = "25.3.1-0"
 
 /**
  * Default Conda repository URL.
  */
-const val DEFAULT_CONDA_REPO_URL = "https://repo.anaconda.com/miniconda"
+const val DEFAULT_CONDA_REPO_URL = "https://github.com/conda-forge/miniforge/releases/download/"
 
 /**
  * Default Intellij Idea config directory.

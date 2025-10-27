@@ -6,7 +6,7 @@ plugins {
 
 pythonPlugin {
     pythonVersion = "3.8.3"
-    condaVersion = "py38_23.11.0-2"
+    condaVersion = "25.3.0-3"
     installDir = file(rootProject.file(".gradle/python/${project.name}"))
 }
 
