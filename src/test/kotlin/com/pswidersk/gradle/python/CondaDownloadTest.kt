@@ -32,7 +32,7 @@ class CondaDownloadTest {
             }
             
             pythonPlugin {
-                condaVersion.set("py38_4.8.3")
+                condaVersion.set("23.0.0")
                 condaRepoUrl.set("${wmRuntimeInfo.httpBaseUrl}/conda")
                 condaRepoUsername.set("user")
                 condaRepoPassword.set("pass")
@@ -55,7 +55,7 @@ class CondaDownloadTest {
         // then
         verify(
             getRequestedFor(urlMatching("/conda/.*"))
-                .withUrl("/conda/Miniconda3-py38_4.8.3-$os-$arch.$exec")
+                .withUrl("/conda/23.0.0/Miniforge3-23.0.0-$os-$arch.$exec")
                 .withBasicAuth(BasicCredentials("user", "pass"))
                 .withHeader("SOME_HEADER_1", equalTo("testValue1"))
                 .withHeader("SOME_HEADER_2", equalTo("testValue2"))

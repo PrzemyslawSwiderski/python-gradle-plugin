@@ -4,11 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-### Added
-
 ### Changed
 
-### Removed
+- Due to original Conda licensing changes, project was migrated to a Miniforge community distribution
 
 ## 2.10.0 - 2025-10-19
 

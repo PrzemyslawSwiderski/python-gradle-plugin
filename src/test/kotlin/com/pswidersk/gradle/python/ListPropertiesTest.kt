@@ -37,9 +37,9 @@ class ListPropertiesTest {
             assertThat(task(":listPluginProperties")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
             assertThat(output).contains(
                 ".gradle${separatorChar}python",
-                "Miniconda3 version: py312_24.9.2-0",
+                "Miniforge3 version: 25.3.1-0",
                 "Python: python-3.14.0",
-                "Conda repo URL: https://repo.anaconda.com/miniconda"
+                "Conda repo URL: https://github.com/conda-forge/miniforge/releases/download/"
             )
         }
     }
@@ -56,7 +56,7 @@ class ListPropertiesTest {
             }
             pythonPlugin {
                 pythonVersion.set("3.9.1")
-                condaVersion.set("py38_4.8.0")
+                condaVersion.set("25.2")
                 installDir.set(file("$customInstallDir"))
             }
         """.trimIndent()
@@ -76,7 +76,7 @@ class ListPropertiesTest {
             assertThat(output).contains(
                 ".gradleCustomPath${separatorChar}python",
                 "Python: python-3.9.1",
-                "Miniconda3 version: py38_4.8.0"
+                "Miniforge3 version: 25.2"
             )
         }
     }

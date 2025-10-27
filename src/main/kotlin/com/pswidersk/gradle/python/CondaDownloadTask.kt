@@ -32,8 +32,9 @@ abstract class CondaDownloadTask : DefaultTask() {
     private fun downloadConda(destinationFile: File) {
         val condaRepoUrl = pythonPlugin.condaRepoUrl.get().dropLastWhile { it == '/' }
         val condaInstaller = pythonPlugin.condaInstaller.get()
+        val condaVersion = pythonPlugin.condaVersion.get()
         logger.lifecycle("Downloading $condaInstaller to: ${destinationFile.canonicalPath} from: $condaRepoUrl (please wait, it can take a while)")
-        val connection = URI.create("${condaRepoUrl}/${destinationFile.name}").toURL().openConnection()
+        val connection = URI.create("$condaRepoUrl/$condaVersion/${destinationFile.name}").toURL().openConnection()
         addBasicAuth(connection)
         addCustomHeaders(connection)
         getExecutable(connection, destinationFile)

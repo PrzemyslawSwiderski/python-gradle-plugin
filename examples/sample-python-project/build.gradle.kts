@@ -6,7 +6,7 @@ plugins {
 
 pythonPlugin {
     pythonVersion = "3.9.2"
-    condaVersion = "py38_4.8.3"
+    condaVersion = "25.3.0-3"
 }
 
 tasks {

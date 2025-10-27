@@ -10,6 +10,8 @@ plugins {
     alias(libs.plugins.pluginVersions)
 }
 
+version = System.getenv("PLUGIN_VERSION") ?: "unspecified"
+
 repositories {
     mavenLocal()
     gradlePluginPortal()
@@ -69,8 +71,8 @@ gradlePlugin {
                 "venv",
                 "numpy",
                 "conda",
-                "miniconda",
-                "anaconda",
+                "miniforge",
+                "mamba",
                 "scipy",
                 "pandas",
                 "flask",

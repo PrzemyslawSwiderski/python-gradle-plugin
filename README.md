@@ -7,13 +7,16 @@
 
 **Now, you can run Python scripts with Java and Gradle builds only.**
 
-This Gradle Plugin **automatically downloads and installs** specific [Conda](https://repo.anaconda.com/) tool
-to run python scripts or other executables (`pip`, `conda` etc.) from virtual env.
+This Gradle Plugin **automatically downloads and installs** specific [Conda](https://docs.conda.io/en/latest/) tool
+to run python scripts or other executables (`pip`, `conda`, `mamba` etc.) from virtual env.
 
-**Before** using this plugin, please make sure to read and agree with Anaconda
-Legal [Terms of Service](https://www.anaconda.com/legal).
+All install files are downloaded from [Miniforge](https://github.com/conda-forge/miniforge) conda distribution by
+default.
 
 Python project configuration can be fully automated by Gradle tasks now.
+
+You can also check my other **[plugin](https://github.com/PrzemyslawSwiderski/python-uv-gradle-plugin)** for the uv
+tool.
 
 ## Requirements
 
@@ -65,13 +68,12 @@ in `build.gradle.kts` file.
 
 Plugin default behavior can be adjusted by specifying the following properties:
 
-- `pythonVersion` -> Python environment version, default `3.14.0`, the available ones can be checked
-  at https://anaconda.org/conda-forge/python/
-- `condaVersion` -> Miniconda or Anaconda version, default `py313_25.7.0-2`, the available ones can be checked
-  at https://repo.anaconda.com/miniconda/ or https://repo.anaconda.com/archive/ (Anaconda)
-- `condaInstaller` -> Conda environment installer name, default is `Miniconda3`, for Anaconda change to `Anaconda3`
+- `pythonVersion` -> Python environment version, default `3.14.0`,
+- `condaVersion` -> Miniforge version, default `25.3.1-0`, the available ones can be checked
+  at https://github.com/conda-forge/miniforge/releases,
+- `condaInstaller` -> Conda environment installer name, default is `Miniforge3`,
 - `condaRepoUrl` -> repository URL which should be used to download binaries,
-  default `https://repo.anaconda.com/miniconda`, for Anaconda `https://repo.anaconda.com/archive/`
+  default `https://github.com/conda-forge/miniforge/releases/download/`
 - `condaRepoUsername` -> username for the basic auth if needed, absent by default
 - `condaRepoPassword` -> password for the basic auth, used if `condaRepoUsername` is specified, should not be
   passed directly in script file, can be supplied
@@ -92,7 +94,7 @@ Sample extension configuration inside of `build.gradle.kts` file:
 pythonPlugin {
     pythonVersion = "3.7.0"
     condaVersion = "2022.05"
-    condaInstaller = "Anaconda3"
+    condaInstaller = "Miniforge3"
     condaRepoUrl = "https://nexus.com/repositories/conda"
     condaRepoUsername = "user"
     condaRepoPassword = extra["conda.repo.pass"].toString()
