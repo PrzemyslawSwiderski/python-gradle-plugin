@@ -37,8 +37,8 @@ jobs:
           BRANCH="chore/post-release-update-$VERSION"
           LABEL="post release update"
 
-          git config user.email "action@github.com"
-          git config user.name "GitHub Action"
+          git config user.email "przemyslaw.swiderski7@gmail.com"
+          git config user.name "PrzemyslawSwiderski[bot]"
 
           git checkout -b $BRANCH
           git commit -am "Post release update - $VERSION"
