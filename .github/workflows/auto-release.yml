@@ -1,0 +1,90 @@
+name: 🤖 Auto Publish Draft Release
+
+on:
+  schedule:
+    - cron: "0 12 * * 2" # Tuesdays at 12 PM UTC
+  workflow_dispatch:
+
+jobs:
+  find-draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 'write' is REQUIRED in order to be able to read drafts as well !!!
+
+    outputs:
+      tag: ${{ steps.find.outputs.tag }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - id: find
+        name: Find draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "🔍 Searching for draft releases..."
+          echo "Fetching release list..."
+
+          RELEASES=$(gh release list --limit 100 --json tagName,isDraft)
+          echo "📋 All releases (first 100):"
+          echo "$RELEASES" | jq -r '.[] | "  - \(.tagName) (draft: \(.isDraft))"'
+
+          echo ""
+          echo "🔎 Filtering for draft releases..."
+          DRAFT_RELEASES=$(echo "$RELEASES" | jq -r '.[] | select(.isDraft == true) | .tagName')
+
+          if [ -z "$DRAFT_RELEASES" ]; then
+            echo "❌ No draft releases found"
+            echo "tag=" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Found draft release(s):"
+            echo "$DRAFT_RELEASES"
+
+            DRAFT_TAG=$(echo "$DRAFT_RELEASES" | head -n 1)
+            echo ""
+            echo "🎯 Selected draft release: $DRAFT_TAG"
+            echo "tag=$DRAFT_TAG" >> $GITHUB_OUTPUT
+          fi
+
+  call-build:
+    permissions:
+      checks: write
+      pull-requests: write
+
+    needs: find-draft
+    if: needs.find-draft.outputs.tag != ''
+    uses: ./.github/workflows/build.yml # Path to your build workflow
+
+  release-plugin:
+    permissions:
+      contents: write
+      pull-requests: write
+
+    needs: ["find-draft", "call-build"]
+    if: success()
+    uses: ./.github/workflows/release.yml
+    with:
+      tag: ${{ needs.find-draft.outputs.tag }}
+    secrets: inherit
+
+  publish-draft:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    needs: ["find-draft", "release-plugin"]
+    if: success()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Publish draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release edit "${{ needs.find-draft.outputs.tag }}" --draft=false
+          echo "Published release: ${{ needs.find-draft.outputs.tag }}"

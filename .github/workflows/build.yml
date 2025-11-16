@@ -1,0 +1,72 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+name: 🥁 Build
+on:
+  push:
+    branches: [main, master]
+  # Trigger the workflow on any pull request
+  pull_request:
+  # Allow this workflow to be called from other workflows
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [
+            ubuntu-latest,
+            # windows-latest,
+            # macos-latest,
+          ] # https://github.com/actions/runner-images?tab=readme-ov-file#available-images
+    steps:
+      # Check out current repository
+      - name: Fetch Sources
+        uses: actions/checkout@v5
+
+      # Set up Java environment for the next steps
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Setup Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Build and Test with Gradle
+        run: ./gradlew --no-daemon --continue build
+
+      - name: Upload Test Results
+        if: (!cancelled())
+        uses: actions/upload-artifact@v5
+        with:
+          name: Test Results (System ${{ matrix.os }})
+          path: build/test-results/**/*.xml
+
+  publish-test-results:
+    name: "Publish Tests Results"
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      # only needed unless run with comment_mode: off
+      pull-requests: write
+    if: (!cancelled())
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v6
+        with:
+          path: artifacts
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: "artifacts/**/*.xml"
