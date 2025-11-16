@@ -4,7 +4,7 @@ commonsIO = "2.20.0"
 snakeyaml = "2.5"
 junit = "6.0.0"
 assertj = "3.27.6"
-wiremock = "3.13.1"
+wiremock = "3.13.2"
 
 # plugins
 kotlin = "2.2.21"
