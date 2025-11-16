@@ -7,7 +7,7 @@ assertj = "3.27.6"
 wiremock = "3.13.1"
 
 # plugins
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kover = "0.9.3"
 pluginPublish = "2.0.0"
 changelog = "2.4.0"
