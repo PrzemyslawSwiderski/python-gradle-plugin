@@ -1,4 +1,3 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -6,8 +5,6 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
     alias(libs.plugins.pluginPublish)
-    alias(libs.plugins.changelog)
-    alias(libs.plugins.pluginVersions)
 }
 
 repositories {
@@ -39,19 +36,6 @@ tasks {
         }
     }
 
-    named<DependencyUpdatesTask>("dependencyUpdates").configure {
-        rejectVersionIf {
-            isNonStable(candidate.version)
-        }
-    }
-}
-
-
-fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
-    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
-    val isStable = stableKeyword || regex.matches(version)
-    return isStable.not()
 }
 
 gradlePlugin {
@@ -85,11 +69,6 @@ publishing {
     repositories {
         mavenLocal()
     }
-}
-
-// Configuring changelog Gradle plugin https://github.com/JetBrains/gradle-changelog-plugin
-changelog {
-    groups = listOf("Added", "Changed", "Removed")
 }
 
 kover {
