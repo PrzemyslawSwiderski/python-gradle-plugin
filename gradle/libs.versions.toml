@@ -10,8 +10,6 @@ wiremock = "3.13.2"
 kotlin = "2.2.21"
 kover = "0.9.3"
 pluginPublish = "2.0.0"
-changelog = "2.4.0"
-versions = "0.53.0"
 
 [libraries]
 commonsIO = { group = "commons-io", name = "commons-io", version.ref = "commonsIO" }
@@ -25,8 +23,6 @@ wiremock = { group = "org.wiremock", name = "wiremock", version.ref = "wiremock"
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 pluginPublish = { id = "com.gradle.plugin-publish", version.ref = "pluginPublish" }
-changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-pluginVersions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 
 [bundles]
 jupiter = ["jupiterMain", "jupiterParams"]
