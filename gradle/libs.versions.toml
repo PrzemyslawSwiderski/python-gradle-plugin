@@ -1,6 +1,6 @@
 [versions]
 # libraries
-commonsIO = "2.20.0"
+commonsIO = "2.21.0"
 snakeyaml = "2.5"
 junit = "6.0.1"
 assertj = "3.27.6"
