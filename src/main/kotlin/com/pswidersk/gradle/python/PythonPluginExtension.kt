@@ -58,8 +58,6 @@ abstract class PythonPluginExtension @Inject constructor(
 
     internal val condaInstallerFile: RegularFileProperty = objects.fileProperty().convention(
         providerFactory.provider {
-            val installerDirFile = installDir.get().asFile
-            installerDirFile.mkdirs()
             installDir.get().file("${condaInstaller.get()}-${condaVersion.get()}-$os-${systemArch.get()}.$exec")
         }
     )
