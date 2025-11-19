@@ -1,5 +1,6 @@
 package com.pswidersk.gradle.python
 
+import org.apache.commons.io.FileUtils
 import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -78,4 +79,39 @@ internal class PythonPluginTest {
         }
         assertThat(ideaDir.resolve("sdk-import.yml")).exists()
     }
+
+    @Test
+    fun `test parent directories creation`(@TempDir tempDir: File) {
+        // given
+        val buildFile = File(tempDir, "build.gradle.kts")
+        buildFile.writeText(
+            """
+            plugins {
+                id("com.pswidersk.python-plugin")
+            }
+        """.trimIndent()
+        )
+        val runner = GradleRunner.create()
+            .withPluginClasspath()
+            .withProjectDir(tempDir)
+            .forwardOutput()
+            .withArguments("--configuration-cache", ":condaSetup")
+        val installDir = tempDir.resolve(".gradle").resolve("python")
+
+        // when
+        val firstRunResult = runner.build()
+        FileUtils.deleteDirectory(installDir)
+        val secondRunResult = runner.build()
+
+        // then
+        with(firstRunResult) {
+            assertThat(task(":condaDownload")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":condaSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        }
+        with(secondRunResult) {
+            assertThat(task(":condaDownload")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+            assertThat(task(":condaSetup")!!.outcome).isEqualTo(TaskOutcome.SUCCESS)
+        }
+    }
+
 }

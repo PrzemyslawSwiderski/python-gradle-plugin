@@ -11,7 +11,11 @@ class PythonPlugin : Plugin<Project> {
         val extension = extensions.create(PYTHON_PLUGIN_EXTENSION_NAME, PythonPluginExtension::class.java, this)
 
         tasks.register<ListPropertiesTask>("listPluginProperties")
-        val condaDownloadTask = tasks.register<CondaDownloadTask>("condaDownload")
+        val condaDownloadTask = tasks.register<CondaDownloadTask>("condaDownload") {
+            doFirst {
+                extension.installDir.get().asFile.mkdirs()
+            }
+        }
         val condaSetupTask = tasks.register<CondaSetupTask>("condaSetup") {
             dependsOn(condaDownloadTask)
         }
