@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.pluginPublish)
 }
 
+version = System.getenv("PLUGIN_VERSION") ?: "unspecified"
+
 repositories {
     mavenLocal()
     gradlePluginPortal()
