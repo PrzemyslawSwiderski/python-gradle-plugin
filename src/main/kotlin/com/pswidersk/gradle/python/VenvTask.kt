@@ -24,6 +24,10 @@ abstract class VenvTask @Inject constructor(
     init {
         group = PLUGIN_TASKS_GROUP_NAME
         this.dependsOn("envSetup")
+        // Workaround for https://github.com/conda/conda/issues/15423
+        if (isWindows && name != "locatePython") {
+            this.mustRunAfter("locatePython")
+        }
     }
 
     /**
