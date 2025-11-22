@@ -24,7 +24,7 @@ jobs:
         os: [
             ubuntu-latest,
             # windows-latest,
-            # macos-latest,
+            macos-latest,
           ] # https://github.com/actions/runner-images?tab=readme-ov-file#available-images
     steps:
       # Check out current repository

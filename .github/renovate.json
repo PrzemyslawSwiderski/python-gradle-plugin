@@ -15,9 +15,6 @@
   "github-actions": {
     "enabled": false
   },
-  "gradle-wrapper": {
-    "automerge": true
-  },
   "ignorePaths": [
     "examples/**"
   ]
