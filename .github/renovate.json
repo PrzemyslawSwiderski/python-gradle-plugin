@@ -17,5 +17,7 @@
   },
   "ignorePaths": [
     "examples/**"
-  ]
+  ],
+  "minimumReleaseAge": "2 days",
+  "prCreation": "not-pending"
 }
