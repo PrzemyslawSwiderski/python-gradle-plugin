@@ -3,7 +3,7 @@
 commonsIO = "2.21.0"
 snakeyaml = "2.5"
 junit = "6.0.2"
-assertj = "3.27.6"
+assertj = "3.27.7"
 wiremock = "3.13.2"
 
 # plugins
