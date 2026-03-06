@@ -2,12 +2,14 @@ package com.pswidersk.gradle.python
 
 import org.apache.commons.io.input.ObservableInputStream
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.net.URI
 import java.net.URLConnection
 import java.util.*
 
+@CacheableTask
 abstract class CondaDownloadTask : DefaultTask() {
 
     private val pythonPlugin: PythonPluginExtension = project.pythonPlugin
