@@ -4,11 +4,10 @@ import com.pswidersk.gradle.python.PythonPluginExtension
 import com.pswidersk.gradle.python.SDK_IMPORT_FILE_NAME
 import com.pswidersk.gradle.python.pythonPlugin
 import org.gradle.api.DefaultTask
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputFile
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import java.io.File
 
+@CacheableTask
 abstract class SaveSdkImportConfigTask : DefaultTask() {
 
     private val pythonPluginExtension: PythonPluginExtension = project.pythonPlugin
@@ -21,6 +20,7 @@ abstract class SaveSdkImportConfigTask : DefaultTask() {
     @get:OutputFile
     lateinit var sdkConfigFile: File
 
+    @PathSensitive(value = PathSensitivity.RELATIVE)
     @get:InputFile
     lateinit var inputFile: File
 

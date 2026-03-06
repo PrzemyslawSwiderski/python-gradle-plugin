@@ -1,10 +1,12 @@
 package com.pswidersk.gradle.python
 
 import org.gradle.api.DefaultTask
+import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.TaskAction
 import org.gradle.process.ExecOperations
 import javax.inject.Inject
 
+@CacheableTask
 abstract class EnvSetupTask @Inject constructor(
     private val execOperations: ExecOperations,
 ) : DefaultTask() {
