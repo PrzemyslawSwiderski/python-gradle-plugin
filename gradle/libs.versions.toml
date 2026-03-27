@@ -8,7 +8,7 @@ wiremock = "3.13.2"
 
 # plugins
 kotlin = "2.3.20"
-kover = "0.9.7"
+kover = "0.9.8"
 pluginPublish = "2.1.1"
 
 [libraries]
