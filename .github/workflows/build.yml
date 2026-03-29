@@ -40,14 +40,14 @@ jobs:
 
       # Setup Gradle
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Build and Test with Gradle
         run: ./gradlew --no-daemon --continue build
 
       - name: Upload Test Results
         if: (!cancelled())
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Test Results (System ${{ matrix.os }})
           path: build/test-results/**/*.xml
@@ -63,7 +63,7 @@ jobs:
     if: (!cancelled())
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
       - name: Publish Test Results
