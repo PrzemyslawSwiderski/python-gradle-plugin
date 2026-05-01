@@ -35,6 +35,7 @@ class GradleSupportTest {
             .withPluginClasspath()
             .withGradleVersion(gradleVersion)
             .withProjectDir(tempDir)
+            .withDebug(true)
             .forwardOutput()
             .withArguments(":listPluginProperties")
 
