@@ -2,7 +2,7 @@
 # libraries
 commonsIO = "2.22.0"
 snakeyaml = "2.6"
-junit = "6.0.3"
+junit = "6.1.0"
 assertj = "3.27.7"
 wiremock = "3.13.2"
 
